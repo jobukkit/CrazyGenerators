@@ -45,6 +45,7 @@ public class QuestionGeneratorScreen extends ContainerScreen<QuestionGeneratorCo
         final int DEFAULT_COLOR = 4210752;
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
         font.drawString(this.title.getFormattedText(),8.0f, 6.0f, DEFAULT_COLOR);
-        font.drawString(playerInventory.getDisplayName().getFormattedText(), 8.0f, 90, DEFAULT_COLOR);
+        font.drawString(playerInventory.getDisplayName().getFormattedText(), 8.0f, 90.0f, DEFAULT_COLOR);
+        font.drawString("Energy: " + container.getEnergy(), 8.0f, 30.0f, DEFAULT_COLOR);
     }
 }

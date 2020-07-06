@@ -1,6 +1,6 @@
 package com.agnor99.crazygenerators.objects.tile;
 
-import com.agnor99.crazygenerators.CrazyGenerators;
+import com.agnor99.crazygenerators.container.GeneratorEnergyStorage;
 import com.agnor99.crazygenerators.container.QuestionGeneratorContainer;
 import com.agnor99.crazygenerators.init.TileInit;
 import com.agnor99.crazygenerators.objects.blocks.QuestionGeneratorBlock;
@@ -24,12 +24,15 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class QuestionGeneratorTileEntity extends LockableLootTileEntity implements ITickableTileEntity {
 
@@ -38,8 +41,9 @@ public class QuestionGeneratorTileEntity extends LockableLootTileEntity implemen
     protected int numPlayersUsing;
 
     private IItemHandlerModifiable items = createHandler();
+    private GeneratorEnergyStorage energy = createEnergy();
     private LazyOptional<IItemHandlerModifiable> itemHandler = LazyOptional.of(() -> items);
-    private LazyOptional<IItemHandlerModifiable> itemHandler2 = LazyOptional.of(() -> items);
+    private LazyOptional<IEnergyStorage> energyHandler = LazyOptional.of(()-> energy);
 
 
     public QuestionGeneratorTileEntity(final TileEntityType<?> tileEntityType) {
@@ -79,8 +83,31 @@ public class QuestionGeneratorTileEntity extends LockableLootTileEntity implemen
 
         tick++;
         if(tick%40 == 0) {
-
+            energy.addEnergy(1000);
+            markDirty();
         }
+        sendPower();
+    }
+
+    public void sendPower() {
+        energyHandler.ifPresent(energy -> {
+            AtomicInteger currentEnergy = new AtomicInteger(energy.getEnergyStored());
+            if(currentEnergy.get() > 0) {
+                for (Direction direction : Direction.values()) {
+                    TileEntity te = world.getTileEntity(pos.offset(direction));
+                    if (te != null) {
+                        te.getCapability(CapabilityEnergy.ENERGY, direction).ifPresent(handler -> {
+                            if (handler.canReceive()) {
+                                int received = handler.receiveEnergy(Math.min(currentEnergy.get(), energy.getMaxEnergyStored()), false);
+                                currentEnergy.addAndGet(-received);
+                                ((GeneratorEnergyStorage) energy).consumeEnergy(-received);
+                                markDirty();
+                            }
+                        });
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -90,6 +117,8 @@ public class QuestionGeneratorTileEntity extends LockableLootTileEntity implemen
         if(!checkLootAndWrite(compound)) {
             ItemStackHelper.saveAllItems(compound, itemStackToLoad);
         }
+        CompoundNBT compoundEnergy = energy.serializeNBT();
+        compound.put("energyStorage", compoundEnergy);
         return compound;
     }
 
@@ -102,6 +131,7 @@ public class QuestionGeneratorTileEntity extends LockableLootTileEntity implemen
         if(!this.checkLootAndRead(compound)) {
             ItemStackHelper.loadAllItems(compound, itemStackToLoad);
         }
+        energy.deserializeNBT((CompoundNBT) compound.get("energyStorage"));
     }
 
     @Override
@@ -164,7 +194,9 @@ public class QuestionGeneratorTileEntity extends LockableLootTileEntity implemen
         if(cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return itemHandler.cast();
         }
-
+        if(cap == CapabilityEnergy.ENERGY) {
+            return energyHandler.cast();
+        }
         return super.getCapability(cap, Direction);
     }
 
@@ -175,12 +207,18 @@ public class QuestionGeneratorTileEntity extends LockableLootTileEntity implemen
         if(cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return itemHandler.cast();
         }
+        if(cap == CapabilityEnergy.ENERGY) {
+            return energyHandler.cast();
+        }
         return super.getCapability(cap);
     }
 
 
     private IItemHandlerModifiable createHandler() {
         return new InvWrapper(this);
+    }
+    private GeneratorEnergyStorage createEnergy() {
+        return new GeneratorEnergyStorage(2000000);
     }
 
     @Override

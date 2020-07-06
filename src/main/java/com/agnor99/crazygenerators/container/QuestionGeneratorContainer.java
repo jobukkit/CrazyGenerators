@@ -11,6 +11,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
+import net.minecraft.util.IntReferenceHolder;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
 
 import java.awt.*;
 import java.util.Objects;
@@ -45,6 +48,19 @@ public class QuestionGeneratorContainer extends Container {
             addSlot(new Slot(playerInventory, column, playerStartHotbarSlot.x + column*SLOTDIFF, playerStartHotbarSlot.y));
         }
 
+        trackInt(new IntReferenceHolder() {
+            @Override
+            public int get() {
+                return getEnergy();
+            }
+
+            @Override
+            public void set(int value) {
+                tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(h -> ((GeneratorEnergyStorage)h).setEnergy(value));
+            }
+        });
+
+
     }
 
     private static QuestionGeneratorTileEntity getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {
@@ -57,7 +73,9 @@ public class QuestionGeneratorContainer extends Container {
         throw new IllegalStateException("Tile Entity is not correct" + tileAtPos);
     }
 
-
+    public int getEnergy() {
+        return tileEntity.getCapability(CapabilityEnergy.ENERGY).map(IEnergyStorage::getEnergyStored).orElse(0);
+    }
     @Override
     public boolean canInteractWith(PlayerEntity playerIn) {
         return isWithinUsableDistance(canInteractWithCallable, playerIn, BlockInit.question_generator);
@@ -70,7 +88,7 @@ public class QuestionGeneratorContainer extends Container {
         if (slot != null && slot.getHasStack()) {
             ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
-            if (slotIndex < 1) {
+            if (slotIndex == 0) {
                 if (!this.mergeItemStack(itemstack1, 36, this.inventorySlots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
