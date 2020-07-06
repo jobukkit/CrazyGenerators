@@ -1,0 +1,11 @@
+{
+    "item.crazygenerators.generator_core": "Generator Core",
+
+    "block.crazygenerators.question_generator" : "Question Generator",
+    "block.crazygenerators.timing_generator" : "Timing Generator",
+    "block.crazygenerators.generator_frame": "Generator Frame",
+
+    "container.question_generator": "Question Generator",
+
+    "itemGroup.generatorTab" : "Crazy Generators"
+}

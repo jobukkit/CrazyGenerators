@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "": { "model": "crazygenerators:block/timing_generator" }
+    }
+}

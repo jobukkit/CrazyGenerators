@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "": { "model": "crazygenerators:block/question_generator" }
+    }
+}

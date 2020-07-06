@@ -1,0 +1,46 @@
+modLoader="javafml" #mandatory
+
+loaderVersion="[31,)"
+
+
+issueTrackerURL="http://example.com/"
+
+
+[[mods]] #mandatory
+
+modId="crazygenerators"
+
+# The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
+version="1.0"
+
+displayName="Crazy Generators"
+
+displayURL="http://example.com/" #optional
+
+logoFile="" #optional
+
+credits="Thanks ValkyrieofNight for your generators, but i felt like some would be missing"
+
+authors="agnor99" #optional
+
+# The description text for the mod (multi line!) (#mandatory)
+description='''
+    This Mod contains some earlygame RF Generators, which are not automateable and therefore not a solution for permanent power.
+    Recommended to use if you need some RF at the start of your Modpack.
+'''
+# A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
+[[dependencies.crazygenerators]] #optional
+    # the modid of the dependency
+    modId="forge" #mandatory
+    mandatory=true #mandatory
+    versionRange="[31,)" #mandatory
+    ordering="NONE"
+    side="BOTH"
+
+# Here's another dependency
+[[dependencies.crazygenerators]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.15.2]"
+    ordering="NONE"
+    side="BOTH"
