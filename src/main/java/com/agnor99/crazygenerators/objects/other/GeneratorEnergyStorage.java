@@ -1,5 +1,6 @@
 package com.agnor99.crazygenerators.objects.other;
 
+import com.agnor99.crazygenerators.CrazyGenerators;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.energy.EnergyStorage;
@@ -21,6 +22,7 @@ public class GeneratorEnergyStorage extends EnergyStorage implements INBTSeriali
         capacity = newCapacity;
     }
     public void deserializeNBT(CompoundNBT nbt) {
+        CrazyGenerators.LOGGER.info(nbt.getInt("energy"));
         setEnergy(nbt.getInt("energy"));
     }
     public void addEnergy(int energy) {

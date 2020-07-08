@@ -2,8 +2,6 @@ package com.agnor99.crazygenerators.client.gui;
 
 import com.agnor99.crazygenerators.CrazyGenerators;
 import com.agnor99.crazygenerators.container.QuestionGeneratorContainer;
-import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -27,6 +25,7 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
         renderBackground();
         super.render(mouseX, mouseY, partialTicks);
         renderHoveredToolTip(mouseX, mouseY);
+        fill(0,0,0,0,0);
     }
 
     @Override

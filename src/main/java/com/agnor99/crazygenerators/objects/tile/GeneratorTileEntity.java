@@ -78,7 +78,7 @@ public abstract class GeneratorTileEntity extends LockableLootTileEntity impleme
         tick++;
 
         if(tick%4 == 0) {;
-            energy.addEnergy(100);
+            energy.addEnergy(10000);
         }
         sendPower();
     }
@@ -112,8 +112,7 @@ public abstract class GeneratorTileEntity extends LockableLootTileEntity impleme
         if(!checkLootAndWrite(compound)) {
             ItemStackHelper.saveAllItems(compound, itemStackToLoad);
         }
-        CompoundNBT compoundEnergy = energy.serializeNBT();
-        compound.put("energyStorage", compoundEnergy);
+        compound.putInt("energy", energy.getEnergyStored());
         return compound;
     }
 
@@ -126,7 +125,7 @@ public abstract class GeneratorTileEntity extends LockableLootTileEntity impleme
         if(!this.checkLootAndRead(compound)) {
             ItemStackHelper.loadAllItems(compound, itemStackToLoad);
         }
-        energy.deserializeNBT((CompoundNBT) compound.get("energyStorage"));
+        energy.setEnergy(tick = compound.getInt("energy"));
     }
 
     @Override
