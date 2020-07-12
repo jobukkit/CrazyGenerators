@@ -12,6 +12,11 @@ public class QuestionGeneratorTileEntity extends GeneratorTileEntity{
 
 
 
+    private int tipsAvailable = 3;
+    private int questionLevel = 0;
+    private final int[] ENERGY_PER_QUESTION = new int[]{500,1000,2500,5000,10000,25000,50000,100000,250000,500000,1000000};
+    private Question currentQuestion = new Question();
+
     public QuestionGeneratorTileEntity(final TileEntityType<?> tileEntityType) {
         super(tileEntityType);
     }
@@ -28,5 +33,40 @@ public class QuestionGeneratorTileEntity extends GeneratorTileEntity{
     @Override
     protected Container createMenu(int id, PlayerInventory player) {
         return new QuestionGeneratorContainer(id, player, this);
+    }
+    public final void validateAnswer(int answer) {
+        if(answer == 0) {
+            addEnergy(ENERGY_PER_QUESTION[questionLevel]);
+        }
+        questionLevel++;
+    }
+    public int getQuestionLevel() {
+        return questionLevel;
+    }
+
+    public void setQuestionLevel(int amount) {
+        this.questionLevel = amount;
+    }
+
+    public int getTipsAvailable() {
+        return tipsAvailable;
+    }
+
+    public void setTipsAvailable(int tipsAvailable) {
+        this.tipsAvailable = tipsAvailable;
+    }
+    private class Question{
+        String question;
+        String answer1;
+        String answer2;
+        String answer3;
+        String answer4;
+        private Question() {
+            question = "How many vanilla Trees do exist in 1.15";
+            answer1 = "4";
+            answer2 = "5";
+            answer3 = "6";
+            answer4 = "7";
+        }
     }
 }

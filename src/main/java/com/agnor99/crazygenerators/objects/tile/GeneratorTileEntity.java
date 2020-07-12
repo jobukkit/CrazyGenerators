@@ -76,10 +76,6 @@ public abstract class GeneratorTileEntity extends LockableLootTileEntity impleme
         if(world.isRemote()) return;
         markDirty();
         tick++;
-
-        if(tick%4 == 0) {;
-            energy.addEnergy(10000);
-        }
         sendPower();
     }
 
@@ -127,7 +123,9 @@ public abstract class GeneratorTileEntity extends LockableLootTileEntity impleme
         }
         energy.setEnergy(tick = compound.getInt("energy"));
     }
-
+    public void addEnergy(int energy) {
+        this.energy.addEnergy(energy);
+    }
     @Override
     public boolean receiveClientEvent(int id, int type) {
         if(id == 1) {

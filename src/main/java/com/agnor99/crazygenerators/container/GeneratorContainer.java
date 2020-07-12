@@ -23,6 +23,10 @@ public abstract class GeneratorContainer extends Container {
     protected final GeneratorTileEntity tileEntity;
     protected final IWorldPosCallable canInteractWithCallable;
 
+    public GeneratorTileEntity getTileEntity() {
+        return tileEntity;
+    }
+
     public GeneratorContainer(@Nullable ContainerType<?> type, final int windowID, final PlayerInventory playerInventory, final PacketBuffer data) {
         this(type ,windowID, playerInventory, getTileEntity(playerInventory, data));
     }
@@ -57,7 +61,7 @@ public abstract class GeneratorContainer extends Container {
         }
     }
 
-    private void tracking() {
+    protected void tracking() {
         trackInt(new IntReferenceHolder() {
             @Override
             public int get() {
