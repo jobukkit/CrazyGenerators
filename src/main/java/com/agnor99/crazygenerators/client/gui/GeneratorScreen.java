@@ -1,6 +1,8 @@
 package com.agnor99.crazygenerators.client.gui;
 
 import com.agnor99.crazygenerators.container.GeneratorContainer;
+import com.agnor99.crazygenerators.network.NetworkUtil;
+import com.agnor99.crazygenerators.network.packets.question_generator.PacketAnswer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -15,14 +17,13 @@ import java.util.List;
 public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> extends ContainerScreen<SpecContainer> {
     protected ResourceLocation BACKGROUND_TEXTURE;
     Point RELATIVE_SCREEN_POSITION;
+    boolean startSynced = false;
     public GeneratorScreen(SpecContainer screenContainer, PlayerInventory playerInventory, ITextComponent title) {
         super(screenContainer, playerInventory, title);
         this.guiLeft = 0;
         this.guiTop = 0;
         this.xSize = 176;
         this.ySize = 184;
-
-
     }
 
     @Override
@@ -43,6 +44,8 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
     }
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+        if(!startSynced)requestSync();
+        startSynced = true;
         final int DEFAULT_COLOR = 4210752;
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
         font.drawString(this.title.getFormattedText(),8.0f, 6.0f, DEFAULT_COLOR);
@@ -119,19 +122,21 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
     }
 
     private void drawHoverMessage(Point relativeMousePosition, String message) {
-        List<String> lines = breakStringIntoLineList(message);
+        List<String> lines = breakStringIntoLineList(message,92);
         if(lines.size() == 1) {
             drawHoverBox(relativeMousePosition, new Dimension(font.getStringWidth(lines.get(0))+9,10*lines.size()+7));
         }else {
             drawHoverBox(relativeMousePosition, new Dimension(100,10*lines.size()+7));
         }
         final int WHITE = 16777215;
+
         for(int i = 0; i <lines.size(); i++) {
             String line = lines.get(i);
+
             font.drawString(line, relativeMousePosition.x + RELATIVE_SCREEN_POSITION.x + 5, relativeMousePosition.y + RELATIVE_SCREEN_POSITION.y + 5 + 10*i, WHITE);
         }
     }
-    private List<String> breakStringIntoLineList(String message) {
+    protected List<String> breakStringIntoLineList(String message, int lineWidth) {
         String[] words = message.split(" ");
         List<String> lines = new ArrayList<>();
         lines.add("");
@@ -140,7 +145,7 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
             currLine = currLine + " " + word;
             currLine = currLine.trim();
 
-            if(font.getStringWidth(currLine) < 92) {
+            if(font.getStringWidth(currLine) < lineWidth) {
                 lines.set(lines.size()-1, currLine);
             }else {
                 lines.add(word);
@@ -238,4 +243,9 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
     protected void drawPartRelativeOnScreen(Point positionRelativeToScreen, Point positionTexture, Dimension size) {
         blit(RELATIVE_SCREEN_POSITION.x+positionRelativeToScreen.x, RELATIVE_SCREEN_POSITION.y+positionRelativeToScreen.y, positionTexture.x, positionTexture.y, size.width, size.height);
     }
+
+    private void requestSync() {
+        NetworkUtil.INSTANCE.sendToServer(new PacketAnswer(minecraft.player.dimension, container.getTileEntity().getPos(),"0"));
+    }
+
 }
