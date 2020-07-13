@@ -22,7 +22,6 @@ public class GeneratorEnergyStorage extends EnergyStorage implements INBTSeriali
         capacity = newCapacity;
     }
     public void deserializeNBT(CompoundNBT nbt) {
-        CrazyGenerators.LOGGER.info(nbt.getInt("energy"));
         setEnergy(nbt.getInt("energy"));
     }
     public void addEnergy(int energy) {

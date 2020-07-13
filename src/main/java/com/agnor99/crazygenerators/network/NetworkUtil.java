@@ -1,0 +1,59 @@
+package com.agnor99.crazygenerators.network;
+
+import com.agnor99.crazygenerators.CrazyGenerators;
+import com.agnor99.crazygenerators.network.packets.Packet;
+import com.agnor99.crazygenerators.network.packets.question_generator.PacketAnswer;
+import com.agnor99.crazygenerators.network.packets.question_generator.PacketAnswerResponse;
+import com.agnor99.crazygenerators.network.packets.sync.PacketAbstractSyncResponse;
+import com.agnor99.crazygenerators.network.packets.sync.PacketQuestionSyncResponse;
+import com.agnor99.crazygenerators.network.packets.sync.PacketRequestSync;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.network.NetworkRegistry;
+import net.minecraftforge.fml.network.simple.SimpleChannel;
+
+public class NetworkUtil {
+
+    public static SimpleChannel INSTANCE;
+    private static int ID = 0;
+
+    public static int nextID() {
+        return ID++;
+    }
+
+    public static void registerMessages() {
+        INSTANCE = NetworkRegistry.newSimpleChannel(new ResourceLocation(CrazyGenerators.MOD_ID,"generator_packets"), () -> "1.0", s->true, s->true);
+
+        INSTANCE.registerMessage(
+                nextID(),
+                PacketAnswerResponse.class,
+                PacketAnswerResponse::toBytes,
+                PacketAnswerResponse::new,
+                PacketAnswerResponse::handle
+                );
+
+        INSTANCE.registerMessage(
+                nextID(),
+                PacketAnswer.class,
+                PacketAnswer::toBytes,
+                PacketAnswer::new,
+                PacketAnswer::handle
+        );
+
+        INSTANCE.registerMessage(
+                nextID(),
+                PacketRequestSync.class,
+                PacketRequestSync::toBytes,
+                PacketRequestSync::new,
+                PacketRequestSync::handle
+        );
+
+        INSTANCE.registerMessage(
+                nextID(),
+                PacketQuestionSyncResponse.class,
+                PacketQuestionSyncResponse::toBytes,
+                PacketQuestionSyncResponse::new,
+                PacketQuestionSyncResponse::handle
+        );
+    }
+
+}

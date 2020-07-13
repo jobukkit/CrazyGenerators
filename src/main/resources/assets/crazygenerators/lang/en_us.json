@@ -7,5 +7,72 @@
 
     "container.question_generator": "Question Generator",
 
-    "itemGroup.generatorTab" : "Crazy Generators"
+    "itemGroup.generatorTab" : "Crazy Generators",
+
+    "question.question0.question" : "How many vanilla Trees do exist in 1.15.2?",
+    "question.question0.answer0" : "6",
+    "question.question0.answer1" : "5",
+    "question.question0.answer2" : "7",
+    "question.question0.answer3" : "8",
+
+    "question.question1.question" : "Which version added the wither?",
+    "question.question1.answer0" : "1.4.2",
+    "question.question1.answer1" : "1.5",
+    "question.question1.answer2" : "1.2.2",
+    "question.question1.answer3" : "1.7.2",
+
+    "question.question2.question" : "How many dimensions do exist?",
+    "question.question2.answer0" : "3",
+    "question.question2.answer1" : "2",
+    "question.question2.answer2" : "4",
+    "question.question2.answer3" : "5",
+
+    "question.question3.question" : "How many vanilla Trees do exist in 1.15.2?",
+    "question.question3.answer0" : "6",
+    "question.question3.answer1" : "5",
+    "question.question3.answer2" : "7",
+    "question.question3.answer3" : "8",
+
+    "question.question4.question" : "Which version added the wither?",
+    "question.question4.answer0" : "1.4.2",
+    "question.question4.answer1" : "1.5",
+    "question.question4.answer2" : "1.2.2",
+    "question.question4.answer3" : "1.7.2",
+
+    "question.question5.question" : "How many dimensions do exist?",
+    "question.question5.answer0" : "3",
+    "question.question5.answer1" : "2",
+    "question.question5.answer2" : "4",
+    "question.question5.answer3" : "5",
+
+    "question.question6.question" : "Which version added the wither?",
+    "question.question6.answer0" : "1.4.2",
+    "question.question6.answer1" : "1.5",
+    "question.question6.answer2" : "1.2.2",
+    "question.question6.answer3" : "1.7.2",
+
+    "question.question7.question" : "How many dimensions do exist?",
+    "question.question7.answer0" : "3",
+    "question.question7.answer1" : "2",
+    "question.question7.answer2" : "4",
+    "question.question7.answer3" : "5",
+
+    "question.question8.question" : "How many vanilla Trees do exist in 1.15.2?",
+    "question.question8.answer0" : "6",
+    "question.question8.answer1" : "5",
+    "question.question8.answer2" : "7",
+    "question.question8.answer3" : "8",
+
+    "question.question9.question" : "Which version added the wither?",
+    "question.question9.answer0" : "1.4.2",
+    "question.question9.answer1" : "1.5",
+    "question.question9.answer2" : "1.2.2",
+    "question.question9.answer3" : "1.7.2",
+
+    "question.question10.question" : "How many dimensions do exist?",
+    "question.question10.answer0" : "3",
+    "question.question10.answer1" : "2",
+    "question.question10.answer2" : "4",
+    "question.question10.answer3" : "5"
+
 }

@@ -1,6 +1,6 @@
 package com.agnor99.crazygenerators.objects.tile;
 
-import com.agnor99.crazygenerators.CrazyGenerators;
+import com.agnor99.crazygenerators.network.packets.sync.PacketAbstractSyncResponse;
 import com.agnor99.crazygenerators.objects.other.GeneratorEnergyStorage;
 import com.agnor99.crazygenerators.container.QuestionGeneratorContainer;
 import com.agnor99.crazygenerators.objects.blocks.QuestionGeneratorBlock;
@@ -40,7 +40,7 @@ public abstract class GeneratorTileEntity extends LockableLootTileEntity impleme
     protected int numPlayersUsing;
 
     private IItemHandlerModifiable items = createHandler();
-    private GeneratorEnergyStorage energy = createEnergy();
+    public GeneratorEnergyStorage energy = createEnergy();
     private LazyOptional<IItemHandlerModifiable> itemHandler = LazyOptional.of(() -> items);
     private LazyOptional<IEnergyStorage> energyHandler = LazyOptional.of(()-> energy);
 
@@ -64,7 +64,7 @@ public abstract class GeneratorTileEntity extends LockableLootTileEntity impleme
 
     @Override
     protected Container createMenu(int id, PlayerInventory player) {
-        return new QuestionGeneratorContainer(id, player, this);//TODO: Continue Refactor
+        return new QuestionGeneratorContainer(id, player, this);
     }
 
     @Override
@@ -76,10 +76,6 @@ public abstract class GeneratorTileEntity extends LockableLootTileEntity impleme
         if(world.isRemote()) return;
         markDirty();
         tick++;
-
-        if(tick%4 == 0) {;
-            energy.addEnergy(10000);
-        }
         sendPower();
     }
 
@@ -127,6 +123,16 @@ public abstract class GeneratorTileEntity extends LockableLootTileEntity impleme
         }
         energy.setEnergy(tick = compound.getInt("energy"));
     }
+    public void addEnergy(int energy) {
+        this.energy.addEnergy(energy);
+    }
+    public void setEnergy(int energy) {
+        this.energy.setEnergy(energy);
+    }
+    public int getEnergy() {
+        return energy.getEnergyStored();
+    }
+    public abstract PacketAbstractSyncResponse generateSyncPacket();
 
     @Override
     public boolean receiveClientEvent(int id, int type) {

@@ -1,6 +1,8 @@
 package com.agnor99.crazygenerators.client.gui;
 
 import com.agnor99.crazygenerators.container.GeneratorContainer;
+import com.agnor99.crazygenerators.network.NetworkUtil;
+import com.agnor99.crazygenerators.network.packets.question_generator.PacketAnswer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -8,21 +10,26 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> extends ContainerScreen<SpecContainer> {
     protected ResourceLocation BACKGROUND_TEXTURE;
     Point RELATIVE_SCREEN_POSITION;
-    int hoverFrames = 0;
-    String lastHover = "";
-    String messageToDraw;
+    boolean startSynced = false;
     public GeneratorScreen(SpecContainer screenContainer, PlayerInventory playerInventory, ITextComponent title) {
         super(screenContainer, playerInventory, title);
         this.guiLeft = 0;
         this.guiTop = 0;
-        this.xSize = 175;
-        this.ySize = 183;
+        this.xSize = 176;
+        this.ySize = 184;
+    }
 
+    @Override
+    protected void init() {
+        super.init();
+        RELATIVE_SCREEN_POSITION = new Point((this.width - this.xSize)/2, (this.height - this.ySize)/2);
     }
 
     protected void setBackgroundTexture(ResourceLocation loc) {
@@ -37,11 +44,11 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
     }
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+        if(!startSynced)requestSync();
+        startSynced = true;
         final int DEFAULT_COLOR = 4210752;
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
         font.drawString(this.title.getFormattedText(),8.0f, 6.0f, DEFAULT_COLOR);
-        font.drawString(playerInventory.getDisplayName().getFormattedText(), 8.0f, 90.0f, DEFAULT_COLOR);
-        font.drawString("Energy: " + container.getEnergy(), 8.0f, 30.0f, DEFAULT_COLOR);
     }
 
     @Override
@@ -50,7 +57,6 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
         RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
         this.minecraft.getTextureManager().bindTexture(BACKGROUND_TEXTURE);
 
-        RELATIVE_SCREEN_POSITION = new Point((this.width - this.xSize)/2, (this.height - this.ySize)/2);
         blit(RELATIVE_SCREEN_POSITION.x, RELATIVE_SCREEN_POSITION.y, 0 , 0, xSize, ySize);
         drawEnergy();
         drawWarnings();
@@ -84,10 +90,7 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
     }
 
     private boolean hasWarning() {
-        if(container.getEnergy() == container.getCapacity()) {
-            return true;
-        }
-        return false;
+        return container.getEnergy() == container.getCapacity();
     }
 
     void drawHoverMessages(Point mousePosition) {
@@ -119,56 +122,130 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
     }
 
     private void drawHoverMessage(Point relativeMousePosition, String message) {
-        if(lastHover.equals(message)) {
-            hoverFrames++;
+        List<String> lines = breakStringIntoLineList(message,92);
+        if(lines.size() == 1) {
+            drawHoverBox(relativeMousePosition, new Dimension(font.getStringWidth(lines.get(0))+9,10*lines.size()+7));
         }else {
-            hoverFrames = 0;
-            lastHover = message;
-            messageToDraw = message;
+            drawHoverBox(relativeMousePosition, new Dimension(100,10*lines.size()+7));
         }
-        String realMessage = message;
-        final int DEFAULT_COLOR = 4210752;
-        if(isMessageToLong(message)) {
-            drawBox(relativeMousePosition, font.getStringWidth(message.substring(0,20)));
-            if(hoverFrames != 0 && hoverFrames%20 == 0) {
-                messageToDraw = messageToDraw.substring(1) + messageToDraw.charAt(0);
-            }
-            realMessage = messageToDraw.substring(0,18);
-        }else{
-            drawBox(relativeMousePosition, font.getStringWidth(message));
-        }
+        final int WHITE = 16777215;
 
-        font.drawString(realMessage, relativeMousePosition.x+RELATIVE_SCREEN_POSITION.x+5, relativeMousePosition.y+RELATIVE_SCREEN_POSITION.y+5, DEFAULT_COLOR);
+        for(int i = 0; i <lines.size(); i++) {
+            String line = lines.get(i);
+
+            font.drawString(line, relativeMousePosition.x + RELATIVE_SCREEN_POSITION.x + 5, relativeMousePosition.y + RELATIVE_SCREEN_POSITION.y + 5 + 10*i, WHITE);
+        }
+    }
+    protected List<String> breakStringIntoLineList(String message, int lineWidth) {
+        String[] words = message.split(" ");
+        List<String> lines = new ArrayList<>();
+        lines.add("");
+        for(String word: words) {
+            String currLine = lines.get(lines.size()-1);
+            currLine = currLine + " " + word;
+            currLine = currLine.trim();
+
+            if(font.getStringWidth(currLine) < lineWidth) {
+                lines.set(lines.size()-1, currLine);
+            }else {
+                lines.add(word);
+            }
+        }
+        return lines;
     }
     boolean isMessageToLong(String message) {
         return message.length() > 18;
     }
-    protected void drawBox(Point relativeMousePosition, int textLength){
-        Point messageOpenTexturePoint = new Point(195,0);
-        Dimension messageOpenTextureDimension = new Dimension(4,17);
+    protected void drawHoverBox(Point relativeMousePosition, Dimension boxSize){
 
-        Point messageMiddleTexturePoint = new Point(200,0);
-        Dimension messageMiddleTextureDimension = new Dimension(1,17);
+        drawBoxTop(relativeMousePosition, boxSize.width);
+        Point offsettedPoint = new Point(relativeMousePosition);
+        offsettedPoint.translate(0,4);
+        drawBoxMid(offsettedPoint, boxSize);
+        offsettedPoint.translate(0,boxSize.height-8);
 
-        Point messageEndTexturePoint = new Point(202,0);
-        Dimension messageEndTextureDimension = new Dimension(4,17);
+        drawBoxBottom(offsettedPoint,boxSize.width);
 
-        drawPartRelativeOnScreen(relativeMousePosition,messageOpenTexturePoint, messageOpenTextureDimension);
-
-        Point movingPoint = new Point(relativeMousePosition);
-        movingPoint.translate(messageOpenTextureDimension.width,0);
-        for(int i = 0; i <= textLength; i++) {
-            drawPartRelativeOnScreen(movingPoint, messageMiddleTexturePoint, messageMiddleTextureDimension);
-            movingPoint.translate(1,0);
-        }
-        drawPartRelativeOnScreen(movingPoint, messageEndTexturePoint, messageEndTextureDimension);
     }
+    void drawBoxTop(Point relativeMousePosition, int width) {
+        Point[] messagePartPoint = new Point[3];
+        Dimension[] messagePartDimension = new Dimension[3];
 
+        messagePartPoint[0] = new Point(180,0);
+        messagePartDimension[0] = new Dimension(4,4);
+
+        messagePartPoint[1] = new Point(185,0);
+        messagePartDimension[1] = new Dimension(1,4);
+
+        messagePartPoint[2] = new Point(187,0);
+        messagePartDimension[2] = new Dimension(4,4);
+
+        drawPartRelativeOnScreen(relativeMousePosition, messagePartPoint[0], messagePartDimension[0]);
+        int xoff = 0;
+        for(; xoff < width-8; xoff++) {
+            drawPartRelativeOnScreen(new Point(relativeMousePosition.x+xoff+4, relativeMousePosition.y), messagePartPoint[1], messagePartDimension[1]);
+        }
+        drawPartRelativeOnScreen(new Point(relativeMousePosition.x+xoff+4,relativeMousePosition.y),messagePartPoint[2], messagePartDimension[2]);
+
+    }
+    void drawBoxMid(Point offsettedMousePosition, Dimension size) {
+        Point[] messagePartPoint = new Point[3];
+        Dimension[] messagePartDimension = new Dimension[3];
+
+        messagePartPoint[0] = new Point(180,5);
+        messagePartDimension[0] = new Dimension(4,4);
+
+        messagePartPoint[1] = new Point(185,5);
+        messagePartDimension[1] = new Dimension(1,4);
+
+        messagePartPoint[2] = new Point(187,5);
+        messagePartDimension[2] = new Dimension(4,4);
+
+
+        for(int top = 0; top < size.height-9; top++) {
+            Point linePoint = new Point(offsettedMousePosition);
+            linePoint.translate(0,top);
+            drawPartRelativeOnScreen(linePoint, messagePartPoint[0], messagePartDimension[0]);
+            int xoff = 0;
+            for(; xoff < size.width-8; xoff++) {
+                drawPartRelativeOnScreen(new Point(linePoint.x+xoff+4, linePoint.y), messagePartPoint[1], messagePartDimension[1]);
+            }
+
+            linePoint.translate(xoff+4,0);
+            drawPartRelativeOnScreen(linePoint, messagePartPoint[2], messagePartDimension[2]);
+        }
+    }
+    void drawBoxBottom(Point offsettedMousePosition, int width) {
+        Point[] messagePartPoint = new Point[3];
+        Dimension[] messagePartDimension = new Dimension[3];
+
+        messagePartPoint[0] = new Point(180,7);
+        messagePartDimension[0] = new Dimension(4,4);
+
+        messagePartPoint[1] = new Point(185,7);
+        messagePartDimension[1] = new Dimension(1,4);
+
+        messagePartPoint[2] = new Point(187,7);
+        messagePartDimension[2] = new Dimension(4,4);
+
+        drawPartRelativeOnScreen(offsettedMousePosition, messagePartPoint[0], messagePartDimension[0]);
+        int xoff = 0;
+        for(; xoff < width-8; xoff++) {
+            drawPartRelativeOnScreen(new Point(offsettedMousePosition.x+xoff+4, offsettedMousePosition.y), messagePartPoint[1], messagePartDimension[1]);
+        }
+        drawPartRelativeOnScreen(new Point(offsettedMousePosition.x+xoff+4,offsettedMousePosition.y),messagePartPoint[2], messagePartDimension[2]);
+
+    }
     private boolean isMouseOverHoverArea(Point relativeMouseLocation, Point upperPosition, Dimension size) {
         return new Rectangle(upperPosition,size).contains(relativeMouseLocation);
     }
 
-    private void drawPartRelativeOnScreen(Point positionRelativeToScreen, Point positiononTexture, Dimension size) {
-        blit(RELATIVE_SCREEN_POSITION.x+positionRelativeToScreen.x, RELATIVE_SCREEN_POSITION.y+positionRelativeToScreen.y, positiononTexture.x, positiononTexture.y, size.width, size.height);
+    protected void drawPartRelativeOnScreen(Point positionRelativeToScreen, Point positionTexture, Dimension size) {
+        blit(RELATIVE_SCREEN_POSITION.x+positionRelativeToScreen.x, RELATIVE_SCREEN_POSITION.y+positionRelativeToScreen.y, positionTexture.x, positionTexture.y, size.width, size.height);
     }
+
+    private void requestSync() {
+        NetworkUtil.INSTANCE.sendToServer(new PacketAnswer(minecraft.player.dimension, container.getTileEntity().getPos(),"0"));
+    }
+
 }

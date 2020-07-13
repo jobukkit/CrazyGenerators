@@ -28,7 +28,7 @@ public class BlockInit {
     @SubscribeEvent
     public static void registerBlockItems(final RegistryEvent.Register<Item> event) {
         event.getRegistry().register(generator_frame.createItemFromItemBlock());
-        event.getRegistry().register(question_generator.createItemFromItemBlock());
+        event.getRegistry().register(question_generator.createItemFromItemBlock("\u00A73Who want to be a millionaire?"));
         event.getRegistry().register(timing_generator.createItemFromItemBlock());
     }
 }
