@@ -4,6 +4,7 @@ import com.agnor99.crazygenerators.CrazyGenerators;
 import com.agnor99.crazygenerators.container.QuestionGeneratorContainer;
 import com.agnor99.crazygenerators.network.NetworkUtil;
 import com.agnor99.crazygenerators.network.packets.question_generator.PacketAnswer;
+import com.agnor99.crazygenerators.network.packets.question_generator.PacketHintRequest;
 import com.agnor99.crazygenerators.objects.tile.QuestionGeneratorTileEntity;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.button.ImageButton;
@@ -24,6 +25,8 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
     AnswerButton answer1;
     AnswerButton answer2;
     AnswerButton answer3;
+    HintButton hint;
+    boolean hintUsed = false;
 
     public QuestionGeneratorScreen(QuestionGeneratorContainer screenContainer, PlayerInventory playerInventory, ITextComponent title) {
         super(screenContainer, playerInventory, title);
@@ -38,8 +41,9 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
         answer1 = new AnswerButton(new Point(73,67));
         answer2 = new AnswerButton(new Point(7,83));
         answer3 = new AnswerButton(new Point(73,83));
+        hint = new HintButton();
 
-        addButton(new HintButton());
+        addButton(hint);
         addButton(answer0);
         addButton(answer1);
         addButton(answer2);
@@ -52,6 +56,18 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
         renderBackground();
         super.render(mouseX, mouseY, partialTicks);
         renderHoveredToolTip(mouseX, mouseY);
+        reloadButtons();
+    }
+
+    void reloadButtons() {
+        QuestionGeneratorTileEntity questionGeneratorTileEntity = (QuestionGeneratorTileEntity) container.getTileEntity();
+
+
+        answer0.active = !questionGeneratorTileEntity.displayAnswer0.equals("");
+        answer1.active = !questionGeneratorTileEntity.displayAnswer1.equals("");
+        answer2.active = !questionGeneratorTileEntity.displayAnswer2.equals("");
+        answer3.active = !questionGeneratorTileEntity.displayAnswer3.equals("");
+
     }
 
     @Override
@@ -103,7 +119,11 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
 
         @Override
         public void onPress(Button button) {
-            NetworkUtil.INSTANCE.sendToServer(new PacketAnswer(minecraft.player.dimension, container.getTileEntity().getPos(),"0"));
+            if(!hintUsed) {
+                NetworkUtil.INSTANCE.sendToServer(new PacketHintRequest(minecraft.player.dimension, container.getTileEntity().getPos()));
+            }
+            hint.active = false;
+            hintUsed = true;
         }
     }
     private class AnswerButton extends ImageButton {
@@ -121,6 +141,8 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
         @Override
         public void onPress(Button button) {
             AnswerButton answerButton = (AnswerButton) button;
+            hintUsed = false;
+            hint.active = true;
             NetworkUtil.INSTANCE.sendToServer(new PacketAnswer(minecraft.player.dimension, container.getTileEntity().getPos(),answerButton.answer));
         }
     }

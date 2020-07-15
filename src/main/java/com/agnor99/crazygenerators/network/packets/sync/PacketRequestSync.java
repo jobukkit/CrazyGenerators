@@ -25,7 +25,7 @@ public class PacketRequestSync implements Packet {
         dimension = DimensionType.getById(buf.readInt());
         pos = buf.readBlockPos();
     }
-    public PacketRequestSync(DimensionType type, BlockPos pos, String answer) {
+    public PacketRequestSync(DimensionType type, BlockPos pos) {
         dimension = type;
         this.pos = pos;
 

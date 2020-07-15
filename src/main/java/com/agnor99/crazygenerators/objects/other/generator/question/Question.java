@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
-public enum Question {
+public enum  Question {
 
     q0(0,0),
     q1(1,1),
@@ -66,6 +66,19 @@ public enum Question {
         }
         return retValue;
     }
+
+    public String[] getWrongAnswers() {
+        List<String> wrongAnswers = new ArrayList<String>();
+        wrongAnswers.add(fake1);
+        wrongAnswers.add(fake2);
+        wrongAnswers.add(fake3);
+        String[] retValues = new String[2];
+        retValues[0] = wrongAnswers.get(new Random().nextInt(3));
+        wrongAnswers.remove(retValues[0]);
+        retValues[1] = wrongAnswers.get(new Random().nextInt(2));
+        return retValues;
+    }
+
     public String getQuestion() {
         return question;
     }

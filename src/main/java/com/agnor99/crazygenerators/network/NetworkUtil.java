@@ -4,6 +4,8 @@ import com.agnor99.crazygenerators.CrazyGenerators;
 import com.agnor99.crazygenerators.network.packets.Packet;
 import com.agnor99.crazygenerators.network.packets.question_generator.PacketAnswer;
 import com.agnor99.crazygenerators.network.packets.question_generator.PacketAnswerResponse;
+import com.agnor99.crazygenerators.network.packets.question_generator.PacketHint;
+import com.agnor99.crazygenerators.network.packets.question_generator.PacketHintRequest;
 import com.agnor99.crazygenerators.network.packets.sync.PacketAbstractSyncResponse;
 import com.agnor99.crazygenerators.network.packets.sync.PacketQuestionSyncResponse;
 import com.agnor99.crazygenerators.network.packets.sync.PacketRequestSync;
@@ -54,6 +56,20 @@ public class NetworkUtil {
                 PacketQuestionSyncResponse::new,
                 PacketQuestionSyncResponse::handle
         );
-    }
+        INSTANCE.registerMessage(
+                nextID(),
+                PacketHint.class,
+                PacketHint::toBytes,
+                PacketHint::new,
+                PacketHint::handle
+        );
+        INSTANCE.registerMessage(
+                nextID(),
+                PacketHintRequest.class,
+                PacketHintRequest::toBytes,
+                PacketHintRequest::new,
+                PacketHintRequest::handle
+        );
 
+    }
 }
