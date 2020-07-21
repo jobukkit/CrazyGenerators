@@ -52,5 +52,16 @@ public class QuestionGeneratorContainer extends GeneratorContainer {
                 qgte.setQuestionLevel(value);
             }
         });
+        trackInt(new IntReferenceHolder() {
+            @Override
+            public int get() {
+                return qgte.getQuestionGeneratedTime();
+            }
+
+            @Override
+            public void set(int value) {
+                qgte.setQuestionGeneratedTime(value);
+            }
+        });
     }
 }

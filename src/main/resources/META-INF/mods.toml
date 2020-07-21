@@ -15,7 +15,7 @@ version="1.0"
 
 displayName="Crazy Generators"
 
-displayURL="http://example.com/" #optional
+displayURL="https://github.com/agnor99/CrazyGenerators/issues" #optional
 
 logoFile="" #optional
 

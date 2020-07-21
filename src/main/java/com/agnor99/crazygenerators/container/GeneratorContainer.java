@@ -1,11 +1,14 @@
 package com.agnor99.crazygenerators.container;
 
+import com.agnor99.crazygenerators.CrazyGenerators;
 import com.agnor99.crazygenerators.objects.other.GeneratorEnergyStorage;
 import com.agnor99.crazygenerators.objects.tile.GeneratorTileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.inventory.container.IContainerListener;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
@@ -43,7 +46,7 @@ public abstract class GeneratorContainer extends Container {
     private void addSlots2Container(PlayerInventory playerInventory) {
         final int SLOTDIFF = 18;
 
-        Point loadingSlot = new Point(152,18);
+        Point loadingSlot = new Point(152,16);
         Point playerStartSlot = new Point(8,102);
         Point playerStartHotbarSlot = new Point(8,160);
 
@@ -58,6 +61,15 @@ public abstract class GeneratorContainer extends Container {
 
         for(int column = 0; column < 9; column++) {
             addSlot(new Slot(playerInventory, column, playerStartHotbarSlot.x + column*SLOTDIFF, playerStartHotbarSlot.y));
+        }
+
+    }
+
+    @Override
+    public void onContainerClosed(PlayerEntity player) {
+        super.onContainerClosed(player);
+        if(player instanceof ServerPlayerEntity) {
+            getTileEntity().players.remove(player);
         }
     }
 
@@ -84,6 +96,17 @@ public abstract class GeneratorContainer extends Container {
                 tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(h -> ((GeneratorEnergyStorage)h).setEnergy(value));
             }
         });
+        trackInt(new IntReferenceHolder() {
+            @Override
+            public int get() {
+                return getTicks();
+            }
+
+            @Override
+            public void set(int value) {
+                setTicks(value);
+            }
+        });
     }
     protected static GeneratorTileEntity getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {
         Objects.requireNonNull(playerInventory, "playerInventory cannot be null");
@@ -100,6 +123,13 @@ public abstract class GeneratorContainer extends Container {
     }
     public int getCapacity() {
         return tileEntity.getCapability(CapabilityEnergy.ENERGY).map(IEnergyStorage::getMaxEnergyStored).orElse(0);
+    }
+    public void setTicks(int tick) {
+        tileEntity.setTick(tick);
+    }
+
+    public int getTicks() {
+        return tileEntity.getTick();
     }
     @Override
     public abstract boolean canInteractWith(PlayerEntity playerIn);

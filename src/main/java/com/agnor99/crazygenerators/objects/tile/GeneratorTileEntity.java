@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
@@ -31,13 +32,15 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class GeneratorTileEntity extends LockableLootTileEntity implements ITickableTileEntity {
 
     int tick;
     private NonNullList<ItemStack> itemStackToLoad = NonNullList.withSize(1, ItemStack.EMPTY);
-    protected int numPlayersUsing;
+    public List<ServerPlayerEntity> players = new ArrayList<ServerPlayerEntity>();
 
     private IItemHandlerModifiable items = createHandler();
     public GeneratorEnergyStorage energy = createEnergy();
@@ -65,6 +68,13 @@ public abstract class GeneratorTileEntity extends LockableLootTileEntity impleme
     @Override
     protected Container createMenu(int id, PlayerInventory player) {
         return new QuestionGeneratorContainer(id, player, this);
+    }
+
+    public int getTick() {
+        return tick;
+    }
+    public void setTick(int tick) {
+        this.tick = tick;
     }
 
     @Override
@@ -134,51 +144,22 @@ public abstract class GeneratorTileEntity extends LockableLootTileEntity impleme
     }
     public abstract PacketAbstractSyncResponse generateSyncPacket();
 
-    @Override
-    public boolean receiveClientEvent(int id, int type) {
-        if(id == 1) {
-            numPlayersUsing = type;
-            return true;
-        }
-        return super.receiveClientEvent(id, type);
-    }
+
 
     @Override
     public void openInventory(PlayerEntity player) {
         if(!player.isSpectator()) {
-
-            if(this.numPlayersUsing < 0) {
-                numPlayersUsing = 0;
-            }
-            numPlayersUsing++;
-            this.onOpenOrClose();
+            players.add((ServerPlayerEntity)player);
         }
     }
 
     @Override
     public void closeInventory(PlayerEntity player) {
         if(!player.isSpectator()) {
-            numPlayersUsing--;
-            this.onOpenOrClose();
+            players.remove((ServerPlayerEntity)player);
         }
     }
-    protected void onOpenOrClose() {
-        Block block = this.getBlockState().getBlock();
-        if(block instanceof QuestionGeneratorBlock) {
-            world.addBlockEvent(pos, block, 1, numPlayersUsing);
-            this.world.notifyNeighborsOfStateChange(pos, block);
-        }
-    }
-    public static int getPlayersUsing(IBlockReader reader, BlockPos pos) {
-        BlockState blockState = reader.getBlockState(pos);
-        if(blockState.hasTileEntity()) {
-            TileEntity tileEntity = reader.getTileEntity(pos);
-            if(tileEntity instanceof  QuestionGeneratorTileEntity) {
-                return ((QuestionGeneratorTileEntity) tileEntity).numPlayersUsing;
-            }
-        }
-        return 0;
-    }
+
 
     @Override
     public void updateContainingBlockInfo() {

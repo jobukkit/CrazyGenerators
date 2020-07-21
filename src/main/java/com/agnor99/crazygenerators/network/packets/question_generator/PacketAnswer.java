@@ -23,7 +23,7 @@ public class PacketAnswer implements Packet {
     public PacketAnswer(PacketBuffer buf) {
         dimension = DimensionType.getById(buf.readInt());
         pos = buf.readBlockPos();
-        answer = buf.readString();
+        answer = buf.readString(32767);
     }
     public PacketAnswer(DimensionType type, BlockPos pos, String answer) {
         dimension = type;

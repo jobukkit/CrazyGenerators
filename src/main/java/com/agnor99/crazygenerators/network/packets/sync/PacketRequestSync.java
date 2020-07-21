@@ -45,6 +45,7 @@ public class PacketRequestSync implements Packet {
             ServerPlayerEntity player = context.get().getSender();
             if(te instanceof GeneratorTileEntity) {
                 GeneratorTileEntity gte = (GeneratorTileEntity) te;
+                gte.players.add(player);
                 PacketAbstractSyncResponse syncResponse = gte.generateSyncPacket();
                 NetworkUtil.INSTANCE.sendTo(syncResponse, player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
             }
