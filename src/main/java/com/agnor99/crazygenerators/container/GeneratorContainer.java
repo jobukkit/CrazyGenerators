@@ -1,6 +1,5 @@
 package com.agnor99.crazygenerators.container;
 
-import com.agnor99.crazygenerators.CrazyGenerators;
 import com.agnor99.crazygenerators.objects.other.GeneratorEnergyStorage;
 import com.agnor99.crazygenerators.objects.tile.GeneratorTileEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -8,7 +7,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.IContainerListener;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
