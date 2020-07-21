@@ -156,7 +156,7 @@ public abstract class GeneratorTileEntity extends LockableLootTileEntity impleme
     @Override
     public void closeInventory(PlayerEntity player) {
         if(!player.isSpectator()) {
-            players.remove((ServerPlayerEntity)player);
+            players.remove(player);
         }
     }
 
@@ -210,4 +210,5 @@ public abstract class GeneratorTileEntity extends LockableLootTileEntity impleme
             itemHandler.invalidate();
         }
     }
+
 }

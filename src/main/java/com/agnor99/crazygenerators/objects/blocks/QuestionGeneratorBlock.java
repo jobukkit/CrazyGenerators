@@ -49,6 +49,7 @@ public class QuestionGeneratorBlock extends GeneratorBlock {
             if(tileEntity instanceof QuestionGeneratorTileEntity) {
                 InventoryHelper.dropItems(world, blockPos, ((QuestionGeneratorTileEntity) tileEntity).getItems());
             }
+            tileEntity.remove();
         }
     }
 }
