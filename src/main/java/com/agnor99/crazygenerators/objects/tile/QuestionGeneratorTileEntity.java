@@ -2,19 +2,30 @@ package com.agnor99.crazygenerators.objects.tile;
 
 import com.agnor99.crazygenerators.container.QuestionGeneratorContainer;
 import com.agnor99.crazygenerators.init.TileInit;
+import com.agnor99.crazygenerators.network.NetworkUtil;
+import com.agnor99.crazygenerators.network.packets.question_generator.PacketTimeOut;
 import com.agnor99.crazygenerators.network.packets.sync.PacketAbstractSyncResponse;
 import com.agnor99.crazygenerators.network.packets.sync.PacketQuestionSyncResponse;
 import com.agnor99.crazygenerators.objects.other.generator.question.Question;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.fml.network.NetworkDirection;
 
 public class QuestionGeneratorTileEntity extends GeneratorTileEntity{
 
     private Question question;
 
+    public static final int TIME_PER_QUESTION = 600; //30 Sekunden
+
+
+    public int questionGeneratedTime = 0;
+
+
+    //clientSideCommunicationVars
     public String displayQuestion = "";
     public String displayAnswer0 = "";
     public String displayAnswer1 = "";
@@ -27,7 +38,6 @@ public class QuestionGeneratorTileEntity extends GeneratorTileEntity{
 
     public QuestionGeneratorTileEntity(final TileEntityType<?> tileEntityType) {
         super(tileEntityType);
-        updateQuestion();
 
     }
     public QuestionGeneratorTileEntity() {
@@ -41,14 +51,31 @@ public class QuestionGeneratorTileEntity extends GeneratorTileEntity{
     }
 
     @Override
+    public void tick() {
+        super.tick();
+        if(questionGeneratedTime + TIME_PER_QUESTION == tick) {
+            resetQuestion();
+            PacketTimeOut packet = new PacketTimeOut(getPos(), question);
+            for(ServerPlayerEntity p: players) {
+
+                NetworkUtil.INSTANCE.sendTo(packet, p.connection.getNetworkManager(), NetworkDirection.PLAY_TO_CLIENT);
+            }
+        }
+
+    }
+
+    @Override
     protected Container createMenu(int id, PlayerInventory player) {
         return new QuestionGeneratorContainer(id, player, this);
     }
 
     @Override
     public PacketAbstractSyncResponse generateSyncPacket() {
-        PacketQuestionSyncResponse syncPacket = new PacketQuestionSyncResponse(question, getEnergy(), pos);
-        return syncPacket;
+        if(players.size() > 1) {
+            return new PacketQuestionSyncResponse(question, getEnergy(), pos, false);
+        }
+        resetQuestion();
+        return new PacketQuestionSyncResponse(question, getEnergy(), pos, true);
     }
 
     public boolean validateAnswer(String answer) {
@@ -68,10 +95,15 @@ public class QuestionGeneratorTileEntity extends GeneratorTileEntity{
     private void resetQuestion() {
         questionLevel = 0;
         question = Question.getQuestionInTier(questionLevel);
+        setQuestionGeneratedTime(getTick());
     }
     private void updateQuestion() {
         questionLevel++;
+        if(questionLevel >= ENERGY_PER_QUESTION.length) {
+            questionLevel = 0;
+        }
         question = Question.getQuestionInTier(questionLevel);
+        setQuestionGeneratedTime(getTick());
     }
     public void updateQuestion(String question, String[] answers) {
         displayQuestion = question;
@@ -79,7 +111,6 @@ public class QuestionGeneratorTileEntity extends GeneratorTileEntity{
         displayAnswer1 = answers[1];
         displayAnswer2 = answers[2];
         displayAnswer3 = answers[3];
-
     }
     public int getQuestionLevel() {
         return questionLevel;
@@ -99,4 +130,12 @@ public class QuestionGeneratorTileEntity extends GeneratorTileEntity{
     public void setTipsAvailable(int tipsAvailable) {
         this.tipsAvailable = tipsAvailable;
     }
+    public int getQuestionGeneratedTime() {
+        return questionGeneratedTime;
+    }
+
+    public void setQuestionGeneratedTime(int questionGeneratedTime) {
+        this.questionGeneratedTime = questionGeneratedTime;
+    }
+
 }

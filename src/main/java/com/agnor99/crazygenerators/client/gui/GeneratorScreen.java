@@ -2,12 +2,13 @@ package com.agnor99.crazygenerators.client.gui;
 
 import com.agnor99.crazygenerators.container.GeneratorContainer;
 import com.agnor99.crazygenerators.network.NetworkUtil;
-import com.agnor99.crazygenerators.network.packets.question_generator.PacketAnswer;
+import com.agnor99.crazygenerators.network.packets.sync.PacketRequestSync;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -18,12 +19,16 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
     protected ResourceLocation BACKGROUND_TEXTURE;
     Point RELATIVE_SCREEN_POSITION;
     boolean startSynced = false;
-    public GeneratorScreen(SpecContainer screenContainer, PlayerInventory playerInventory, ITextComponent title) {
+    private String generatorName;
+
+
+    public GeneratorScreen(SpecContainer screenContainer, PlayerInventory playerInventory, ITextComponent title, String generatorName) {
         super(screenContainer, playerInventory, title);
         this.guiLeft = 0;
         this.guiTop = 0;
         this.xSize = 176;
         this.ySize = 184;
+        this.generatorName = generatorName;
     }
 
     @Override
@@ -46,8 +51,10 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         if(!startSynced)requestSync();
         startSynced = true;
-        final int DEFAULT_COLOR = 4210752;
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+
+        final int DEFAULT_COLOR = 4210752;
+
         font.drawString(this.title.getFormattedText(),8.0f, 6.0f, DEFAULT_COLOR);
     }
 
@@ -58,16 +65,16 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
         this.minecraft.getTextureManager().bindTexture(BACKGROUND_TEXTURE);
 
         blit(RELATIVE_SCREEN_POSITION.x, RELATIVE_SCREEN_POSITION.y, 0 , 0, xSize, ySize);
+
         drawEnergy();
-        drawWarnings();
-        drawHoverMessages(new Point(mouseX, mouseY));
+
     }
     private void drawEnergy() {
-        Point energyContainerPoint = new Point(152,40);
-        Point energyContainerTexturePoint = new Point(180,40);
+        Point energyContainerPoint = new Point(152,37);
+        Point energyContainerTexturePoint = new Point(180,37);
         Dimension energyContainerSize = new Dimension(16,56);
 
-        int currentEnergyContainerHeight = calcEnergyContainerHeight(energyContainerSize.height);
+        int currentEnergyContainerHeight = calcHeight(energyContainerSize.height,container.getEnergy(), container.getCapacity());
         int missingHeight = energyContainerSize.height-currentEnergyContainerHeight;
 
         energyContainerPoint.translate(0,missingHeight);
@@ -76,22 +83,10 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
 
         drawPartRelativeOnScreen(energyContainerPoint, energyContainerTexturePoint, energyContainerSize);
     }
-    private int calcEnergyContainerHeight(int maxHeight) {
-        return (int)(maxHeight*(((float)container.getEnergy())/((float)container.getCapacity())));
-    }
-    private void drawWarnings() {
-        if(hasWarning()) {
-            Point drawPosition = new Point(138,39);
-            Point warningTexture = new Point(182,18);
-            Dimension textureSize = new Dimension(9,10);
-
-            drawPartRelativeOnScreen(drawPosition,warningTexture,textureSize);
-        }
+    protected int calcHeight(int maxHeight, int value, int maxValue) {
+        return (int)(maxHeight*(((float)value)/((float)maxValue)));
     }
 
-    private boolean hasWarning() {
-        return container.getEnergy() == container.getCapacity();
-    }
 
     void drawHoverMessages(Point mousePosition) {
 
@@ -99,21 +94,21 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
         relativeMousePosition.translate(-RELATIVE_SCREEN_POSITION.x, -RELATIVE_SCREEN_POSITION.y);
 
         drawEnergyHover(relativeMousePosition);
-        drawWarningHover(relativeMousePosition);
+        drawInfoHover(relativeMousePosition);
     }
 
-    private void drawWarningHover(Point relativeMousePosition) {
-        if(!hasWarning()) return;
-        Point drawPosition = new Point(138,39);
-        Dimension textureSize = new Dimension(9,10);
+    private void drawInfoHover(Point relativeMousePosition) {
+        Point drawPosition = new Point(137,15);
+        Dimension textureSize = new Dimension(12,12);
 
         if(isMouseOverHoverArea(relativeMousePosition, drawPosition, textureSize)) {
-            drawHoverMessage(relativeMousePosition, "Energy is full, but might also be empty, cause to an bug. if it's empty, just try to produce some energy, then it will update! ");
+            TranslationTextComponent information = new TranslationTextComponent(generatorName);
+            drawHoverMessage(relativeMousePosition, information.getFormattedText());
         }
     }
 
     private void drawEnergyHover(Point relativeMousePosition) {
-        Point drawPosition = new Point(151,39);
+        Point drawPosition = new Point(151,36);
         Dimension textureSize = new Dimension(18,58);
 
         if(isMouseOverHoverArea(relativeMousePosition, drawPosition, textureSize)) {
@@ -153,9 +148,7 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
         }
         return lines;
     }
-    boolean isMessageToLong(String message) {
-        return message.length() > 18;
-    }
+
     protected void drawHoverBox(Point relativeMousePosition, Dimension boxSize){
 
         drawBoxTop(relativeMousePosition, boxSize.width);
@@ -245,7 +238,7 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
     }
 
     private void requestSync() {
-        NetworkUtil.INSTANCE.sendToServer(new PacketAnswer(minecraft.player.dimension, container.getTileEntity().getPos(),"0"));
+        NetworkUtil.INSTANCE.sendToServer(new PacketRequestSync(minecraft.player.dimension, container.getTileEntity().getPos()));
     }
 
 }

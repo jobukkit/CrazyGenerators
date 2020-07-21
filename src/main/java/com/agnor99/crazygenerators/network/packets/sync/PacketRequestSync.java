@@ -25,7 +25,7 @@ public class PacketRequestSync implements Packet {
         dimension = DimensionType.getById(buf.readInt());
         pos = buf.readBlockPos();
     }
-    public PacketRequestSync(DimensionType type, BlockPos pos, String answer) {
+    public PacketRequestSync(DimensionType type, BlockPos pos) {
         dimension = type;
         this.pos = pos;
 
@@ -45,6 +45,7 @@ public class PacketRequestSync implements Packet {
             ServerPlayerEntity player = context.get().getSender();
             if(te instanceof GeneratorTileEntity) {
                 GeneratorTileEntity gte = (GeneratorTileEntity) te;
+                gte.players.add(player);
                 PacketAbstractSyncResponse syncResponse = gte.generateSyncPacket();
                 NetworkUtil.INSTANCE.sendTo(syncResponse, player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
             }

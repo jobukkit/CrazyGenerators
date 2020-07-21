@@ -10,16 +10,19 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.network.NetworkEvent;
+import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.function.Supplier;
 
 public class PacketQuestionSyncResponse extends PacketAbstractSyncResponse {
     String question;
     String[] answers = new String[4];
-    public PacketQuestionSyncResponse(Question question, int energy, BlockPos pos) {
+    boolean isOpened;
+    public PacketQuestionSyncResponse(@NotNull Question question, int energy,@NotNull  BlockPos pos, boolean isOpened) {
         super(energy, pos);
         this.question = question.getQuestion();
         answers = question.getAnswerPossibilities();
+        this.isOpened = isOpened;
     }
 
     public PacketQuestionSyncResponse(PacketBuffer buf) {
@@ -28,6 +31,7 @@ public class PacketQuestionSyncResponse extends PacketAbstractSyncResponse {
         for(int i = 0; i < 4; i++) {
             answers[i] = buf.readString();
         }
+        isOpened = buf.readBoolean();
     }
 
     @Override
@@ -37,6 +41,7 @@ public class PacketQuestionSyncResponse extends PacketAbstractSyncResponse {
         for(String string: answers) {
             buf.writeString(string);
         }
+        buf.writeBoolean(isOpened);
     }
 
     @Override
@@ -45,6 +50,10 @@ public class PacketQuestionSyncResponse extends PacketAbstractSyncResponse {
         context.get().enqueueWork(() -> {
 
             ClientWorld world = Minecraft.getInstance().world;
+            if(!isOpened) {
+                Minecraft.getInstance().player.closeScreen();
+                return;
+            }
             TileEntity te = world.getTileEntity(pos);
             if(te instanceof QuestionGeneratorTileEntity) {
                 QuestionGeneratorTileEntity qgte = (QuestionGeneratorTileEntity) te;
