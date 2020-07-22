@@ -2,6 +2,7 @@ package com.agnor99.crazygenerators.network.packets.question_generator;
 
 import com.agnor99.crazygenerators.CrazyGenerators;
 import com.agnor99.crazygenerators.network.packets.Packet;
+import com.agnor99.crazygenerators.network.packets.ServerPacket;
 import com.agnor99.crazygenerators.objects.other.generator.question.Question;
 import com.agnor99.crazygenerators.objects.tile.QuestionGeneratorTileEntity;
 import net.minecraft.client.Minecraft;
@@ -13,7 +14,7 @@ import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class PacketTimeOut implements Packet {
+public class PacketTimeOut implements ServerPacket {
     private final BlockPos pos;
     private final String question;
     private final String[] answers;
@@ -41,7 +42,7 @@ public class PacketTimeOut implements Packet {
     }
 
     @Override
-    public void handle(Supplier<NetworkEvent.Context> context) {
+    public void doWork(Supplier<NetworkEvent.Context> context) {
         context.get().enqueueWork(() -> {
             ClientWorld world = Minecraft.getInstance().world;
             TileEntity te = world.getTileEntity(pos);

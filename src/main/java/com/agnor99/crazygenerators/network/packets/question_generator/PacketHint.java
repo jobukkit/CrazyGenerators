@@ -1,6 +1,7 @@
 package com.agnor99.crazygenerators.network.packets.question_generator;
 
 import com.agnor99.crazygenerators.network.packets.Packet;
+import com.agnor99.crazygenerators.network.packets.ServerPacket;
 import com.agnor99.crazygenerators.objects.tile.QuestionGeneratorTileEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.world.ClientWorld;
@@ -11,7 +12,7 @@ import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class PacketHint implements Packet {
+public class PacketHint implements ServerPacket {
 
     BlockPos pos;
     String fake1;
@@ -37,39 +38,37 @@ public class PacketHint implements Packet {
     }
 
     @Override
-    public void handle(Supplier<NetworkEvent.Context> context) {
-        context.get().enqueueWork(() -> {
+    public void doWork(Supplier<NetworkEvent.Context> context) {
 
-            ClientWorld world = Minecraft.getInstance().world;
-            TileEntity te = world.getTileEntity(pos);
-            if(te instanceof QuestionGeneratorTileEntity) {
-                QuestionGeneratorTileEntity qgte = (QuestionGeneratorTileEntity) te;
-                if(fake1.equals(qgte.displayAnswer0)) {
-                    qgte.displayAnswer0 = "";
-                }
-                if(fake1.equals(qgte.displayAnswer1)) {
-                    qgte.displayAnswer1 = "";
-                }
-                if(fake1.equals(qgte.displayAnswer2)) {
-                    qgte.displayAnswer2 = "";
-                }
-                if(fake1.equals(qgte.displayAnswer3)) {
-                    qgte.displayAnswer3 = "";
-                }
-                if(fake2.equals(qgte.displayAnswer0)) {
-                    qgte.displayAnswer0 = "";
-                }
-                if(fake2.equals(qgte.displayAnswer1)) {
-                    qgte.displayAnswer1 = "";
-                }
-                if(fake2.equals(qgte.displayAnswer2)) {
-                    qgte.displayAnswer2 = "";
-                }
-                if(fake2.equals(qgte.displayAnswer3)) {
-                    qgte.displayAnswer3 = "";
-                }
+        ClientWorld world = Minecraft.getInstance().world;
+        TileEntity te = world.getTileEntity(pos);
+        if(te instanceof QuestionGeneratorTileEntity) {
+            QuestionGeneratorTileEntity qgte = (QuestionGeneratorTileEntity) te;
+            if(fake1.equals(qgte.displayAnswer0)) {
+                qgte.displayAnswer0 = "";
             }
-        });
+            if(fake1.equals(qgte.displayAnswer1)) {
+                qgte.displayAnswer1 = "";
+            }
+            if(fake1.equals(qgte.displayAnswer2)) {
+                qgte.displayAnswer2 = "";
+            }
+            if(fake1.equals(qgte.displayAnswer3)) {
+                qgte.displayAnswer3 = "";
+            }
+            if(fake2.equals(qgte.displayAnswer0)) {
+                qgte.displayAnswer0 = "";
+            }
+            if(fake2.equals(qgte.displayAnswer1)) {
+                qgte.displayAnswer1 = "";
+            }
+            if(fake2.equals(qgte.displayAnswer2)) {
+                qgte.displayAnswer2 = "";
+            }
+            if(fake2.equals(qgte.displayAnswer3)) {
+                qgte.displayAnswer3 = "";
+            }
+        }
         context.get().setPacketHandled(true);
     }
 }

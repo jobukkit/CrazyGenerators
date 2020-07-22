@@ -38,18 +38,22 @@ public class PacketRequestSync implements Packet {
     }
 
     @Override
-    public void handle(Supplier<NetworkEvent.Context> context) {
-        context.get().enqueueWork(() -> {
-            ServerWorld world = context.get().getSender().world.getServer().getWorld(dimension);
-            TileEntity te = world.getTileEntity(pos);
-            ServerPlayerEntity player = context.get().getSender();
-            if(te instanceof GeneratorTileEntity) {
-                GeneratorTileEntity gte = (GeneratorTileEntity) te;
-                gte.players.add(player);
-                PacketAbstractSyncResponse syncResponse = gte.generateSyncPacket();
-                NetworkUtil.INSTANCE.sendTo(syncResponse, player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
-            }
-        });
+    public void doWork(Supplier<NetworkEvent.Context> context) {
+
+        ServerWorld world = context.get().getSender().world.getServer().getWorld(dimension);
+        TileEntity te = world.getTileEntity(pos);
+        ServerPlayerEntity player = context.get().getSender();
+        if(te instanceof GeneratorTileEntity) {
+            GeneratorTileEntity gte = (GeneratorTileEntity) te;
+            gte.players.add(player);
+            PacketAbstractSyncResponse syncResponse = gte.generateSyncPacket();
+            NetworkUtil.INSTANCE.sendTo(syncResponse, player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
+        }
+
         context.get().setPacketHandled(true);
+    }
+
+    public boolean isValid(Supplier<NetworkEvent.Context> context) {
+        return checkBlockPos(pos, context.get().getSender().getServerWorld());
     }
 }

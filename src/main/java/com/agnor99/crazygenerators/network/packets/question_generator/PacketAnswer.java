@@ -9,8 +9,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
 
@@ -40,22 +38,25 @@ public class PacketAnswer implements Packet {
     }
 
     @Override
-    public void handle(Supplier<NetworkEvent.Context> context) {
-        context.get().enqueueWork(() -> {
-            ServerWorld world = context.get().getSender().world.getServer().getWorld(dimension);
-            TileEntity te = world.getTileEntity(pos);
-            if(te instanceof QuestionGeneratorTileEntity) {
-                QuestionGeneratorTileEntity qgte = (QuestionGeneratorTileEntity) te;
-                boolean wasCorrect = qgte.validateAnswer(answer);
-                ServerPlayerEntity player= context.get().getSender();
-                PacketAnswerResponse response = new PacketAnswerResponse(
-                        pos,
-                        qgte.getQuestion(),
-                        wasCorrect
-                );
-                NetworkUtil.INSTANCE.sendTo(response, player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
-            }
-        });
+    public void doWork(Supplier<NetworkEvent.Context> context) {
+        ServerWorld world = context.get().getSender().world.getServer().getWorld(dimension);
+        TileEntity te = world.getTileEntity(pos);
+        if(te instanceof QuestionGeneratorTileEntity) {
+            QuestionGeneratorTileEntity qgte = (QuestionGeneratorTileEntity) te;
+            boolean wasCorrect = qgte.validateAnswer(answer);
+            ServerPlayerEntity player= context.get().getSender();
+            PacketAnswerResponse response = new PacketAnswerResponse(
+                    pos,
+                    qgte.getQuestion(),
+                    wasCorrect
+            );
+            NetworkUtil.INSTANCE.sendTo(response, player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
+        }
         context.get().setPacketHandled(true);
+    }
+
+    @Override
+    public boolean isValid(Supplier<NetworkEvent.Context> context) {
+        return checkBlockPosWithPlayer(pos, context.get().getSender());
     }
 }

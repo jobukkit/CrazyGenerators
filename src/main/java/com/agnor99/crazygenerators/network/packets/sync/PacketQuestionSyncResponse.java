@@ -45,8 +45,8 @@ public class PacketQuestionSyncResponse extends PacketAbstractSyncResponse {
     }
 
     @Override
-    public void handle(Supplier<NetworkEvent.Context> context) {
-        super.handle(context);
+    public void doWork(Supplier<NetworkEvent.Context> context) {
+        super.doWork(context);
         context.get().enqueueWork(() -> {
 
             ClientWorld world = Minecraft.getInstance().world;

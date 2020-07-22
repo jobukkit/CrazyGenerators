@@ -37,21 +37,24 @@ public class PacketHintRequest implements Packet {
     }
 
     @Override
-    public void handle(Supplier<NetworkEvent.Context> context) {
-        context.get().enqueueWork(() -> {
-            ServerWorld world = context.get().getSender().world.getServer().getWorld(type);
-            TileEntity te = world.getTileEntity(pos);
-            ServerPlayerEntity player = context.get().getSender();
-            if(te instanceof QuestionGeneratorTileEntity) {
-                QuestionGeneratorTileEntity qgte = (QuestionGeneratorTileEntity) te;
-                if(qgte.getTipsAvailable()>1) {
-                    qgte.setTipsAvailable(qgte.getTipsAvailable() - 1);
-                    String[] wrongAnswers = qgte.getQuestion().getWrongAnswers();
-                    PacketHint hintResponse = new PacketHint(pos, wrongAnswers[0], wrongAnswers[1]);
-                    NetworkUtil.INSTANCE.sendTo(hintResponse, player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
-                }
+    public void doWork(Supplier<NetworkEvent.Context> context) {
+        ServerWorld world = context.get().getSender().world.getServer().getWorld(type);
+        TileEntity te = world.getTileEntity(pos);
+        ServerPlayerEntity player = context.get().getSender();
+        if(te instanceof QuestionGeneratorTileEntity) {
+            QuestionGeneratorTileEntity qgte = (QuestionGeneratorTileEntity) te;
+            if(qgte.getTipsAvailable()>1) {
+                qgte.setTipsAvailable(qgte.getTipsAvailable() - 1);
+                String[] wrongAnswers = qgte.getQuestion().getWrongAnswers();
+                PacketHint hintResponse = new PacketHint(pos, wrongAnswers[0], wrongAnswers[1]);
+                NetworkUtil.INSTANCE.sendTo(hintResponse, player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
             }
-        });
+        }
         context.get().setPacketHandled(true);
+    }
+
+    @Override
+    public boolean isValid(Supplier<NetworkEvent.Context> context) {
+        return checkBlockPosWithPlayer(pos, context.get().getSender());
     }
 }
