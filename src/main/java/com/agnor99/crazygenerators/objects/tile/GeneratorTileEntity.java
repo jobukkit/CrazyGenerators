@@ -87,6 +87,7 @@ public abstract class GeneratorTileEntity extends LockableLootTileEntity impleme
         markDirty();
         tick++;
         sendPower();
+        powerItem();
     }
 
     public void sendPower() {
@@ -109,6 +110,27 @@ public abstract class GeneratorTileEntity extends LockableLootTileEntity impleme
                 }
             }
         });
+    }
+    private void powerItem() {
+        try {
+            ItemStack itemToLoad = itemStackToLoad.get(0);
+            if(itemToLoad == null) return;
+            if(itemToLoad.getCount() != 1) return;
+            AtomicInteger currentEnergy = new AtomicInteger(energy.getEnergyStored());
+
+            itemToLoad.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
+                if (handler.canReceive()) {
+
+                    int received = handler.receiveEnergy(Math.min(currentEnergy.get(), 10000), false);
+
+                    currentEnergy.addAndGet(-received);
+                    ((GeneratorEnergyStorage) energy).consumeEnergy(received);
+                }
+            });
+
+        }catch(ArrayIndexOutOfBoundsException e) {
+
+        }
     }
 
     @Override

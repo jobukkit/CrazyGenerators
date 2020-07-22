@@ -1,6 +1,7 @@
 package com.agnor99.crazygenerators.container;
 
 import com.agnor99.crazygenerators.objects.other.GeneratorEnergyStorage;
+import com.agnor99.crazygenerators.objects.other.LoadingSlot;
 import com.agnor99.crazygenerators.objects.tile.GeneratorTileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -37,18 +38,18 @@ public abstract class GeneratorContainer extends Container {
         this.tileEntity = tileEntity;
         this.canInteractWithCallable = IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos());
 
-        addSlots2Container(playerInventory);
+        addSlotsToContainer(playerInventory);
         tracking();
 
     }
-    private void addSlots2Container(PlayerInventory playerInventory) {
+    private void addSlotsToContainer(PlayerInventory playerInventory) {
         final int SLOTDIFF = 18;
 
         Point loadingSlot = new Point(152,16);
         Point playerStartSlot = new Point(8,102);
         Point playerStartHotbarSlot = new Point(8,160);
 
-        addSlot(new Slot(tileEntity, 0, loadingSlot.x, loadingSlot.y));
+        addSlot(new LoadingSlot(tileEntity, 0, loadingSlot.x, loadingSlot.y));
 
 
         for(int row = 0; row < 3; row++) {
@@ -133,25 +134,28 @@ public abstract class GeneratorContainer extends Container {
     public abstract boolean canInteractWith(PlayerEntity playerIn);
 
     @Override
-    public ItemStack transferStackInSlot(PlayerEntity player, int slotIndex) {
+    public ItemStack transferStackInSlot(PlayerEntity player, int index) {
+
         ItemStack itemstack = ItemStack.EMPTY;
-        Slot slot = this.inventorySlots.get(slotIndex);
+        Slot slot = this.inventorySlots.get(index);
         if (slot != null && slot.getHasStack()) {
-            ItemStack itemstack1 = slot.getStack();
-            itemstack = itemstack1.copy();
-            if (slotIndex == 0) {
-                if (!this.mergeItemStack(itemstack1, 36, this.inventorySlots.size(), true)) {
+            ItemStack itemStackToShift = slot.getStack();
+            itemstack = itemStackToShift.copy();
+            if (index < 1) {
+                if (!this.mergeItemStack(itemStackToShift, 1, this.inventorySlots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.mergeItemStack(itemstack1, 0, 36, false)) {
+            } else if (!this.mergeItemStack(itemStackToShift, 0, 1, false)) {
                 return ItemStack.EMPTY;
             }
-            if (itemstack1.isEmpty()) {
+
+            if (itemStackToShift.isEmpty()) {
                 slot.putStack(ItemStack.EMPTY);
             } else {
                 slot.onSlotChanged();
             }
         }
         return itemstack;
+
     }
 }
