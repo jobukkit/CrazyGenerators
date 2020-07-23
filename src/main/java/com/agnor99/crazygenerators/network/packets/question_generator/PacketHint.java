@@ -1,9 +1,11 @@
 package com.agnor99.crazygenerators.network.packets.question_generator;
 
+import com.agnor99.crazygenerators.client.gui.QuestionGeneratorScreen;
 import com.agnor99.crazygenerators.network.packets.Packet;
 import com.agnor99.crazygenerators.network.packets.ServerPacket;
 import com.agnor99.crazygenerators.objects.tile.QuestionGeneratorTileEntity;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
@@ -39,34 +41,33 @@ public class PacketHint implements ServerPacket {
 
     @Override
     public void doWork(Supplier<NetworkEvent.Context> context) {
+        Screen screen = Minecraft.getInstance().currentScreen;
+        if(screen instanceof QuestionGeneratorScreen) {
+            QuestionGeneratorScreen qgScreen = (QuestionGeneratorScreen) screen;
 
-        ClientWorld world = Minecraft.getInstance().world;
-        TileEntity te = world.getTileEntity(pos);
-        if(te instanceof QuestionGeneratorTileEntity) {
-            QuestionGeneratorTileEntity qgte = (QuestionGeneratorTileEntity) te;
-            if(fake1.equals(qgte.displayAnswer0)) {
-                qgte.displayAnswer0 = "";
+            if(fake1.equals(qgScreen.displayAnswer0)) {
+                qgScreen.displayAnswer0 = "";
             }
-            if(fake1.equals(qgte.displayAnswer1)) {
-                qgte.displayAnswer1 = "";
+            if(fake1.equals(qgScreen.displayAnswer1)) {
+                qgScreen.displayAnswer1 = "";
             }
-            if(fake1.equals(qgte.displayAnswer2)) {
-                qgte.displayAnswer2 = "";
+            if(fake1.equals(qgScreen.displayAnswer2)) {
+                qgScreen.displayAnswer2 = "";
             }
-            if(fake1.equals(qgte.displayAnswer3)) {
-                qgte.displayAnswer3 = "";
+            if(fake1.equals(qgScreen.displayAnswer3)) {
+                qgScreen.displayAnswer3 = "";
             }
-            if(fake2.equals(qgte.displayAnswer0)) {
-                qgte.displayAnswer0 = "";
+            if(fake2.equals(qgScreen.displayAnswer0)) {
+                qgScreen.displayAnswer0 = "";
             }
-            if(fake2.equals(qgte.displayAnswer1)) {
-                qgte.displayAnswer1 = "";
+            if(fake2.equals(qgScreen.displayAnswer1)) {
+                qgScreen.displayAnswer1 = "";
             }
-            if(fake2.equals(qgte.displayAnswer2)) {
-                qgte.displayAnswer2 = "";
+            if(fake2.equals(qgScreen.displayAnswer2)) {
+                qgScreen.displayAnswer2 = "";
             }
-            if(fake2.equals(qgte.displayAnswer3)) {
-                qgte.displayAnswer3 = "";
+            if(fake2.equals(qgScreen.displayAnswer3)) {
+                qgScreen.displayAnswer3 = "";
             }
         }
         context.get().setPacketHandled(true);

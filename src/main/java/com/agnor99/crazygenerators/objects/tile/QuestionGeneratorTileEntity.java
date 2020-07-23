@@ -25,12 +25,6 @@ public class QuestionGeneratorTileEntity extends GeneratorTileEntity{
     public int questionGeneratedTime = 0;
 
 
-    //clientSideCommunicationVars
-    public String displayQuestion = "";
-    public String displayAnswer0 = "";
-    public String displayAnswer1 = "";
-    public String displayAnswer2 = "";
-    public String displayAnswer3 = "";
 
     private int tipsAvailable = 3;
     private int questionLevel = 0;
@@ -104,13 +98,6 @@ public class QuestionGeneratorTileEntity extends GeneratorTileEntity{
         }
         question = Question.getQuestionInTier(questionLevel);
         setQuestionGeneratedTime(getTick());
-    }
-    public void updateQuestion(String question, String[] answers) {
-        displayQuestion = question;
-        displayAnswer0 = answers[0];
-        displayAnswer1 = answers[1];
-        displayAnswer2 = answers[2];
-        displayAnswer3 = answers[3];
     }
     public int getQuestionLevel() {
         return questionLevel;

@@ -30,6 +30,11 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
     AnswerButton answer3;
     HintButton hint;
 
+    public String displayQuestion = "";
+    public String displayAnswer0 = "";
+    public String displayAnswer1 = "";
+    public String displayAnswer2 = "";
+    public String displayAnswer3 = "";
 
     boolean hintUsed = false;
     boolean questionAnswered = false;
@@ -71,14 +76,10 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
     }
 
     void reloadButtons() {
-        QuestionGeneratorTileEntity questionGeneratorTileEntity = (QuestionGeneratorTileEntity) container.getTileEntity();
-
-
-        answer0.active = !questionGeneratorTileEntity.displayAnswer0.equals("");
-        answer1.active = !questionGeneratorTileEntity.displayAnswer1.equals("");
-        answer2.active = !questionGeneratorTileEntity.displayAnswer2.equals("");
-        answer3.active = !questionGeneratorTileEntity.displayAnswer3.equals("");
-
+        answer0.active = !displayAnswer0.equals("");
+        answer1.active = !displayAnswer1.equals("");
+        answer2.active = !displayAnswer2.equals("");
+        answer3.active = !displayAnswer3.equals("");
     }
 
     @Override
@@ -90,6 +91,13 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
         drawHoverMessages(new Point(mouseX, mouseY));
     }
 
+    public void updateQuestion(String question, String[] answers) {
+        displayQuestion = question;
+        displayAnswer0 = answers[0];
+        displayAnswer1 = answers[1];
+        displayAnswer2 = answers[2];
+        displayAnswer3 = answers[3];
+    }
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
@@ -107,22 +115,22 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
 
         font.drawString(String.valueOf(questionGeneratorTileEntity.getCurrentQuestionPrice()), 83, 17 , WHITE);
 
-        String translated_question = new TranslationTextComponent(questionGeneratorTileEntity.displayQuestion).getFormattedText();
+        String translated_question = new TranslationTextComponent(displayQuestion).getFormattedText();
         List<String> translated_question_lines = breakStringIntoLineList(translated_question,123);
         for(int i = 0; i < translated_question_lines.size() && i < 3; i++) {
             font.drawString(translated_question_lines.get(i), 9, 32 + 10*i, WHITE);
         }
 
 
-        answer0.setAnswer(questionGeneratorTileEntity.displayAnswer0);
-        answer1.setAnswer(questionGeneratorTileEntity.displayAnswer1);
-        answer2.setAnswer(questionGeneratorTileEntity.displayAnswer2);
-        answer3.setAnswer(questionGeneratorTileEntity.displayAnswer3);
+        answer0.setAnswer(displayAnswer0);
+        answer1.setAnswer(displayAnswer1);
+        answer2.setAnswer(displayAnswer2);
+        answer3.setAnswer(displayAnswer3);
 
-        font.drawString(new TranslationTextComponent(questionGeneratorTileEntity.displayAnswer0).getFormattedText(),9,69,WHITE);
-        font.drawString(new TranslationTextComponent(questionGeneratorTileEntity.displayAnswer1).getFormattedText(),75,69,WHITE);
-        font.drawString(new TranslationTextComponent(questionGeneratorTileEntity.displayAnswer2).getFormattedText(),9,85,WHITE);
-        font.drawString(new TranslationTextComponent(questionGeneratorTileEntity.displayAnswer3).getFormattedText(),75,85,WHITE);
+        font.drawString(new TranslationTextComponent(displayAnswer0).getFormattedText(),9,69,WHITE);
+        font.drawString(new TranslationTextComponent(displayAnswer1).getFormattedText(),75,69,WHITE);
+        font.drawString(new TranslationTextComponent(displayAnswer2).getFormattedText(),9,85,WHITE);
+        font.drawString(new TranslationTextComponent(displayAnswer3).getFormattedText(),75,85,WHITE);
     }
 
 
