@@ -22,6 +22,8 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
     private String generatorName;
 
 
+    int oldXSize;
+
     public GeneratorScreen(SpecContainer screenContainer, PlayerInventory playerInventory, ITextComponent title, String generatorName) {
         super(screenContainer, playerInventory, title);
         this.guiLeft = 0;
@@ -29,6 +31,7 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
         this.xSize = 176;
         this.ySize = 184;
         this.generatorName = generatorName;
+        oldXSize = xSize;
     }
 
     @Override
@@ -64,7 +67,7 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
         RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
         this.minecraft.getTextureManager().bindTexture(BACKGROUND_TEXTURE);
 
-        blit(RELATIVE_SCREEN_POSITION.x, RELATIVE_SCREEN_POSITION.y, 0 , 0, xSize, ySize);
+        blit(RELATIVE_SCREEN_POSITION.x, RELATIVE_SCREEN_POSITION.y, 0 , 0, oldXSize, ySize);
 
         drawEnergy();
 
@@ -89,7 +92,7 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
 
 
     void drawHoverMessages(Point mousePosition) {
-
+        xSize = oldXSize;
         Point relativeMousePosition = new Point(mousePosition);
         relativeMousePosition.translate(-RELATIVE_SCREEN_POSITION.x, -RELATIVE_SCREEN_POSITION.y);
 
@@ -118,11 +121,15 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
 
     private void drawHoverMessage(Point relativeMousePosition, String message) {
         List<String> lines = breakStringIntoLineList(message,92);
+        Dimension boxDimension;
+
         if(lines.size() == 1) {
-            drawHoverBox(relativeMousePosition, new Dimension(font.getStringWidth(lines.get(0))+9,10*lines.size()+7));
+            boxDimension = new Dimension(font.getStringWidth(lines.get(0))+9,10*lines.size()+7);
         }else {
-            drawHoverBox(relativeMousePosition, new Dimension(100,10*lines.size()+7));
+            boxDimension = new Dimension(100,10*lines.size()+7);
         }
+        xSize = relativeMousePosition.x+boxDimension.width - 10;
+        drawHoverBox(relativeMousePosition, boxDimension);
         final int WHITE = 16777215;
 
         for(int i = 0; i <lines.size(); i++) {

@@ -72,7 +72,7 @@
     "question.question9.answer2" : "18",
     "question.question9.answer3" : "16",
 
-    "question.question10.question" : "What is the maximum size of an Netherportal? Normal size is 6 (2x3)!",
+    "question.question10.question" : "What is the maximum inner size of an Netherportal? Minimum size is 6 (2x3)!",
     "question.question10.answer0" : "441 21x21",
     "question.question10.answer1" : "400 20x20",
     "question.question10.answer2" : "420 20x21",
