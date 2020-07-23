@@ -12,11 +12,11 @@
     "information.question_generator" : "In this generator you have to answer questions to generate RF. If you leave this interface all your question progress is lost and you have to start at 500RF again!",
 
 
-    "question.question0.question" : "You get this question for free! Just click true!",
-    "question.question0.answer0" : "true",
-    "question.question0.answer1" : "false",
-    "question.question0.answer2" : "false",
-    "question.question0.answer3" : "false",
+    "question.question0.question" : "How many sticks do you get per log?",
+    "question.question0.answer0" : "8",
+    "question.question0.answer1" : "4",
+    "question.question0.answer2" : "6",
+    "question.question0.answer3" : "16",
 
     "question.question1.question" : "What is the highest amount of RF you can get out of this generator?",
     "question.question1.answer0" : "1.000.000",
@@ -76,6 +76,30 @@
     "question.question10.answer0" : "441 21x21",
     "question.question10.answer1" : "400 20x20",
     "question.question10.answer2" : "420 20x21",
-    "question.question10.answer3" : "361 19x19"
+    "question.question10.answer3" : "361 19x19",
+
+    "question.question11.question" : "How many snow layers do you need to stand on a whole block?",
+    "question.question11.answer0" : "Not possible",
+    "question.question11.answer1" : "7",
+    "question.question11.answer2" : "8",
+    "question.question11.answer3" : "9",
+
+    "question.question12.question" : "At which height, in non snowy regions, becomes rain to snow?",
+    "question.question12.answer0" : "460",
+    "question.question12.answer1" : "320",
+    "question.question12.answer2" : "400",
+    "question.question12.answer3" : "530",
+
+    "question.question13.question" : "How many durability does fishing in lava cost?",
+    "question.question13.answer0" : "2",
+    "question.question13.answer1" : "1",
+    "question.question13.answer2" : "0",
+    "question.question13.answer3" : "4",
+
+    "question.question14.question" : "How is Water/Lava Flowing affected by an higher randomTickSpeed?",
+    "question.question14.answer0" : "slower",
+    "question.question14.answer1" : "faster",
+    "question.question14.answer2" : "not affected",
+    "question.question14.answer3" : "does not work anymore"
 
 }

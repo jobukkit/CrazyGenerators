@@ -18,13 +18,18 @@ public enum  Question {
     q7(7,7),
     q8(8,8),
     q9(9,9),
-    q10(10,10);
+    q10(10,10),
+    q11(11,6),
+    q12(12, 10),
+    q13(13,3),
+    q14(14,9);
     private final String question;
     private final String answer;
     private final String fake1;
     private final String fake2;
     private final String fake3;
     private final int questionTier;
+
     Question(int id, int questionTier) {
         String prefix = "question.question" + id + ".";
         this.question = prefix + "question";
