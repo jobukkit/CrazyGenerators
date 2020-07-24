@@ -28,7 +28,7 @@ public class PacketAnswerResponse implements ServerPacket {
             answers[i] = buf.readString();
         }
     }
-    public PacketAnswerResponse(BlockPos pos, Question question, boolean wasAnswerCorrect) {
+    public PacketAnswerResponse(BlockPos pos, Question question) {
         this.pos = pos;
         this.question = question.getQuestion();
         answers = question.getAnswerPossibilities();

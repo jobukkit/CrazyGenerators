@@ -43,13 +43,16 @@ public class PacketAnswer implements Packet {
         TileEntity te = world.getTileEntity(pos);
         if(te instanceof QuestionGeneratorTileEntity) {
             QuestionGeneratorTileEntity qgte = (QuestionGeneratorTileEntity) te;
-            boolean wasCorrect = qgte.validateAnswer(answer);
-            ServerPlayerEntity player= context.get().getSender();
+            if(qgte.questionGeneratedTime+QuestionGeneratorTileEntity.ANSWER_DELAY > qgte.getTick()) return;
+
+            qgte.handleAnswer(answer);
+            ServerPlayerEntity player = context.get().getSender();
+
             PacketAnswerResponse response = new PacketAnswerResponse(
                     pos,
-                    qgte.getQuestion(),
-                    wasCorrect
+                    qgte.getQuestion()
             );
+
             NetworkUtil.INSTANCE.sendTo(response, player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
         }
         context.get().setPacketHandled(true);

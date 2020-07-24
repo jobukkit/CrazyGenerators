@@ -23,18 +23,10 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
 
     public static final int TIMER_HEIGHT = 56;
 
-
-    AnswerButton answer0;
-    AnswerButton answer1;
-    AnswerButton answer2;
-    AnswerButton answer3;
     HintButton hint;
-
-    public String displayQuestion = "";
-    public String displayAnswer0 = "";
-    public String displayAnswer1 = "";
-    public String displayAnswer2 = "";
-    public String displayAnswer3 = "";
+    AnswerButton[] answers = new AnswerButton[4];
+    public String[] displayAnswers = new String[4];
+    String displayQuestion = "";
 
     boolean hintUsed = false;
     boolean questionAnswered = false;
@@ -48,22 +40,25 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
         super(screenContainer, playerInventory, title, "information.question_generator");
         setBackgroundTexture(new ResourceLocation(CrazyGenerators.MOD_ID, "textures/gui/question_generator.png"));
 
+        for(int i = 0; i < 4; i++) {
+            displayAnswers[i] = "";
+        }
     }
 
     @Override
     protected void init() {
         super.init();
-        answer0 = new AnswerButton(new Point(7,67));
-        answer1 = new AnswerButton(new Point(73,67));
-        answer2 = new AnswerButton(new Point(7,83));
-        answer3 = new AnswerButton(new Point(73,83));
+        answers[0] = new AnswerButton(new Point(7,67));
+        answers[1] = new AnswerButton(new Point(73,67));
+        answers[2] = new AnswerButton(new Point(7,83));
+        answers[3] = new AnswerButton(new Point(73,83));
         hint = new HintButton();
 
         addButton(hint);
-        addButton(answer0);
-        addButton(answer1);
-        addButton(answer2);
-        addButton(answer3);
+        addButton(answers[0]);
+        addButton(answers[1]);
+        addButton(answers[2]);
+        addButton(answers[3]);
 
     }
 
@@ -72,14 +67,21 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
         renderBackground();
         super.render(mouseX, mouseY, partialTicks);
         renderHoveredToolTip(mouseX, mouseY);
-        reloadButtons();
     }
 
     void reloadButtons() {
-        answer0.active = !displayAnswer0.equals("");
-        answer1.active = !displayAnswer1.equals("");
-        answer2.active = !displayAnswer2.equals("");
-        answer3.active = !displayAnswer3.equals("");
+        QuestionGeneratorTileEntity te = (QuestionGeneratorTileEntity) container.getTileEntity();
+        if(te.questionGeneratedTime+QuestionGeneratorTileEntity.ANSWER_DELAY < te.getTick()) {
+            for (int i = 0; i < 4; i++) {
+                answers[i].setAnswer(displayAnswers[i]);
+                answers[i].active = !answers[i].answer.equals("");
+            }
+        }else {
+            for (int i = 0; i < 4; i++) {
+                answers[i].setAnswer("");
+                answers[i].active = false;
+            }
+        }
     }
 
     @Override
@@ -93,10 +95,9 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
 
     public void updateQuestion(String question, String[] answers) {
         displayQuestion = question;
-        displayAnswer0 = answers[0];
-        displayAnswer1 = answers[1];
-        displayAnswer2 = answers[2];
-        displayAnswer3 = answers[3];
+        for(int i = 0; i < 4; i++) {
+            displayAnswers[i] = answers[i];
+        }
     }
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
@@ -115,37 +116,39 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
 
         font.drawString(String.valueOf(questionGeneratorTileEntity.getCurrentQuestionPrice()), 83, 17 , WHITE);
 
-        String translated_question = new TranslationTextComponent(displayQuestion).getFormattedText();
-        List<String> translated_question_lines = breakStringIntoLineList(translated_question,123);
-        for(int i = 0; i < translated_question_lines.size() && i < 3; i++) {
-            font.drawString(translated_question_lines.get(i), 9, 32 + 10*i, WHITE);
+        String translatedQuestion = new TranslationTextComponent(displayQuestion).getFormattedText();
+        List<String> translatedQuestionLines = breakStringIntoLineList(translatedQuestion,123);
+        for(int i = 0; i < translatedQuestionLines.size() && i < 3; i++) {
+            font.drawString(translatedQuestionLines.get(i), 9, 32 + 10*i, WHITE);
         }
 
 
-        answer0.setAnswer(displayAnswer0);
-        answer1.setAnswer(displayAnswer1);
-        answer2.setAnswer(displayAnswer2);
-        answer3.setAnswer(displayAnswer3);
+        reloadButtons();
 
-        font.drawString(new TranslationTextComponent(displayAnswer0).getFormattedText(),9,69,WHITE);
-        font.drawString(new TranslationTextComponent(displayAnswer1).getFormattedText(),75,69,WHITE);
-        font.drawString(new TranslationTextComponent(displayAnswer2).getFormattedText(),9,85,WHITE);
-        font.drawString(new TranslationTextComponent(displayAnswer3).getFormattedText(),75,85,WHITE);
+        font.drawString(new TranslationTextComponent(answers[0].answer).getFormattedText(),9,69,WHITE);
+        font.drawString(new TranslationTextComponent(answers[1].answer).getFormattedText(),75,69,WHITE);
+        font.drawString(new TranslationTextComponent(answers[2].answer).getFormattedText(),9,85,WHITE);
+        font.drawString(new TranslationTextComponent(answers[3].answer).getFormattedText(),75,85,WHITE);
     }
 
 
     private void updateAnimationVars() {
         QuestionGeneratorTileEntity qgte = (QuestionGeneratorTileEntity) container.getTileEntity();
+        int heightDifference = 0;
+        Point colorBarPoint = new Point(0,0);
 
-        int heightDifference = calcHeight(TIMER_HEIGHT, container.getTileEntity().getTick() - qgte.questionGeneratedTime, QuestionGeneratorTileEntity.TIME_PER_QUESTION);
-
-        Point colorBarPoint;
-        if(heightDifference < TIMER_HEIGHT/2) {
-            colorBarPoint = new Point(197,37);
-        }else if(heightDifference < TIMER_HEIGHT * 0.75f) {
-            colorBarPoint = new Point(203,37);
-        }else {
+        if(qgte.questionGeneratedTime+QuestionGeneratorTileEntity.ANSWER_DELAY > qgte.getTick()) {
+            heightDifference = calcHeight(TIMER_HEIGHT, qgte.getTick() - qgte.questionGeneratedTime, QuestionGeneratorTileEntity.ANSWER_DELAY);
             colorBarPoint = new Point(209,37);
+        }else {
+            heightDifference = calcHeight(TIMER_HEIGHT, qgte.getTick() - qgte.questionGeneratedTime - QuestionGeneratorTileEntity.ANSWER_DELAY, QuestionGeneratorTileEntity.TIME_PER_QUESTION);
+            if(heightDifference < TIMER_HEIGHT/2) {
+                colorBarPoint = new Point(197,37);
+            }else if(heightDifference < TIMER_HEIGHT * 0.75f) {
+                colorBarPoint = new Point(203,37);
+            }else {
+                colorBarPoint = new Point(209,37);
+            }
         }
 
         drawPartRelativeOnScreen(new Point(140,93-heightDifference), colorBarPoint, new Dimension(5,heightDifference));
@@ -187,10 +190,10 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
             hint.active = true;
 
             questionAnswered = true;
-            answer0.active = false;
-            answer1.active = false;
-            answer2.active = false;
-            answer3.active = false;
+            answers[0].active = false;
+            answers[1].active = false;
+            answers[2].active = false;
+            answers[3].active = false;
             answerSentTick = container.getTicks();
             NetworkUtil.INSTANCE.sendToServer(new PacketAnswer(minecraft.player.dimension, container.getTileEntity().getPos(),answerButton.answer));
             currentAnswerButtonPosition = new Point(answerButton.x+1, answerButton.y+1);

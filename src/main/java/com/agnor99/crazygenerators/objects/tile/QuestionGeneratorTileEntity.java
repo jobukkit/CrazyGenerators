@@ -20,7 +20,7 @@ public class QuestionGeneratorTileEntity extends GeneratorTileEntity{
     private Question question;
 
     public static final int TIME_PER_QUESTION = 600; //30 Sekunden
-
+    public static final int ANSWER_DELAY = 100; // 5 Sekunden
 
     public int questionGeneratedTime = 0;
 
@@ -72,7 +72,7 @@ public class QuestionGeneratorTileEntity extends GeneratorTileEntity{
         return new PacketQuestionSyncResponse(question, getEnergy(), pos, true);
     }
 
-    public boolean validateAnswer(String answer) {
+    public boolean handleAnswer(String answer) {
         boolean success = false;
         if(question.isCorrectAnswer(answer)) {
             addEnergy(ENERGY_PER_QUESTION[questionLevel]);

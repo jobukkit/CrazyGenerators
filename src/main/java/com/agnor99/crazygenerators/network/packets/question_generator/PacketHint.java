@@ -44,30 +44,10 @@ public class PacketHint implements ServerPacket {
         Screen screen = Minecraft.getInstance().currentScreen;
         if(screen instanceof QuestionGeneratorScreen) {
             QuestionGeneratorScreen qgScreen = (QuestionGeneratorScreen) screen;
-
-            if(fake1.equals(qgScreen.displayAnswer0)) {
-                qgScreen.displayAnswer0 = "";
-            }
-            if(fake1.equals(qgScreen.displayAnswer1)) {
-                qgScreen.displayAnswer1 = "";
-            }
-            if(fake1.equals(qgScreen.displayAnswer2)) {
-                qgScreen.displayAnswer2 = "";
-            }
-            if(fake1.equals(qgScreen.displayAnswer3)) {
-                qgScreen.displayAnswer3 = "";
-            }
-            if(fake2.equals(qgScreen.displayAnswer0)) {
-                qgScreen.displayAnswer0 = "";
-            }
-            if(fake2.equals(qgScreen.displayAnswer1)) {
-                qgScreen.displayAnswer1 = "";
-            }
-            if(fake2.equals(qgScreen.displayAnswer2)) {
-                qgScreen.displayAnswer2 = "";
-            }
-            if(fake2.equals(qgScreen.displayAnswer3)) {
-                qgScreen.displayAnswer3 = "";
+            for(int i = 0; i < 4; i++) {
+                if (fake1.equals(qgScreen.displayAnswers[i]) || fake2.equals(qgScreen.displayAnswers[i])) {
+                    qgScreen.displayAnswers[i] = "";
+                }
             }
         }
         context.get().setPacketHandled(true);

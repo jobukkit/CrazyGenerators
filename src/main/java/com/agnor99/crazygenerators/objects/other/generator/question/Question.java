@@ -2,7 +2,6 @@ package com.agnor99.crazygenerators.objects.other.generator.question;
 
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
