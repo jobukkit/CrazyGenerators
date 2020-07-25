@@ -90,6 +90,7 @@ public class QuestionGeneratorTileEntity extends GeneratorTileEntity{
         questionLevel = 0;
         question = Question.getQuestionInTier(questionLevel);
         setQuestionGeneratedTime(getTick());
+        tipsAvailable = 3;
     }
     private void updateQuestion() {
         questionLevel++;
