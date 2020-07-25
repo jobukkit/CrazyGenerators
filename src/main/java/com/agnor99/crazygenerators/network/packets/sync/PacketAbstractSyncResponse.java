@@ -1,7 +1,7 @@
 package com.agnor99.crazygenerators.network.packets.sync;
 
-import com.agnor99.crazygenerators.CrazyGenerators;
-import com.agnor99.crazygenerators.network.packets.Packet;
+import com.agnor99.crazygenerators.client.gui.GeneratorScreen;
+import com.agnor99.crazygenerators.container.GeneratorContainer;
 import com.agnor99.crazygenerators.network.packets.ServerPacket;
 import com.agnor99.crazygenerators.objects.tile.GeneratorTileEntity;
 import net.minecraft.client.Minecraft;
@@ -15,31 +15,37 @@ import java.util.function.Supplier;
 
 public abstract class PacketAbstractSyncResponse implements ServerPacket {
     int energy;
-    BlockPos pos;
-    public PacketAbstractSyncResponse(int energy, BlockPos pos) {
+    boolean shouldClose;
+    public PacketAbstractSyncResponse(int energy, boolean shouldClose) {
         this.energy = energy;
-        this.pos = pos;
+        this.shouldClose = shouldClose;
     }
     public PacketAbstractSyncResponse(PacketBuffer buf) {
         energy = buf.readInt();
-        pos = buf.readBlockPos();
+        shouldClose = buf.readBoolean();
     }
     @Override
     public void toBytes(PacketBuffer buf) {
         buf.writeInt(energy);
-        buf.writeBlockPos(pos);
+        buf.writeBoolean(shouldClose);
     }
 
     @Override
     public void doWork(Supplier<NetworkEvent.Context> context) {
-        context.get().enqueueWork(() -> {
-            ClientWorld world = Minecraft.getInstance().world;
-            TileEntity te = world.getTileEntity(pos);
-            if(te instanceof GeneratorTileEntity) {
-                GeneratorTileEntity gte = (GeneratorTileEntity) te;
-                gte.setEnergy(energy);
-            }
-        });
+
+        if(shouldClose) {
+            Minecraft.getInstance().player.closeScreen();
+            return;
+        }
+        GeneratorTileEntity te = getTileEntity();
+
+        te.setEnergy(energy);
+
         context.get().setPacketHandled(true);
+    }
+    protected static GeneratorTileEntity getTileEntity() {
+        GeneratorScreen screen = (GeneratorScreen)Minecraft.getInstance().currentScreen;
+        GeneratorContainer container = (GeneratorContainer)screen.getContainer();
+        return container.getTileEntity();
     }
 }

@@ -1,19 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "ici",
-    "cbc",
-    "ici"
+    "rfr",
+    "fif",
+    "rfr"
   ],
   "key": {
+    "r": {
+      "item": "minecraft:redstone"
+    },
+    "f": {
+      "item": "minecraft:furnace"
+    },
     "i": {
-      "tag": "forge:ingots/iron"
-    },
-    "c": {
-      "item": "crazygenerators:generator_core"
-    },
-    "b": {
-      "item": "minecraft:water_bucket"
+      "item": "minecraft:iron_block"
     }
   },
   "result": {

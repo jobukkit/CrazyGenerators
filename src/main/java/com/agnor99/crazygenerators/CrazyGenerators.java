@@ -2,12 +2,10 @@ package com.agnor99.crazygenerators;
 
 import com.agnor99.crazygenerators.init.BlockInit;
 import com.agnor99.crazygenerators.init.ContainerInit;
-import com.agnor99.crazygenerators.init.ItemInit;
 import com.agnor99.crazygenerators.init.TileInit;
 import com.agnor99.crazygenerators.network.NetworkUtil;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -60,19 +58,5 @@ public class CrazyGenerators {
             return new ItemStack(BlockInit.question_generator);
         }
 
-        @Override
-        public void fill(NonNullList<ItemStack> itemStacks) {
-            super.fill(itemStacks);
-            itemStacks.sort((o1, o2) -> {
-                //generator Core first, cause i want that
-                if(o1.getItem().equals(ItemInit.generator_core)) {
-                    return -1;
-                }
-                if(o2.getItem().equals(ItemInit.generator_core)) {
-                    return 1;
-                }
-                return 0;
-            });
-        }
     }
 }

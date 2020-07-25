@@ -10,6 +10,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 
@@ -35,16 +37,20 @@ public abstract class GeneratorPlaceHolderBlock extends Block {
                         group(CrazyGenerators.GeneratorItemGroup.instance)
         ).setRegistryName(getRegistryName());
     }
+
+    public Item createItemFromItemBlock(TranslationTextComponent textComponent) {
+        return new GeneratorItem(this,textComponent);
+    }
     public Item createItemFromItemBlock(String information) {
-        return new GeneratorItem(this, information);
+        return new GeneratorItem(this, new StringTextComponent(information));
     }
 
     private class GeneratorItem extends BlockItem {
-        String information;
+        TextComponent information;
         public GeneratorItem(Block generatorBlock) {
-            this(generatorBlock, "");
+            this(generatorBlock, new StringTextComponent(""));
         }
-        public GeneratorItem(Block generatorBlock, String information) {
+        public GeneratorItem(Block generatorBlock, TextComponent information) {
             super(generatorBlock, new Item.Properties().
                     group(CrazyGenerators.GeneratorItemGroup.instance));
             setRegistryName(generatorBlock.getRegistryName());
@@ -54,7 +60,7 @@ public abstract class GeneratorPlaceHolderBlock extends Block {
         @Override
         public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> textComponents, ITooltipFlag flag) {
             if(!information.equals("")) {
-                textComponents.add(new StringTextComponent(information));
+                textComponents.add(information);
             }
         }
     }

@@ -1,16 +1,20 @@
 {
-    "item.crazygenerators.generator_core": "Generator Core",
+
+
+    "itemGroup.generatorTab" : "Crazy Generators",
 
     "block.crazygenerators.question_generator" : "Question Generator",
     "block.crazygenerators.timing_generator" : "Timing Generator",
     "block.crazygenerators.generator_frame": "Generator Frame",
 
     "container.question_generator": "Question Generator",
-
-    "itemGroup.generatorTab" : "Crazy Generators",
+    "container.timing_generator": "Timing Generator",
 
     "information.question_generator" : "In this generator you have to answer questions to generate RF. If you leave this interface all your question progress is lost and you have to start at 500RF again!",
+    "information.timing_generator" : "In this generator you have to click the button as soon as the Box turns green. The faster you click, the more RF you get!",
 
+    "lore.question_generator": "\u00A73Who wants to be a millionaire?",
+    "lore.timing_generator": "\u00A73Train your reflexes!",
 
     "question.question0.question" : "How many sticks do you get per log?",
     "question.question0.answer0" : "8",
@@ -100,6 +104,6 @@
     "question.question14.answer0" : "slower",
     "question.question14.answer1" : "faster",
     "question.question14.answer2" : "not affected",
-    "question.question14.answer3" : "does not work anymore"
+    "question.question14.answer3" : "was affected"
 
 }

@@ -6,6 +6,7 @@ import com.agnor99.crazygenerators.network.packets.question_generator.*;
 import com.agnor99.crazygenerators.network.packets.sync.PacketAbstractSyncResponse;
 import com.agnor99.crazygenerators.network.packets.sync.PacketQuestionSyncResponse;
 import com.agnor99.crazygenerators.network.packets.sync.PacketRequestSync;
+import com.agnor99.crazygenerators.network.packets.sync.PacketTimingSyncResponse;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
@@ -48,13 +49,6 @@ public class NetworkUtil {
 
         INSTANCE.registerMessage(
                 nextID(),
-                PacketQuestionSyncResponse.class,
-                PacketQuestionSyncResponse::toBytes,
-                PacketQuestionSyncResponse::new,
-                PacketQuestionSyncResponse::handle
-        );
-        INSTANCE.registerMessage(
-                nextID(),
                 PacketHint.class,
                 PacketHint::toBytes,
                 PacketHint::new,
@@ -73,6 +67,21 @@ public class NetworkUtil {
                 PacketTimeOut::toBytes,
                 PacketTimeOut::new,
                 PacketTimeOut::handle
+        );
+
+        INSTANCE.registerMessage(
+                nextID(),
+                PacketQuestionSyncResponse.class,
+                PacketQuestionSyncResponse::toBytes,
+                PacketQuestionSyncResponse::new,
+                PacketQuestionSyncResponse::handle
+        );
+        INSTANCE.registerMessage(
+                nextID(),
+                PacketTimingSyncResponse.class,
+                PacketTimingSyncResponse::toBytes,
+                PacketTimingSyncResponse::new,
+                PacketTimingSyncResponse::handle
         );
     }
 }

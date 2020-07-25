@@ -46,13 +46,11 @@ public class PacketTimeOut implements ServerPacket {
 
     @Override
     public void doWork(Supplier<NetworkEvent.Context> context) {
-        context.get().enqueueWork(() -> {
-            Screen screen = Minecraft.getInstance().currentScreen;
-            if(screen instanceof QuestionGeneratorScreen) {
-                QuestionGeneratorScreen qgScreen = (QuestionGeneratorScreen) screen;
-                qgScreen.updateQuestion(question, answers);
-            }
-        });
+        Screen screen = Minecraft.getInstance().currentScreen;
+        if(screen instanceof QuestionGeneratorScreen) {
+            QuestionGeneratorScreen qgScreen = (QuestionGeneratorScreen) screen;
+            qgScreen.updateQuestion(question, answers);
+        }
         context.get().setPacketHandled(true);
     }
 }

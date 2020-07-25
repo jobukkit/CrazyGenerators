@@ -66,10 +66,10 @@ public class QuestionGeneratorTileEntity extends GeneratorTileEntity{
     @Override
     public PacketAbstractSyncResponse generateSyncPacket() {
         if(players.size() > 1) {
-            return new PacketQuestionSyncResponse(question, getEnergy(), pos, false);
+            return new PacketQuestionSyncResponse(question, getEnergy(), true);
         }
         resetQuestion();
-        return new PacketQuestionSyncResponse(question, getEnergy(), pos, true);
+        return new PacketQuestionSyncResponse(question, getEnergy(), false);
     }
 
     public boolean handleAnswer(String answer) {

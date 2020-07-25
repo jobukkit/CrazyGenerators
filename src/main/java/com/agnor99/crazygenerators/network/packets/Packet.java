@@ -13,7 +13,9 @@ public interface Packet {
     void toBytes(PacketBuffer buf);
     default void handle(Supplier<NetworkEvent.Context> context) {
         if(isValid(context)){
-            doWork(context);
+            context.get().enqueueWork(() -> {
+                    doWork(context);
+            });
         }
     }
 
