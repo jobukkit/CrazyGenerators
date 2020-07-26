@@ -2,6 +2,8 @@ package com.agnor99.crazygenerators.network.packets.timing_generator;
 
 import com.agnor99.crazygenerators.client.gui.TimingGeneratorScreen;
 import com.agnor99.crazygenerators.network.packets.ServerPacket;
+import com.agnor99.crazygenerators.objects.tile.QuestionGeneratorTileEntity;
+import com.agnor99.crazygenerators.objects.tile.TimingGeneratorTileEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -31,7 +33,7 @@ public class PacketButtonPressResponse implements ServerPacket {
     @Override
     public void doWork(Supplier<NetworkEvent.Context> context) {
         TimingGeneratorScreen screen = (TimingGeneratorScreen) Minecraft.getInstance().currentScreen;
-        if(delay >= 0) {
+        if(delay >= 0 && delay < TimingGeneratorTileEntity.TICKS_TO_CLICK) {
             screen.lastDelay = delay;
             screen.lastEnergyAdded = energyAdded;
         }else{

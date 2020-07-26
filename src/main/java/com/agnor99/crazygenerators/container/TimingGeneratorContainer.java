@@ -55,5 +55,31 @@ public class TimingGeneratorContainer extends GeneratorContainer {
                     }
                 }
         );
+        trackInt(
+                new IntReferenceHolder() {
+                    @Override
+                    public int get() {
+                        return (int) tgte.buttonPosition.getX();
+                    }
+
+                    @Override
+                    public void set(int i) {
+                        tgte.buttonPosition.x = i;
+                    }
+                }
+        );
+        trackInt(
+                new IntReferenceHolder() {
+                    @Override
+                    public int get() {
+                        return (int) tgte.buttonPosition.getY();
+                    }
+
+                    @Override
+                    public void set(int i) {
+                        tgte.buttonPosition.y = i;
+                    }
+                }
+        );
     }
 }

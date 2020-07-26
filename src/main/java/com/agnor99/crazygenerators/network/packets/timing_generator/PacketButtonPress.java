@@ -2,7 +2,6 @@ package com.agnor99.crazygenerators.network.packets.timing_generator;
 
 import com.agnor99.crazygenerators.network.NetworkUtil;
 import com.agnor99.crazygenerators.network.packets.Packet;
-import com.agnor99.crazygenerators.network.packets.question_generator.PacketAnswerResponse;
 import com.agnor99.crazygenerators.objects.tile.TimingGeneratorTileEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
@@ -50,7 +49,7 @@ public class PacketButtonPress implements Packet {
             TimingGeneratorTileEntity tgte = (TimingGeneratorTileEntity) te;
             int energyAdded = tgte.addClickEnergy(context.get().getSender().ping);
             int delay = tgte.calcDelay(context.get().getSender().ping);
-            tgte.generateUnlockTime();
+            tgte.generateUnlockData();
 
             ServerPlayerEntity player = context.get().getSender();
 

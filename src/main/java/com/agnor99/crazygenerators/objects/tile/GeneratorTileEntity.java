@@ -124,7 +124,7 @@ public abstract class GeneratorTileEntity extends LockableLootTileEntity impleme
                     int received = handler.receiveEnergy(Math.min(currentEnergy.get(), 10000), false);
 
                     currentEnergy.addAndGet(-received);
-                    ((GeneratorEnergyStorage) energy).consumeEnergy(received);
+                    energy.consumeEnergy(received);
                 }
             });
 
