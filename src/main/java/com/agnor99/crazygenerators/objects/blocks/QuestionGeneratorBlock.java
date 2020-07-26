@@ -44,15 +44,4 @@ public class QuestionGeneratorBlock extends GeneratorBlock {
             return ActionResultType.SUCCESS;
         }
     }
-
-    @Override
-    public void onReplaced(BlockState state, World world, BlockPos blockPos, BlockState newState, boolean isMoving) {
-        if(state.getBlock() != newState.getBlock()) {
-            TileEntity  tileEntity = world.getTileEntity(blockPos);
-            if(tileEntity instanceof QuestionGeneratorTileEntity) {
-                InventoryHelper.dropItems(world, blockPos, ((QuestionGeneratorTileEntity) tileEntity).getItems());
-            }
-            tileEntity.remove();
-        }
-    }
 }

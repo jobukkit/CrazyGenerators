@@ -29,6 +29,31 @@ public class TimingGeneratorContainer extends GeneratorContainer {
     protected void tracking() {
         super.tracking();
         TimingGeneratorTileEntity tgte = (TimingGeneratorTileEntity) tileEntity;
+        trackInt(
+                new IntReferenceHolder() {
+                    @Override
+                    public int get() {
+                        return tgte.getTickToUnlock();
+                    }
 
+                    @Override
+                    public void set(int i) {
+                        tgte.setTickToUnlock(i);
+                    }
+                }
+        );
+        trackInt(
+                new IntReferenceHolder() {
+                    @Override
+                    public int get() {
+                        return tgte.getMultiplier();
+                    }
+
+                    @Override
+                    public void set(int i) {
+                        tgte.setMultiplier(i);
+                    }
+                }
+        );
     }
 }

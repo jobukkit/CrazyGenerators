@@ -34,7 +34,6 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
 
     int answerSentTick = Integer.MAX_VALUE;
 
-    Point currentAnswerButtonPosition = null;
 
     public QuestionGeneratorScreen(QuestionGeneratorContainer screenContainer, PlayerInventory playerInventory, ITextComponent title) {
         super(screenContainer, playerInventory, title, "information.question_generator");
@@ -90,7 +89,10 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
 
         updateAnimationVars();
 
-        drawHoverMessages(new Point(mouseX, mouseY));
+
+        Point relativeMousePosition = new Point(mouseX, mouseY);
+        relativeMousePosition.translate(-RELATIVE_SCREEN_POSITION.x, -RELATIVE_SCREEN_POSITION.y);
+        drawHoverMessages(relativeMousePosition);
     }
 
     public void updateQuestion(String question, String[] answers) {
@@ -196,7 +198,6 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
             answers[3].active = false;
             answerSentTick = container.getTicks();
             NetworkUtil.INSTANCE.sendToServer(new PacketAnswer(minecraft.player.dimension, container.getTileEntity().getPos(),answerButton.answer));
-            currentAnswerButtonPosition = new Point(answerButton.x+1, answerButton.y+1);
         }
     }
 }

@@ -7,6 +7,8 @@ import com.agnor99.crazygenerators.network.packets.sync.PacketAbstractSyncRespon
 import com.agnor99.crazygenerators.network.packets.sync.PacketQuestionSyncResponse;
 import com.agnor99.crazygenerators.network.packets.sync.PacketRequestSync;
 import com.agnor99.crazygenerators.network.packets.sync.PacketTimingSyncResponse;
+import com.agnor99.crazygenerators.network.packets.timing_generator.PacketButtonPress;
+import com.agnor99.crazygenerators.network.packets.timing_generator.PacketButtonPressResponse;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
@@ -82,6 +84,20 @@ public class NetworkUtil {
                 PacketTimingSyncResponse::toBytes,
                 PacketTimingSyncResponse::new,
                 PacketTimingSyncResponse::handle
+        );
+        INSTANCE.registerMessage(
+                nextID(),
+                PacketButtonPress.class,
+                PacketButtonPress::toBytes,
+                PacketButtonPress::new,
+                PacketButtonPress::handle
+        );
+        INSTANCE.registerMessage(
+                nextID(),
+                PacketButtonPressResponse.class,
+                PacketButtonPressResponse::toBytes,
+                PacketButtonPressResponse::new,
+                PacketButtonPressResponse::handle
         );
     }
 }

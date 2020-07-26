@@ -16,6 +16,10 @@
     "lore.question_generator": "\u00A73Who wants to be a millionaire?",
     "lore.timing_generator": "\u00A73Train your reflexes!",
 
+    "hover.timing_generator.multiplier": "Multiplier: Number between 1 and 8. If u click in the first second, this number increases!",
+    "hover.timing_generator.delay": "Delay: Time you needed for your click",
+    "hover.timing_generator.energy_added": "Energy you got for this delay",
+
     "question.question0.question" : "How many sticks do you get per log?",
     "question.question0.answer0" : "8",
     "question.question0.answer1" : "4",

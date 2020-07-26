@@ -91,10 +91,8 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
     }
 
 
-    void drawHoverMessages(Point mousePosition) {
+    void drawHoverMessages(Point relativeMousePosition) {
         xSize = oldXSize;
-        Point relativeMousePosition = new Point(mousePosition);
-        relativeMousePosition.translate(-RELATIVE_SCREEN_POSITION.x, -RELATIVE_SCREEN_POSITION.y);
 
         drawEnergyHover(relativeMousePosition);
         drawInfoHover(relativeMousePosition);
@@ -119,7 +117,7 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
         }
     }
 
-    private void drawHoverMessage(Point relativeMousePosition, String message) {
+    protected void drawHoverMessage(Point relativeMousePosition, String message) {
         List<String> lines = breakStringIntoLineList(message,92);
         Dimension boxDimension;
 
@@ -236,7 +234,7 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
         drawPartRelativeOnScreen(new Point(offsettedMousePosition.x+xoff+4,offsettedMousePosition.y),messagePartPoint[2], messagePartDimension[2]);
 
     }
-    private boolean isMouseOverHoverArea(Point relativeMouseLocation, Point upperPosition, Dimension size) {
+    protected boolean isMouseOverHoverArea(Point relativeMouseLocation, Point upperPosition, Dimension size) {
         return new Rectangle(upperPosition,size).contains(relativeMouseLocation);
     }
 
