@@ -46,6 +46,7 @@ public class QuestionGeneratorTileEntity extends GeneratorTileEntity{
 
     @Override
     public void tick() {
+        if(world.isRemote()) return;
         super.tick();
         if(questionGeneratedTime + TIME_PER_QUESTION == tick) {
             resetQuestion();

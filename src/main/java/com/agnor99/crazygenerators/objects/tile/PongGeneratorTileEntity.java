@@ -4,7 +4,6 @@ import com.agnor99.crazygenerators.container.PongGeneratorContainer;
 import com.agnor99.crazygenerators.init.TileInit;
 import com.agnor99.crazygenerators.network.packets.sync.PacketAbstractSyncResponse;
 import com.agnor99.crazygenerators.network.packets.sync.PacketPongSyncResponse;
-import com.agnor99.crazygenerators.network.packets.sync.PacketTimingSyncResponse;
 import com.agnor99.crazygenerators.objects.other.generator.pong.Board;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -32,6 +31,7 @@ public class PongGeneratorTileEntity extends GeneratorTileEntity{
 
     @Override
     public void tick() {
+        if(world.isRemote()) return;
         super.tick();
         game.tick();
 

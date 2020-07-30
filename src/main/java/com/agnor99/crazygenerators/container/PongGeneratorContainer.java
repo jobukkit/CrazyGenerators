@@ -25,7 +25,7 @@ public class PongGeneratorContainer extends GeneratorContainer {
 
     @Override
     public boolean canInteractWith(PlayerEntity playerIn) {
-        return isWithinUsableDistance(canInteractWithCallable, playerIn, BlockInit.timing_generator);
+        return isWithinUsableDistance(canInteractWithCallable, playerIn, BlockInit.pong_generator);
     }
 
     @Override

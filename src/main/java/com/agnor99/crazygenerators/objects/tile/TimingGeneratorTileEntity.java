@@ -40,13 +40,12 @@ public class TimingGeneratorTileEntity extends GeneratorTileEntity{
 
     @Override
     public void tick() {
+        if(world.isRemote()) return;
         super.tick();
         if(tickToUnlock + TICKS_TO_CLICK + MAX_TICK_DELAY_FOR_PING == tick) {
             generateUnlockData();
             multiplier = 1;
         }
-
-
     }
 
     @Override
