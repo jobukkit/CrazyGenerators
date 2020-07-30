@@ -6,6 +6,7 @@ import com.agnor99.crazygenerators.network.NetworkUtil;
 import com.agnor99.crazygenerators.network.packets.question_generator.PacketAnswer;
 import com.agnor99.crazygenerators.network.packets.question_generator.PacketHintRequest;
 import com.agnor99.crazygenerators.objects.tile.QuestionGeneratorTileEntity;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.button.ImageButton;
 import net.minecraft.entity.player.PlayerInventory;
@@ -61,13 +62,6 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
 
     }
 
-    @Override
-    public void render(int mouseX, int mouseY, final float partialTicks) {
-        renderBackground();
-        super.render(mouseX, mouseY, partialTicks);
-        renderHoveredToolTip(mouseX, mouseY);
-    }
-
     void reloadButtons() {
         QuestionGeneratorTileEntity te = (QuestionGeneratorTileEntity) container.getTileEntity();
         if(te.questionGeneratedTime+QuestionGeneratorTileEntity.ANSWER_DELAY < te.getTick()) {
@@ -90,9 +84,6 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
         updateAnimationVars();
 
 
-        Point relativeMousePosition = new Point(mouseX, mouseY);
-        relativeMousePosition.translate(-RELATIVE_SCREEN_POSITION.x, -RELATIVE_SCREEN_POSITION.y);
-        drawHoverMessages(relativeMousePosition);
     }
 
     public void updateQuestion(String question, String[] answers) {
@@ -131,6 +122,12 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
         font.drawString(new TranslationTextComponent(answers[1].answer).getFormattedText(),75,69,WHITE);
         font.drawString(new TranslationTextComponent(answers[2].answer).getFormattedText(),9,85,WHITE);
         font.drawString(new TranslationTextComponent(answers[3].answer).getFormattedText(),75,85,WHITE);
+
+
+        Point relativeMousePosition = new Point(mouseX, mouseY);
+        relativeMousePosition.translate(-RELATIVE_SCREEN_POSITION.x, -RELATIVE_SCREEN_POSITION.y);
+
+        drawHoverMessages(relativeMousePosition);
     }
 
 
@@ -139,11 +136,11 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
         int heightDifference = 0;
         Point colorBarPoint = new Point(0,0);
 
-        if(qgte.questionGeneratedTime+QuestionGeneratorTileEntity.ANSWER_DELAY > qgte.getTick()) {
+        if(qgte.questionGeneratedTime+QuestionGeneratorTileEntity.ANSWER_DELAY > qgte.getTick()) {//Show answer
             heightDifference = calcHeight(TIMER_HEIGHT, qgte.getTick() - qgte.questionGeneratedTime, QuestionGeneratorTileEntity.ANSWER_DELAY);
             colorBarPoint = new Point(209,37);
-        }else {
-            heightDifference = calcHeight(TIMER_HEIGHT, qgte.getTick() - qgte.questionGeneratedTime - QuestionGeneratorTileEntity.ANSWER_DELAY, QuestionGeneratorTileEntity.TIME_PER_QUESTION);
+        }else {//show question
+            heightDifference = calcHeight(TIMER_HEIGHT, qgte.getTick() - qgte.questionGeneratedTime - QuestionGeneratorTileEntity.ANSWER_DELAY, QuestionGeneratorTileEntity.TIME_PER_QUESTION-QuestionGeneratorTileEntity.ANSWER_DELAY);
             if(heightDifference < TIMER_HEIGHT/2) {
                 colorBarPoint = new Point(197,37);
             }else if(heightDifference < TIMER_HEIGHT * 0.75f) {

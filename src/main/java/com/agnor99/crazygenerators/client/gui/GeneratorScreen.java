@@ -22,7 +22,6 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
     private String generatorName;
 
 
-    int oldXSize;
 
     public GeneratorScreen(SpecContainer screenContainer, PlayerInventory playerInventory, ITextComponent title, String generatorName) {
         super(screenContainer, playerInventory, title);
@@ -31,7 +30,6 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
         this.xSize = 176;
         this.ySize = 184;
         this.generatorName = generatorName;
-        oldXSize = xSize;
     }
 
     @Override
@@ -67,7 +65,7 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
         RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
         this.minecraft.getTextureManager().bindTexture(BACKGROUND_TEXTURE);
 
-        blit(RELATIVE_SCREEN_POSITION.x, RELATIVE_SCREEN_POSITION.y, 0 , 0, oldXSize, ySize);
+        blit(RELATIVE_SCREEN_POSITION.x, RELATIVE_SCREEN_POSITION.y, 0 , 0, xSize, ySize);
 
         drawEnergy();
 
@@ -92,7 +90,10 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
 
 
     void drawHoverMessages(Point relativeMousePosition) {
-        xSize = oldXSize;
+
+        RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
+        this.minecraft.getTextureManager().bindTexture(BACKGROUND_TEXTURE);
+
 
         drawEnergyHover(relativeMousePosition);
         drawInfoHover(relativeMousePosition);
@@ -119,22 +120,7 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
 
     protected void drawHoverMessage(Point relativeMousePosition, String message) {
         List<String> lines = breakStringIntoLineList(message,92);
-        Dimension boxDimension;
-
-        if(lines.size() == 1) {
-            boxDimension = new Dimension(font.getStringWidth(lines.get(0))+9,10*lines.size()+7);
-        }else {
-            boxDimension = new Dimension(100,10*lines.size()+7);
-        }
-        xSize = relativeMousePosition.x+boxDimension.width - 10;
-        drawHoverBox(relativeMousePosition, boxDimension);
-        final int WHITE = 16777215;
-
-        for(int i = 0; i <lines.size(); i++) {
-            String line = lines.get(i);
-
-            font.drawString(line, relativeMousePosition.x + RELATIVE_SCREEN_POSITION.x + 5, relativeMousePosition.y + RELATIVE_SCREEN_POSITION.y + 5 + 10*i, WHITE);
-        }
+        renderTooltip(lines, relativeMousePosition.x, relativeMousePosition.y);
     }
     protected List<String> breakStringIntoLineList(String message, int lineWidth) {
         String[] words = message.split(" ");

@@ -3,10 +3,7 @@ package com.agnor99.crazygenerators.network;
 import com.agnor99.crazygenerators.CrazyGenerators;
 import com.agnor99.crazygenerators.network.packets.Packet;
 import com.agnor99.crazygenerators.network.packets.question_generator.*;
-import com.agnor99.crazygenerators.network.packets.sync.PacketAbstractSyncResponse;
-import com.agnor99.crazygenerators.network.packets.sync.PacketQuestionSyncResponse;
-import com.agnor99.crazygenerators.network.packets.sync.PacketRequestSync;
-import com.agnor99.crazygenerators.network.packets.sync.PacketTimingSyncResponse;
+import com.agnor99.crazygenerators.network.packets.sync.*;
 import com.agnor99.crazygenerators.network.packets.timing_generator.PacketButtonPress;
 import com.agnor99.crazygenerators.network.packets.timing_generator.PacketButtonPressResponse;
 import net.minecraft.util.ResourceLocation;
@@ -27,27 +24,33 @@ public class NetworkUtil {
 
         INSTANCE.registerMessage(
                 nextID(),
-                PacketAnswerResponse.class,
-                PacketAnswerResponse::toBytes,
-                PacketAnswerResponse::new,
-                PacketAnswerResponse::handle
-                );
-
-        INSTANCE.registerMessage(
-                nextID(),
-                PacketAnswer.class,
-                PacketAnswer::toBytes,
-                PacketAnswer::new,
-                PacketAnswer::handle
-        );
-
-        INSTANCE.registerMessage(
-                nextID(),
                 PacketRequestSync.class,
                 PacketRequestSync::toBytes,
                 PacketRequestSync::new,
                 PacketRequestSync::handle
         );
+        INSTANCE.registerMessage(
+                nextID(),
+                PacketQuestionSyncResponse.class,
+                PacketQuestionSyncResponse::toBytes,
+                PacketQuestionSyncResponse::new,
+                PacketQuestionSyncResponse::handle
+        );
+        INSTANCE.registerMessage(
+                nextID(),
+                PacketTimingSyncResponse.class,
+                PacketTimingSyncResponse::toBytes,
+                PacketTimingSyncResponse::new,
+                PacketTimingSyncResponse::handle
+        );
+        INSTANCE.registerMessage(
+                nextID(),
+                PacketPongSyncResponse.class,
+                PacketPongSyncResponse::toBytes,
+                PacketPongSyncResponse::new,
+                PacketPongSyncResponse::handle
+        );
+
 
         INSTANCE.registerMessage(
                 nextID(),
@@ -73,18 +76,20 @@ public class NetworkUtil {
 
         INSTANCE.registerMessage(
                 nextID(),
-                PacketQuestionSyncResponse.class,
-                PacketQuestionSyncResponse::toBytes,
-                PacketQuestionSyncResponse::new,
-                PacketQuestionSyncResponse::handle
+                PacketAnswerResponse.class,
+                PacketAnswerResponse::toBytes,
+                PacketAnswerResponse::new,
+                PacketAnswerResponse::handle
         );
         INSTANCE.registerMessage(
                 nextID(),
-                PacketTimingSyncResponse.class,
-                PacketTimingSyncResponse::toBytes,
-                PacketTimingSyncResponse::new,
-                PacketTimingSyncResponse::handle
+                PacketAnswer.class,
+                PacketAnswer::toBytes,
+                PacketAnswer::new,
+                PacketAnswer::handle
         );
+
+
         INSTANCE.registerMessage(
                 nextID(),
                 PacketButtonPress.class,

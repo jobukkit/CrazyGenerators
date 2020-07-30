@@ -2,6 +2,7 @@ package com.agnor99.crazygenerators.init;
 
 import com.agnor99.crazygenerators.CrazyGenerators;
 import com.agnor99.crazygenerators.objects.blocks.GeneratorFrameBlock;
+import com.agnor99.crazygenerators.objects.blocks.PongGeneratorBlock;
 import com.agnor99.crazygenerators.objects.blocks.QuestionGeneratorBlock;
 import com.agnor99.crazygenerators.objects.blocks.TimingGeneratorBlock;
 import net.minecraft.block.Block;
@@ -19,12 +20,14 @@ public class BlockInit {
     public static final GeneratorFrameBlock generator_frame = new GeneratorFrameBlock();
     public static final QuestionGeneratorBlock question_generator = new QuestionGeneratorBlock();
     public static final TimingGeneratorBlock timing_generator = new TimingGeneratorBlock();
+    public static final PongGeneratorBlock pong_generator = new PongGeneratorBlock();
 
     @SubscribeEvent
     public static void registerBlocks(final RegistryEvent.Register<Block> event) {
         event.getRegistry().register(generator_frame);
         event.getRegistry().register(question_generator);
         event.getRegistry().register(timing_generator);
+        event.getRegistry().register(pong_generator);
     }
 
     @SubscribeEvent
@@ -32,5 +35,6 @@ public class BlockInit {
         event.getRegistry().register(generator_frame.createItemFromItemBlock());
         event.getRegistry().register(question_generator.createItemFromItemBlock(new TranslationTextComponent("lore.question_generator")));
         event.getRegistry().register(timing_generator.createItemFromItemBlock(new TranslationTextComponent("lore.timing_generator")));
+        event.getRegistry().register(pong_generator.createItemFromItemBlock());
     }
 }

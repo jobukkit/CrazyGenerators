@@ -6,6 +6,7 @@ import com.agnor99.crazygenerators.init.TileInit;
 import com.agnor99.crazygenerators.network.NetworkUtil;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -19,6 +20,7 @@ import org.apache.logging.log4j.Logger;
 
 
 @Mod(CrazyGenerators.MOD_ID)
+@Mod.EventBusSubscriber(modid= CrazyGenerators.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class CrazyGenerators {
 
     public static final Logger LOGGER = LogManager.getLogger();

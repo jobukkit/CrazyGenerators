@@ -1,14 +1,13 @@
 package com.agnor99.crazygenerators.init;
 
 import com.agnor99.crazygenerators.CrazyGenerators;
+import com.agnor99.crazygenerators.objects.tile.PongGeneratorTileEntity;
 import com.agnor99.crazygenerators.objects.tile.QuestionGeneratorTileEntity;
 import com.agnor99.crazygenerators.objects.tile.TimingGeneratorTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.ObjectHolder;
 
 public class TileInit {
     public static final DeferredRegister<TileEntityType<?>> TILE_ENTITY_TYPES = new DeferredRegister<>(ForgeRegistries.TILE_ENTITIES, CrazyGenerators.MOD_ID);
@@ -21,6 +20,11 @@ public class TileInit {
     public static final RegistryObject<TileEntityType<TimingGeneratorTileEntity>> TIMING_GENERATOR = TILE_ENTITY_TYPES.register(
             "timing_generator",
             () -> TileEntityType.Builder.create(TimingGeneratorTileEntity::new, BlockInit.timing_generator)
+                    .build(null)
+    );
+    public static final RegistryObject<TileEntityType<PongGeneratorTileEntity>> PONG_GENERATOR = TILE_ENTITY_TYPES.register(
+            "pong_generator",
+            () -> TileEntityType.Builder.create(PongGeneratorTileEntity::new, BlockInit.pong_generator)
                     .build(null)
     );
 }

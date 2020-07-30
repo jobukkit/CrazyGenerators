@@ -53,6 +53,7 @@ public class PacketRequestSync implements Packet {
         context.get().setPacketHandled(true);
     }
 
+    @Override
     public boolean isValid(Supplier<NetworkEvent.Context> context) {
         return checkBlockPos(pos, context.get().getSender().getServerWorld());
     }

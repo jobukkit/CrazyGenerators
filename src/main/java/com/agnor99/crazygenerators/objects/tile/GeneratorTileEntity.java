@@ -82,8 +82,11 @@ public abstract class GeneratorTileEntity extends LockableLootTileEntity impleme
         return itemStackToLoad.size();
     }
 
+    @Override
     public void tick() {
-        if(world.isRemote()) return;
+        if(world.isRemote()) {
+            return;
+        }
         markDirty();
         tick++;
         sendPower();
@@ -173,6 +176,7 @@ public abstract class GeneratorTileEntity extends LockableLootTileEntity impleme
         if(!player.isSpectator()) {
             players.add((ServerPlayerEntity)player);
         }
+        world.notifyNeighborsOfStateChange(pos, getBlockState().getBlock());
     }
 
     @Override
@@ -180,6 +184,7 @@ public abstract class GeneratorTileEntity extends LockableLootTileEntity impleme
         if(!player.isSpectator()) {
             players.remove(player);
         }
+        world.notifyNeighborsOfStateChange(pos, getBlockState().getBlock());
     }
 
 
@@ -194,14 +199,14 @@ public abstract class GeneratorTileEntity extends LockableLootTileEntity impleme
 
     @Nullable
     @Override
-    public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction Direction) {
+    public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction direction) {
         if(cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return itemHandler.cast();
         }
         if(cap == CapabilityEnergy.ENERGY) {
             return energyHandler.cast();
         }
-        return super.getCapability(cap, Direction);
+        return super.getCapability(cap, direction);
     }
 
 

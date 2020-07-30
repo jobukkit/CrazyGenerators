@@ -58,9 +58,7 @@ public class TimingGeneratorScreen extends GeneratorScreen<TimingGeneratorContai
                 && tgte.getTick() <= tickToUnlock + TimingGeneratorTileEntity.TICKS_TO_CLICK;
         clickButton.updatePosition(tgte.buttonPosition, isButtonVisible);
 
-        Point relativeMousePosition = new Point(mouseX, mouseY);
-        relativeMousePosition.translate(-RELATIVE_SCREEN_POSITION.x, -RELATIVE_SCREEN_POSITION.y);
-        drawHoverMessages(relativeMousePosition);
+
     }
 
 
@@ -71,8 +69,6 @@ public class TimingGeneratorScreen extends GeneratorScreen<TimingGeneratorContai
         final int WHITE = 16777215;
         final int DEFAULT_COLOR = 4210752;
 
-        TimingGeneratorTileEntity tgte = (TimingGeneratorTileEntity) container.getTileEntity();
-
         font.drawString(((TimingGeneratorTileEntity)container.getTileEntity()).getMultiplier() + "x", 9,17,WHITE);
         if(lastDelay != Integer.MIN_VALUE) {
             font.drawString(lastDelay/20.0d + "s", 28, 17, WHITE);
@@ -81,11 +77,14 @@ public class TimingGeneratorScreen extends GeneratorScreen<TimingGeneratorContai
             font.drawString("+" + lastEnergyAdded + " RF", 74, 17, WHITE);
         }
 
-        int tickToUnlock = tgte.getTickToUnlock();
 
         if(clickButton.visible) {
             font.drawString(new TranslationTextComponent("button.timing_generator.click").getFormattedText(), clickButton.x+2-RELATIVE_SCREEN_POSITION.x, clickButton.y+2-RELATIVE_SCREEN_POSITION.y, WHITE);
         }
+
+        Point relativeMousePosition = new Point(mouseX, mouseY);
+        relativeMousePosition.translate(-RELATIVE_SCREEN_POSITION.x, -RELATIVE_SCREEN_POSITION.y);
+        drawHoverMessages(relativeMousePosition);
     }
 
     @Override

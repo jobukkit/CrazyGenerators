@@ -5,6 +5,7 @@
 
     "block.crazygenerators.question_generator" : "Question Generator",
     "block.crazygenerators.timing_generator" : "Timing Generator",
+    "block.crazygenerators.pong_generator" : "Pong Generator",
     "block.crazygenerators.generator_frame": "Generator Frame",
 
     "container.question_generator": "Question Generator",
