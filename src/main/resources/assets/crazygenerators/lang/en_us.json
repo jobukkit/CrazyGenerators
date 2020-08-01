@@ -10,12 +10,15 @@
 
     "container.question_generator": "Question Generator",
     "container.timing_generator": "Timing Generator",
+    "container.pong_generator": "Pong Generator",
 
     "information.question_generator" : "In this generator you have to answer questions to generate RF. If you leave this interface all your question progress is lost and you have to start at 500RF again!",
     "information.timing_generator" : "In this generator you have to click the button as soon as the Box turns green. The faster you click, the more RF you get!",
+    "information.pong_generator" : "In this generator you have to play Pong. For a point, win and a hit you get a different amount of RF",
 
     "lore.question_generator": "\u00A73Who wants to be a millionaire?",
     "lore.timing_generator": "\u00A73Train your reflexes!",
+    "lore.pong_generator": "\u00A73Just have fun!",
 
     "hover.timing_generator.multiplier": "Multiplier: Number between 1 and 8. Increases if you click fast enough!",
     "hover.timing_generator.delay": "Delay: Time you needed for your click",

@@ -1,7 +1,7 @@
 package com.agnor99.crazygenerators.network;
 
 import com.agnor99.crazygenerators.CrazyGenerators;
-import com.agnor99.crazygenerators.network.packets.Packet;
+import com.agnor99.crazygenerators.network.packets.pong_generator.PacketPongKeys;
 import com.agnor99.crazygenerators.network.packets.question_generator.*;
 import com.agnor99.crazygenerators.network.packets.sync.*;
 import com.agnor99.crazygenerators.network.packets.timing_generator.PacketButtonPress;
@@ -73,7 +73,6 @@ public class NetworkUtil {
                 PacketTimeOut::new,
                 PacketTimeOut::handle
         );
-
         INSTANCE.registerMessage(
                 nextID(),
                 PacketAnswerResponse.class,
@@ -103,6 +102,15 @@ public class NetworkUtil {
                 PacketButtonPressResponse::toBytes,
                 PacketButtonPressResponse::new,
                 PacketButtonPressResponse::handle
+        );
+
+
+        INSTANCE.registerMessage(
+                nextID(),
+                PacketPongKeys.class,
+                PacketPongKeys::toBytes,
+                PacketPongKeys::new,
+                PacketPongKeys::handle
         );
     }
 }

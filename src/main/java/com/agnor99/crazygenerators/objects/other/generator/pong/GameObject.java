@@ -2,7 +2,6 @@ package com.agnor99.crazygenerators.objects.other.generator.pong;
 
 import com.agnor99.crazygenerators.objects.other.GeneratorEnergyStorage;
 import net.minecraft.util.IntReferenceHolder;
-import net.minecraftforge.energy.CapabilityEnergy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,10 +59,11 @@ public abstract class GameObject implements Resetteable,Tickable {
             }
             @Override
             public void set(int value) {
-                pos.x = value;
+                size.height = value;
             }
         });
 
         return referenceHolderList;
     }
+    public abstract List<DrawObject> createDrawObjects();
 }

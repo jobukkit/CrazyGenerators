@@ -84,8 +84,8 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
 
         drawPartRelativeOnScreen(energyContainerPoint, energyContainerTexturePoint, energyContainerSize);
     }
-    protected int calcHeight(int maxHeight, int value, int maxValue) {
-        return (int)(maxHeight*(((float)value)/((float)maxValue)));
+    protected int calcHeight(int maxHeight, float value, int maxValue) {
+        return (int)(maxHeight*(value/((float)maxValue)));
     }
 
 

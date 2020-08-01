@@ -6,6 +6,7 @@ import java.util.function.Supplier;
 
 public interface ServerPacket extends Packet {
 
+    @Override
     default boolean isValid(Supplier<NetworkEvent.Context> context) {
         return true;
     }
