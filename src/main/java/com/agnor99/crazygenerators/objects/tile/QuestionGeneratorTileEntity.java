@@ -1,6 +1,6 @@
 package com.agnor99.crazygenerators.objects.tile;
 
-import com.agnor99.crazygenerators.container.QuestionGeneratorContainer;
+import com.agnor99.crazygenerators.objects.container.QuestionGeneratorContainer;
 import com.agnor99.crazygenerators.init.TileInit;
 import com.agnor99.crazygenerators.network.NetworkUtil;
 import com.agnor99.crazygenerators.network.packets.question_generator.PacketTimeOut;

@@ -110,10 +110,10 @@
     "question.question13.answer2" : "0",
     "question.question13.answer3" : "4",
 
-    "question.question14.question" : "How is Water/Lava Flowing affected by an higher randomTickSpeed?",
-    "question.question14.answer0" : "slower",
-    "question.question14.answer1" : "faster",
-    "question.question14.answer2" : "not affected",
-    "question.question14.answer3" : "was affected"
+    "question.question14.question" : "What is the default randomTickSpeed on Bedrock-Edition",
+    "question.question14.answer0" : "1",
+    "question.question14.answer1" : "2",
+    "question.question14.answer2" : "3",
+    "question.question14.answer3" : "4"
 
 }

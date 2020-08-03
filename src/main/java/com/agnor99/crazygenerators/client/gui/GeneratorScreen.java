@@ -1,6 +1,6 @@
 package com.agnor99.crazygenerators.client.gui;
 
-import com.agnor99.crazygenerators.container.GeneratorContainer;
+import com.agnor99.crazygenerators.objects.container.GeneratorContainer;
 import com.agnor99.crazygenerators.network.NetworkUtil;
 import com.agnor99.crazygenerators.network.packets.sync.PacketRequestSync;
 import com.mojang.blaze3d.systems.RenderSystem;

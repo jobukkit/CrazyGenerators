@@ -1,6 +1,7 @@
-package com.agnor99.crazygenerators.objects.other.generator.pong;
+package com.agnor99.crazygenerators.objects.other.generator.pong.util;
 
-import com.agnor99.crazygenerators.objects.other.GeneratorEnergyStorage;
+import com.agnor99.crazygenerators.objects.other.generator.pong.Board;
+import com.agnor99.crazygenerators.objects.other.generator.pong.DrawObject;
 import net.minecraft.util.IntReferenceHolder;
 
 import java.util.ArrayList;
@@ -8,10 +9,10 @@ import java.util.List;
 import java.awt.*;
 
 public abstract class GameObject implements Resetteable,Tickable {
-    final Board board;
-    Dimension size;
-    Point pos;
-    GameObject(Board board) {
+    public final Board board;
+    public Dimension size;
+    public SubpixelPoint pos;
+    public GameObject(Board board) {
         this.board = board;
         reset();
     }
@@ -65,5 +66,13 @@ public abstract class GameObject implements Resetteable,Tickable {
 
         return referenceHolderList;
     }
+
+
+    public boolean isColliding(GameObject gameObject){
+        Rectangle r1 = new Rectangle(new Point(pos.x, pos.y), size);
+        Rectangle r2 = new Rectangle(new Point(gameObject.pos.x, gameObject.pos.y), gameObject.size);
+        return r1.intersects(r2);
+    }
+
     public abstract List<DrawObject> createDrawObjects();
 }

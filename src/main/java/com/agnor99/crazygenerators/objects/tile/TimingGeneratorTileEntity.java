@@ -1,6 +1,6 @@
 package com.agnor99.crazygenerators.objects.tile;
 
-import com.agnor99.crazygenerators.container.TimingGeneratorContainer;
+import com.agnor99.crazygenerators.objects.container.TimingGeneratorContainer;
 import com.agnor99.crazygenerators.init.TileInit;
 import com.agnor99.crazygenerators.network.packets.sync.PacketAbstractSyncResponse;
 import com.agnor99.crazygenerators.network.packets.sync.PacketTimingSyncResponse;

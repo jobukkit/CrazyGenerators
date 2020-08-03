@@ -1,12 +1,11 @@
 package com.agnor99.crazygenerators.client.gui;
 
 import com.agnor99.crazygenerators.CrazyGenerators;
-import com.agnor99.crazygenerators.container.QuestionGeneratorContainer;
+import com.agnor99.crazygenerators.objects.container.QuestionGeneratorContainer;
 import com.agnor99.crazygenerators.network.NetworkUtil;
 import com.agnor99.crazygenerators.network.packets.question_generator.PacketAnswer;
 import com.agnor99.crazygenerators.network.packets.question_generator.PacketHintRequest;
 import com.agnor99.crazygenerators.objects.tile.QuestionGeneratorTileEntity;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.button.ImageButton;
 import net.minecraft.entity.player.PlayerInventory;

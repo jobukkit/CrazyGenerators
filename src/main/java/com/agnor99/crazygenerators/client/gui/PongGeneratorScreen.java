@@ -2,7 +2,7 @@ package com.agnor99.crazygenerators.client.gui;
 
 import com.agnor99.crazygenerators.CrazyGenerators;
 
-import com.agnor99.crazygenerators.container.PongGeneratorContainer;
+import com.agnor99.crazygenerators.objects.container.PongGeneratorContainer;
 import com.agnor99.crazygenerators.network.NetworkUtil;
 import com.agnor99.crazygenerators.network.packets.pong_generator.PacketPongKeys;
 import com.agnor99.crazygenerators.objects.other.generator.pong.DrawObject;

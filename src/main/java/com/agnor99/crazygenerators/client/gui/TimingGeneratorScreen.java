@@ -2,9 +2,8 @@ package com.agnor99.crazygenerators.client.gui;
 
 import com.agnor99.crazygenerators.CrazyGenerators;
 
-import com.agnor99.crazygenerators.container.TimingGeneratorContainer;
+import com.agnor99.crazygenerators.objects.container.TimingGeneratorContainer;
 import com.agnor99.crazygenerators.network.NetworkUtil;
-import com.agnor99.crazygenerators.network.packets.question_generator.PacketAnswer;
 import com.agnor99.crazygenerators.network.packets.timing_generator.PacketButtonPress;
 import com.agnor99.crazygenerators.objects.other.generator.timing.ButtonData;
 import com.agnor99.crazygenerators.objects.tile.TimingGeneratorTileEntity;

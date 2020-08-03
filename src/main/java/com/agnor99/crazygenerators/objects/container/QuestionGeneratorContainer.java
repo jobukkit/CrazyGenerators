@@ -1,4 +1,4 @@
-package com.agnor99.crazygenerators.container;
+package com.agnor99.crazygenerators.objects.container;
 
 import com.agnor99.crazygenerators.init.BlockInit;
 import com.agnor99.crazygenerators.init.ContainerInit;

@@ -1,5 +1,8 @@
 package com.agnor99.crazygenerators.objects.other.generator.pong;
 
+import com.agnor99.crazygenerators.objects.other.generator.pong.util.GameObject;
+import com.agnor99.crazygenerators.objects.other.generator.pong.util.Resetteable;
+import com.agnor99.crazygenerators.objects.other.generator.pong.util.Tickable;
 import com.agnor99.crazygenerators.objects.tile.PongGeneratorTileEntity;
 import net.minecraft.util.IntReferenceHolder;
 
@@ -15,7 +18,7 @@ public class Board implements Resetteable, Tickable {
     public Ball[] balls = new Ball[3];
     public PlayerBar player;
     public PlayerBar computer;
-    private Item item;
+    public Item item;
     boolean start = false;
     int numBounces;
     public Board(PongGeneratorTileEntity te) {
@@ -30,6 +33,8 @@ public class Board implements Resetteable, Tickable {
         gameObjects.add(player);
         computer = new PlayerBar(this, false);
         gameObjects.add(computer);
+        item = new Item(this);
+        gameObjects.add(item);
         reset();
     }
 
@@ -141,6 +146,9 @@ public class Board implements Resetteable, Tickable {
         }
         if(numBounces%2== 0) {
             te.addBounceEnergy(balls[0].speed);
+        }
+        if(numBounces%5 == 0){
+            item.spawn();
         }
     }
 }

@@ -1,10 +1,9 @@
-package com.agnor99.crazygenerators.container;
+package com.agnor99.crazygenerators.objects.container;
 
 import com.agnor99.crazygenerators.init.BlockInit;
 import com.agnor99.crazygenerators.init.ContainerInit;
 import com.agnor99.crazygenerators.objects.tile.GeneratorTileEntity;
 import com.agnor99.crazygenerators.objects.tile.PongGeneratorTileEntity;
-import com.agnor99.crazygenerators.objects.tile.TimingGeneratorTileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketBuffer;

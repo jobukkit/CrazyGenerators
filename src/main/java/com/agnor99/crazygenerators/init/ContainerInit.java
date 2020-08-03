@@ -1,9 +1,9 @@
 package com.agnor99.crazygenerators.init;
 
 import com.agnor99.crazygenerators.CrazyGenerators;
-import com.agnor99.crazygenerators.container.PongGeneratorContainer;
-import com.agnor99.crazygenerators.container.QuestionGeneratorContainer;
-import com.agnor99.crazygenerators.container.TimingGeneratorContainer;
+import com.agnor99.crazygenerators.objects.container.PongGeneratorContainer;
+import com.agnor99.crazygenerators.objects.container.QuestionGeneratorContainer;
+import com.agnor99.crazygenerators.objects.container.TimingGeneratorContainer;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.fml.RegistryObject;

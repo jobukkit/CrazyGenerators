@@ -1,4 +1,4 @@
-package com.agnor99.crazygenerators.container;
+package com.agnor99.crazygenerators.objects.container;
 
 import com.agnor99.crazygenerators.objects.other.GeneratorEnergyStorage;
 import com.agnor99.crazygenerators.objects.other.LoadingSlot;

@@ -1,5 +1,7 @@
 package com.agnor99.crazygenerators.objects.other.generator.pong;
 
+import com.agnor99.crazygenerators.objects.other.generator.pong.util.GameObject;
+import com.agnor99.crazygenerators.objects.other.generator.pong.util.SubpixelPoint;
 import net.minecraft.util.IntReferenceHolder;
 
 import java.awt.*;
@@ -20,7 +22,7 @@ public class Ball extends GameObject {
     @Override
     public void reset() {
         size = new Dimension(3,3);
-        pos = new Point(-10,-10);
+        pos = new SubpixelPoint(-10,-10);
         direction = new Point(1,1);
         speed = 1.5f;
         attachedBar = null;
@@ -43,71 +45,102 @@ public class Ball extends GameObject {
     public void tick() {
         if(!doesExist) return;
         if(attachedBar != null) return;
-        Point speededDirection = calculateSpeededDirection();
-        pos.translate(0,speededDirection.y);
-        if(pos.y+size.height > board.size.height){
+        moveY();
+        moveX();
+        collidesWithItems();
+    }
+
+    private void moveY() {
+        SubpixelPoint speededDirection = calculateSpeededDirection();
+
+        pos.sy += speededDirection.sy;
+        pos.y+=speededDirection.y;
+        pos.revalidate();
+        int dsy = pos.sy;
+        pos.sy = 0;
+        if(pos.getCompleteY() + size.height > board.size.height){
             pos.y -= (pos.y+size.height-board.size.height);
+            pos.sy = -pos.sy;
+            pos.revalidate();
             direction.y = -direction.y;
         }
 
         if(pos.y < 0){
             pos.y = -pos.y;
+            pos.sy = -pos.sy;
+            pos.revalidate();
             direction.y = -direction.y;
         }
 
-        for(int i = 0; i < Math.abs(speededDirection.x); i++){
-            if(speededDirection.x > 0) {
-                if(pos.x+size.width == board.computer.pos.x
-                        && board.computer.pos.y - size.height < pos.y
-                        && board.computer.pos.y + board.computer.size.height + size.height > pos.y){
+        pos.sy = dsy;
+    }
+    private void moveX(){
+        SubpixelPoint speededDirection = calculateSpeededDirection();
+        pos.x += speededDirection.x;
+        pos.sx += speededDirection.sx;
+        pos.revalidate();
+        if(speededDirection.getCompleteX() > 0) {
+            if(pos.getCompleteX() + size.width >= board.computer.pos.x){
+                if(pos.getCompleteY() + size.height > board.computer.pos.getCompleteY()
+                        && pos.getCompleteY() < board.computer.pos.getCompleteY() + board.computer.size.height) {
                     board.doBounce();
-                    updateDirectionAfterBounce(board.computer.moveUp, board.computer.moveDown);
-                    break;
-                }
-                pos.x++;
-                if(pos.x >= board.size.width){
+                    updateDirectionAfterBounce();
+                    pos.x = board.computer.pos.x-size.width;
+                    pos.sx = board.computer.pos.sx;
+
+                    if(board.computer.isFreezing) {
+                        pos.y = board.computer.getCenterHeight()-size.height;
+                        pos.sy = 0;
+                        attachedBar = board.computer;
+                    }
+                }else{
                     board.doScore(board.player);
                 }
-
-            }else{
-                if(pos.x == board.player.pos.x+board.player.size.width
-                        && board.player.pos.y - size.height < pos.y
-                        && board.player.pos.y + board.player.size.height + size.height > pos.y){
+            }
+        }else{
+            if(pos.getCompleteX() <= board.player.pos.x+board.player.size.width){
+                if(pos.getCompleteY() + size.height > board.player.pos.getCompleteY()
+                        && pos.getCompleteY() < board.player.pos.getCompleteY() + board.player.size.height) {
                     board.doBounce();
-                    updateDirectionAfterBounce(board.player.moveUp, board.player.moveDown);
-                    break;
-                }else{
-                    pos.x--;
+                    updateDirectionAfterBounce();
+                    pos.x = board.player.pos.x + board.player.size.width;
+                    pos.sx = board.player.pos.sx;
 
-                    if(pos.x <= 0){
-                        board.doScore(board.computer);
+                    if(board.player.isFreezing) {
+                        pos.y = board.player.getCenterHeight()-size.height;
+                        pos.sy = 0;
+                        attachedBar = board.player;
                     }
+                }else{
+                    board.doScore(board.computer);
                 }
             }
         }
     }
-    Point calculateSpeededDirection() {
-        Point speededDirection = new Point();
-        while(speededDirection.distance(0,0) < speed) {
-            speededDirection.translate(direction.x, direction.y);
-        }
-        return speededDirection;
-    }
-    private void updateDirectionAfterBounce(boolean up, boolean down){
-        int rangeOffsett;
-        if(up && !down){
-            rangeOffsett = -2;
-        }else if(!up && down){
-            rangeOffsett = 0;
-        }else{
-            rangeOffsett = -1;
-        }
 
-        int yModifier = new Random().nextInt(3)-rangeOffsett;
-        direction.y += yModifier;
-        direction.y =  Math.min(direction.y, 5);
-        direction.y = Math.max(direction.y, -5);
-        direction.x = -direction.x;
+    public void collidesWithItems(){
+        if(isColliding(board.item)){
+            if(board.item.type != ItemType.NONE
+                && board.item.numTicksSinceHit == 0) {
+                board.item.isActive = true;
+                board.item.hitBallDirection = new Point(direction);
+            }
+        }
+    }
+
+    SubpixelPoint calculateSpeededDirection() {
+        return SubpixelPoint.create(speed, direction);
+
+    }
+    public void updateDirectionAfterBounce(){
+
+        int x = new Random().nextInt(3)+1;
+        if(direction.x > 0){
+            direction.x = -x;
+        }else{
+            direction.x = x;
+        }
+        direction.y = new Random().nextInt(5)-2;
     }
     @Override
     public List<IntReferenceHolder> getIntReferences() {
@@ -129,7 +162,7 @@ public class Ball extends GameObject {
     @Override
     public List<DrawObject> createDrawObjects() {
         List<DrawObject> drawObjects = new ArrayList<>(1);
-        drawObjects.add(new DrawObject(new Point(pos), new Point(212,44), new Dimension(size)));
+        drawObjects.add(new DrawObject(new Point(pos.x, pos.y), new Point(212,44), new Dimension(size)));
         return drawObjects;
     }
 }

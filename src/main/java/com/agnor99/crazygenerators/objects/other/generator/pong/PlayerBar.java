@@ -1,5 +1,7 @@
 package com.agnor99.crazygenerators.objects.other.generator.pong;
 
+import com.agnor99.crazygenerators.objects.other.generator.pong.util.GameObject;
+import com.agnor99.crazygenerators.objects.other.generator.pong.util.SubpixelPoint;
 import net.minecraft.util.IntReferenceHolder;
 
 import java.awt.*;
@@ -11,6 +13,7 @@ public class PlayerBar extends GameObject {
     int speed;
     boolean isPlayer;
     public int points;
+    boolean isFreezing;
     PlayerBar(Board board, boolean isPlayer) {
         super(board);
         this.isPlayer = isPlayer;
@@ -47,11 +50,12 @@ public class PlayerBar extends GameObject {
     public void reset() {
         size = new Dimension(3,20);
         if(isPlayer) {
-            pos = new Point(0, board.size.height/2-size.height/2);
+            pos = new SubpixelPoint(0, board.size.height/2-size.height/2);
         }else{
-            pos = new Point(125-size.width, board.size.height/2-size.height/2);
+            pos = new SubpixelPoint(125-size.width, board.size.height/2-size.height/2);
         }
         speed = 3;
+        isFreezing = false;
     }
 
     @Override
@@ -67,12 +71,28 @@ public class PlayerBar extends GameObject {
             if(ball == null){
                 ball = board.balls[i];
             }else if(board.balls[i].pos.x > ball.pos.x){
-                if(ball.doesExist) {
+                if(ball.doesExist && ball.attachedBar != this) {
                     ball = board.balls[i];
                 }
             }
         }
-        if(ball == null) return;
+        if(ball == null) {
+            moveUp = false;
+            moveDown = false;
+            for(int i = 0; i < board.balls.length; i++){
+                if(board.balls[i].doesExist && board.balls[i].attachedBar == this) {
+                    if(Math.random() < 0.05d){
+                        board.freeBalls();
+                    }
+                }
+            }
+            if(Math.random() < 0.5d){
+                moveUp = true;
+            }else {
+                moveDown = true;
+            }
+            return;
+        }
 
         if(ball.getCenterHeight() > getCenterHeight()+speed) {
             moveUp = false;
