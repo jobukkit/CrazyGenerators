@@ -1,10 +1,7 @@
 package com.agnor99.crazygenerators.init;
 
 import com.agnor99.crazygenerators.CrazyGenerators;
-import com.agnor99.crazygenerators.objects.tile.PongGeneratorTileEntity;
-import com.agnor99.crazygenerators.objects.tile.PositionGeneratorTileEntity;
-import com.agnor99.crazygenerators.objects.tile.QuestionGeneratorTileEntity;
-import com.agnor99.crazygenerators.objects.tile.TimingGeneratorTileEntity;
+import com.agnor99.crazygenerators.objects.tile.*;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
