@@ -1,6 +1,6 @@
 package com.agnor99.crazygenerators.network.packets.sync;
 
-import com.agnor99.crazygenerators.client.gui.GeneratorScreen;
+import com.agnor99.crazygenerators.client.gui.util.GeneratorScreen;
 import com.agnor99.crazygenerators.objects.container.GeneratorContainer;
 import com.agnor99.crazygenerators.network.packets.ServerPacket;
 import com.agnor99.crazygenerators.objects.tile.GeneratorTileEntity;
@@ -42,6 +42,7 @@ public abstract class PacketAbstractSyncResponse implements ServerPacket {
     }
     protected static GeneratorTileEntity getTileEntity() {
         GeneratorScreen screen = (GeneratorScreen)Minecraft.getInstance().currentScreen;
+
         GeneratorContainer container = (GeneratorContainer)screen.getContainer();
         return container.getTileEntity();
     }

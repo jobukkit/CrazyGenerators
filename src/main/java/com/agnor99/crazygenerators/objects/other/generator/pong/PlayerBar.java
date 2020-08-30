@@ -130,7 +130,7 @@ public class PlayerBar extends GameObject {
             }else{
                 texturePosition = new Point(209,44);
             }
-            drawObjects.add(new DrawObject(new Point(pos.x,pos.y+i), texturePosition, new Dimension(3,1)));
+            drawObjects.add(new DrawObject(new Point(pos.x,pos.y+i), texturePosition, new Dimension(3,1), new Point(1, pos.y + size.height/2)));
         }
         return drawObjects;
     }

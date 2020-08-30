@@ -62,9 +62,7 @@ public abstract class GeneratorTileEntity extends LockableLootTileEntity impleme
     protected abstract ITextComponent getDefaultName();
 
     @Override
-    protected Container createMenu(int id, PlayerInventory player) {
-        return new QuestionGeneratorContainer(id, player, this);
-    }
+    protected abstract Container createMenu(int id, PlayerInventory player);
 
     public int getTick() {
         return tick;

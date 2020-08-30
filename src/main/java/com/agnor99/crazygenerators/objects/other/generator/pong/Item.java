@@ -1,6 +1,5 @@
 package com.agnor99.crazygenerators.objects.other.generator.pong;
 
-
 import com.agnor99.crazygenerators.objects.other.generator.pong.util.GameObject;
 import com.agnor99.crazygenerators.objects.other.generator.pong.util.SubpixelPoint;
 import net.minecraft.util.IntReferenceHolder;
@@ -13,20 +12,23 @@ import java.util.Random;
 public class Item extends GameObject {
     ItemType type;
     boolean isActive;
-
+    boolean isDone;
     SubpixelPoint hitBallPos;
     Point hitBallDirection;
     int numTicksSinceHit;
 
     public Item(Board board) {
         super(board);
-        size = new Dimension(10,10);
+        size = new Dimension(15,15);
     }
     @Override
     public List<DrawObject> createDrawObjects() {
-            List<DrawObject> drawObjects = new ArrayList<>();
-            drawObjects.add(new DrawObject(new Point(pos.x, pos.y), new Point(23 + (type.id - 1)*10,190), new Dimension(size)));
-            return drawObjects;
+        List<DrawObject> drawObjects = new ArrayList<>();
+        if(!isDone) {
+            drawObjects.add(new DrawObject(new Point(pos.x, pos.y), new Point(23 + (type.id - 1) * size.width, 201), new Dimension(size)));
+
+        }
+        return drawObjects;
     }
 
     @Override
@@ -71,8 +73,10 @@ public class Item extends GameObject {
 
     @Override
     public void tick() {
-        if(isActive) {
+        if(isActive){
             numTicksSinceHit++;
+        }
+        if(isActive && !isDone) {
             PlayerBar affectedBar;
             switch (type) {
                 case SIZE_UP:
@@ -85,7 +89,7 @@ public class Item extends GameObject {
                     if(affectedBar.pos.getCompleteY()+affectedBar.size.height > board.size.height) {
                         affectedBar.pos.y = board.size.height-affectedBar.size.height;
                     }
-                    isActive = false;
+                    isDone = true;
                     break;
 
                 case SIZE_DOWN:
@@ -97,7 +101,7 @@ public class Item extends GameObject {
                     affectedBar.size.height -= 5;
                     affectedBar.pos.x += 2;
 
-                    isActive = false;
+                    isDone = true;
                     break;
 
                 case TRIPLE_BALLS:
@@ -111,6 +115,7 @@ public class Item extends GameObject {
                         board.balls[2].doesExist = true;
                         board.balls[2].speed = board.balls[0].speed;
                         board.balls[2].direction = new Point(hitBallDirection);
+                        isDone = true;
                     }
 
                     break;
@@ -123,7 +128,7 @@ public class Item extends GameObject {
                     }
                     affectedBar.isFreezing = true;
 
-                    isActive = false;
+                    isDone = true;
                     break;
 
                 case NONE:
@@ -135,5 +140,7 @@ public class Item extends GameObject {
         pos.x = new Random().nextInt(board.size.width-size.width);
         pos.y = new Random().nextInt(board.size.height-size.height);
         type = ItemType.values()[new Random().nextInt(ItemType.values().length-1)+1];
+        isDone = false;
+        isActive = true;
     }
 }

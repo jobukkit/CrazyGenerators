@@ -2,6 +2,7 @@ package com.agnor99.crazygenerators.init;
 
 import com.agnor99.crazygenerators.CrazyGenerators;
 import com.agnor99.crazygenerators.objects.tile.PongGeneratorTileEntity;
+import com.agnor99.crazygenerators.objects.tile.PositionGeneratorTileEntity;
 import com.agnor99.crazygenerators.objects.tile.QuestionGeneratorTileEntity;
 import com.agnor99.crazygenerators.objects.tile.TimingGeneratorTileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -25,6 +26,11 @@ public class TileInit {
     public static final RegistryObject<TileEntityType<PongGeneratorTileEntity>> PONG_GENERATOR = TILE_ENTITY_TYPES.register(
             "pong_generator",
             () -> TileEntityType.Builder.create(PongGeneratorTileEntity::new, BlockInit.pong_generator)
+                    .build(null)
+    );
+    public static final RegistryObject<TileEntityType<PositionGeneratorTileEntity>> POSITION_GENERATOR = TILE_ENTITY_TYPES.register(
+            "position_generator",
+            () -> TileEntityType.Builder.create(PositionGeneratorTileEntity::new, BlockInit.position_generator)
                     .build(null)
     );
 }

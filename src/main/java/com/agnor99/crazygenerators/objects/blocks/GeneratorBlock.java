@@ -1,7 +1,6 @@
 package com.agnor99.crazygenerators.objects.blocks;
 
 import com.agnor99.crazygenerators.objects.tile.GeneratorTileEntity;
-import com.agnor99.crazygenerators.objects.tile.QuestionGeneratorTileEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.tileentity.TileEntity;

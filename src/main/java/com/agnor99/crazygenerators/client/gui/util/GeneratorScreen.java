@@ -1,10 +1,11 @@
-package com.agnor99.crazygenerators.client.gui;
+package com.agnor99.crazygenerators.client.gui.util;
 
 import com.agnor99.crazygenerators.objects.container.GeneratorContainer;
 import com.agnor99.crazygenerators.network.NetworkUtil;
 import com.agnor99.crazygenerators.network.packets.sync.PacketRequestSync;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -17,7 +18,7 @@ import java.util.List;
 
 public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> extends ContainerScreen<SpecContainer> {
     protected ResourceLocation BACKGROUND_TEXTURE;
-    Point RELATIVE_SCREEN_POSITION;
+    protected Point RELATIVE_SCREEN_POSITION;
     boolean startSynced = false;
     private String generatorName;
 
@@ -70,6 +71,13 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
         drawEnergy();
 
     }
+
+    protected void drawButtonText(String text, Button button) {
+        if(!button.visible) return;
+        final int WHITE = 16777215;
+        font.drawString(text, button.x+2-RELATIVE_SCREEN_POSITION.x, button.y+2-RELATIVE_SCREEN_POSITION.y, WHITE);
+    }
+
     private void drawEnergy() {
         Point energyContainerPoint = new Point(152,37);
         Point energyContainerTexturePoint = new Point(180,37);
@@ -89,7 +97,7 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
     }
 
 
-    void drawHoverMessages(Point relativeMousePosition) {
+    protected void drawHoverMessages(Point relativeMousePosition) {
 
         RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
         this.minecraft.getTextureManager().bindTexture(BACKGROUND_TEXTURE);

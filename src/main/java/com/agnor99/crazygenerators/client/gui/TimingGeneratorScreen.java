@@ -2,6 +2,7 @@ package com.agnor99.crazygenerators.client.gui;
 
 import com.agnor99.crazygenerators.CrazyGenerators;
 
+import com.agnor99.crazygenerators.client.gui.util.GeneratorScreen;
 import com.agnor99.crazygenerators.objects.container.TimingGeneratorContainer;
 import com.agnor99.crazygenerators.network.NetworkUtil;
 import com.agnor99.crazygenerators.network.packets.timing_generator.PacketButtonPress;
@@ -77,9 +78,8 @@ public class TimingGeneratorScreen extends GeneratorScreen<TimingGeneratorContai
         }
 
 
-        if(clickButton.visible) {
-            font.drawString(new TranslationTextComponent("button.timing_generator.click").getFormattedText(), clickButton.x+2-RELATIVE_SCREEN_POSITION.x, clickButton.y+2-RELATIVE_SCREEN_POSITION.y, WHITE);
-        }
+        drawButtonText(new TranslationTextComponent("button.timing_generator.click").getFormattedText(), clickButton);
+
 
         Point relativeMousePosition = new Point(mouseX, mouseY);
         relativeMousePosition.translate(-RELATIVE_SCREEN_POSITION.x, -RELATIVE_SCREEN_POSITION.y);
@@ -87,7 +87,7 @@ public class TimingGeneratorScreen extends GeneratorScreen<TimingGeneratorContai
     }
 
     @Override
-    void drawHoverMessages(Point mousePosition) {
+    protected void drawHoverMessages(Point mousePosition) {
         super.drawHoverMessages(mousePosition);
         drawMultiplierHover(mousePosition);
         drawDelayHover(mousePosition);
@@ -139,7 +139,6 @@ public class TimingGeneratorScreen extends GeneratorScreen<TimingGeneratorContai
 
         @Override
         public void onPress(Button button) {
-            ClickButton answerButton = (ClickButton) button;
 
             NetworkUtil.INSTANCE.sendToServer(new PacketButtonPress(minecraft.player.dimension, container.getTileEntity().getPos(), container.getTicks()));
 

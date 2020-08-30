@@ -2,6 +2,7 @@ package com.agnor99.crazygenerators.init;
 
 import com.agnor99.crazygenerators.CrazyGenerators;
 import com.agnor99.crazygenerators.objects.container.PongGeneratorContainer;
+import com.agnor99.crazygenerators.objects.container.PositionGeneratorContainer;
 import com.agnor99.crazygenerators.objects.container.QuestionGeneratorContainer;
 import com.agnor99.crazygenerators.objects.container.TimingGeneratorContainer;
 import net.minecraft.inventory.container.ContainerType;
@@ -22,5 +23,8 @@ public class ContainerInit {
 
     public static final RegistryObject<ContainerType<PongGeneratorContainer>> PONG_GENERATOR = CONTAINER_TYPES.
             register("pong_generator", () -> IForgeContainerType.create(PongGeneratorContainer::new));
+
+    public static final RegistryObject<ContainerType<PositionGeneratorContainer>> POSITION_GENERATOR = CONTAINER_TYPES.
+            register("position_generator", () -> IForgeContainerType.create(PositionGeneratorContainer::new));
 }
 

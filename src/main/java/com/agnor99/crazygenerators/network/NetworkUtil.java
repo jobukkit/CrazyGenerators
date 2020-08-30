@@ -1,7 +1,11 @@
 package com.agnor99.crazygenerators.network;
 
 import com.agnor99.crazygenerators.CrazyGenerators;
+import com.agnor99.crazygenerators.network.packets.Packet;
 import com.agnor99.crazygenerators.network.packets.pong_generator.PacketPongKeys;
+import com.agnor99.crazygenerators.network.packets.position_generator.NewCoordsPacket;
+import com.agnor99.crazygenerators.network.packets.position_generator.NewPlayerPacket;
+import com.agnor99.crazygenerators.network.packets.position_generator.NewPlayerPacketResponse;
 import com.agnor99.crazygenerators.network.packets.question_generator.*;
 import com.agnor99.crazygenerators.network.packets.sync.*;
 import com.agnor99.crazygenerators.network.packets.timing_generator.PacketButtonPress;
@@ -49,6 +53,13 @@ public class NetworkUtil {
                 PacketPongSyncResponse::toBytes,
                 PacketPongSyncResponse::new,
                 PacketPongSyncResponse::handle
+        );
+        INSTANCE.registerMessage(
+                nextID(),
+                PacketPositionSyncResponse.class,
+                PacketPositionSyncResponse::toBytes,
+                PacketPositionSyncResponse::new,
+                PacketPositionSyncResponse::handle
         );
 
 
@@ -111,6 +122,29 @@ public class NetworkUtil {
                 PacketPongKeys::toBytes,
                 PacketPongKeys::new,
                 PacketPongKeys::handle
+        );
+
+
+        INSTANCE.registerMessage(
+                nextID(),
+                NewCoordsPacket.class,
+                NewCoordsPacket::toBytes,
+                NewCoordsPacket::new,
+                NewCoordsPacket::handle
+        );
+        INSTANCE.registerMessage(
+                nextID(),
+                NewPlayerPacket.class,
+                NewPlayerPacket::toBytes,
+                NewPlayerPacket::new,
+                NewPlayerPacket::handle
+        );
+        INSTANCE.registerMessage(
+                nextID(),
+                NewPlayerPacketResponse.class,
+                NewPlayerPacketResponse::toBytes,
+                NewPlayerPacketResponse::new,
+                NewPlayerPacketResponse::handle
         );
     }
 }

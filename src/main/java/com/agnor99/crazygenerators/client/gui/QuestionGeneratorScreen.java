@@ -1,6 +1,7 @@
 package com.agnor99.crazygenerators.client.gui;
 
 import com.agnor99.crazygenerators.CrazyGenerators;
+import com.agnor99.crazygenerators.client.gui.util.GeneratorScreen;
 import com.agnor99.crazygenerators.objects.container.QuestionGeneratorContainer;
 import com.agnor99.crazygenerators.network.NetworkUtil;
 import com.agnor99.crazygenerators.network.packets.question_generator.PacketAnswer;
@@ -100,11 +101,10 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
         final int WHITE = 16777215;
         final int DEFAULT_COLOR = 4210752;
 
-        font.drawString("50:50", 9,17,WHITE);
+        drawButtonText("50:50", hint);
 
-        if(questionGeneratorTileEntity.getTipsAvailable()> 1) {
-            font.drawString("x" + questionGeneratorTileEntity.getTipsAvailable(), 38,17, DEFAULT_COLOR);
-        }
+        font.drawString("x" + questionGeneratorTileEntity.getTipsAvailable(), 38,17, DEFAULT_COLOR);
+
 
         font.drawString(String.valueOf(questionGeneratorTileEntity.getCurrentQuestionPrice()), 83, 17 , WHITE);
 
@@ -117,10 +117,9 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
 
         reloadButtons();
 
-        font.drawString(new TranslationTextComponent(answers[0].answer).getFormattedText(),9,69,WHITE);
-        font.drawString(new TranslationTextComponent(answers[1].answer).getFormattedText(),75,69,WHITE);
-        font.drawString(new TranslationTextComponent(answers[2].answer).getFormattedText(),9,85,WHITE);
-        font.drawString(new TranslationTextComponent(answers[3].answer).getFormattedText(),75,85,WHITE);
+        for(int i = 0; i < 4; i++) {
+            drawButtonText(new TranslationTextComponent(answers[i].answer).getFormattedText(), answers[i]);
+        }
 
 
         Point relativeMousePosition = new Point(mouseX, mouseY);

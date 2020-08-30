@@ -1,10 +1,7 @@
 package com.agnor99.crazygenerators.init;
 
 import com.agnor99.crazygenerators.CrazyGenerators;
-import com.agnor99.crazygenerators.objects.blocks.GeneratorFrameBlock;
-import com.agnor99.crazygenerators.objects.blocks.PongGeneratorBlock;
-import com.agnor99.crazygenerators.objects.blocks.QuestionGeneratorBlock;
-import com.agnor99.crazygenerators.objects.blocks.TimingGeneratorBlock;
+import com.agnor99.crazygenerators.objects.blocks.*;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -21,6 +18,7 @@ public class BlockInit {
     public static final QuestionGeneratorBlock question_generator = new QuestionGeneratorBlock();
     public static final TimingGeneratorBlock timing_generator = new TimingGeneratorBlock();
     public static final PongGeneratorBlock pong_generator = new PongGeneratorBlock();
+    public static final PositionGeneratorBlock position_generator = new PositionGeneratorBlock();
 
     @SubscribeEvent
     public static void registerBlocks(final RegistryEvent.Register<Block> event) {
@@ -28,6 +26,7 @@ public class BlockInit {
         event.getRegistry().register(question_generator);
         event.getRegistry().register(timing_generator);
         event.getRegistry().register(pong_generator);
+        event.getRegistry().register(position_generator);
     }
 
     @SubscribeEvent
@@ -35,6 +34,7 @@ public class BlockInit {
         event.getRegistry().register(generator_frame.createItemFromItemBlock());
         event.getRegistry().register(question_generator.createItemFromItemBlock(new TranslationTextComponent("lore.question_generator")));
         event.getRegistry().register(timing_generator.createItemFromItemBlock(new TranslationTextComponent("lore.timing_generator")));
+        event.getRegistry().register(position_generator.createItemFromItemBlock(new TranslationTextComponent("lore.position_generator")));
         event.getRegistry().register(pong_generator.createItemFromItemBlock());
     }
 }

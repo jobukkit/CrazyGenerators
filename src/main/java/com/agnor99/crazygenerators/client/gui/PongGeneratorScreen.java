@@ -2,6 +2,7 @@ package com.agnor99.crazygenerators.client.gui;
 
 import com.agnor99.crazygenerators.CrazyGenerators;
 
+import com.agnor99.crazygenerators.client.gui.util.GeneratorScreen;
 import com.agnor99.crazygenerators.objects.container.PongGeneratorContainer;
 import com.agnor99.crazygenerators.network.NetworkUtil;
 import com.agnor99.crazygenerators.network.packets.pong_generator.PacketPongKeys;
@@ -19,7 +20,7 @@ import java.util.List;
 
 
 @OnlyIn(Dist.CLIENT)
-public class PongGeneratorScreen extends GeneratorScreen<PongGeneratorContainer>{
+public class PongGeneratorScreen extends GeneratorScreen<PongGeneratorContainer> {
 
 
     public PongGeneratorScreen(PongGeneratorContainer screenContainer, PlayerInventory playerInventory, ITextComponent title) {
@@ -80,7 +81,7 @@ public class PongGeneratorScreen extends GeneratorScreen<PongGeneratorContainer>
     }
 
     @Override
-    void drawHoverMessages(Point mousePosition) {
+    protected void drawHoverMessages(Point mousePosition) {
         super.drawHoverMessages(mousePosition);
 
     }

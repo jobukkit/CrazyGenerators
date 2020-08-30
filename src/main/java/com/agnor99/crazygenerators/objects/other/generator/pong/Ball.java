@@ -161,6 +161,7 @@ public class Ball extends GameObject {
 
     @Override
     public List<DrawObject> createDrawObjects() {
+
         List<DrawObject> drawObjects = new ArrayList<>(1);
         drawObjects.add(new DrawObject(new Point(pos.x, pos.y), new Point(212,44), new Dimension(size)));
         return drawObjects;
