@@ -1,8 +1,6 @@
 package com.agnor99.crazygenerators.network;
 
 import com.agnor99.crazygenerators.CrazyGenerators;
-import com.agnor99.crazygenerators.network.packets.Packet;
-import com.agnor99.crazygenerators.network.packets.pong_generator.PacketPongKeys;
 import com.agnor99.crazygenerators.network.packets.position_generator.NewCoordsPacket;
 import com.agnor99.crazygenerators.network.packets.position_generator.NewPlayerPacket;
 import com.agnor99.crazygenerators.network.packets.position_generator.NewPlayerPacketResponse;
@@ -16,7 +14,7 @@ import net.minecraftforge.fml.network.simple.SimpleChannel;
 
 public class NetworkUtil {
 
-    public static SimpleChannel INSTANCE;
+    public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(new ResourceLocation(CrazyGenerators.MOD_ID,"generator_packets"), () -> "1.0", s->true, s->true);;
     private static int ID = 0;
 
     public static int nextID() {
@@ -24,8 +22,6 @@ public class NetworkUtil {
     }
 
     public static void registerMessages() {
-        INSTANCE = NetworkRegistry.newSimpleChannel(new ResourceLocation(CrazyGenerators.MOD_ID,"generator_packets"), () -> "1.0", s->true, s->true);
-
         INSTANCE.registerMessage(
                 nextID(),
                 PacketRequestSync.class,
@@ -46,13 +42,6 @@ public class NetworkUtil {
                 PacketTimingSyncResponse::toBytes,
                 PacketTimingSyncResponse::new,
                 PacketTimingSyncResponse::handle
-        );
-        INSTANCE.registerMessage(
-                nextID(),
-                PacketPongSyncResponse.class,
-                PacketPongSyncResponse::toBytes,
-                PacketPongSyncResponse::new,
-                PacketPongSyncResponse::handle
         );
         INSTANCE.registerMessage(
                 nextID(),
@@ -113,15 +102,6 @@ public class NetworkUtil {
                 PacketButtonPressResponse::toBytes,
                 PacketButtonPressResponse::new,
                 PacketButtonPressResponse::handle
-        );
-
-
-        INSTANCE.registerMessage(
-                nextID(),
-                PacketPongKeys.class,
-                PacketPongKeys::toBytes,
-                PacketPongKeys::new,
-                PacketPongKeys::handle
         );
 
 

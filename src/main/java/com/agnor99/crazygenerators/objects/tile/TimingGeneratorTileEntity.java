@@ -26,7 +26,8 @@ public class TimingGeneratorTileEntity extends GeneratorTileEntity{
 
     public TimingGeneratorTileEntity(final TileEntityType<?> tileEntityType) {
         super(tileEntityType);
-
+        generateUnlockData();
+        multiplier = 1;
     }
     public TimingGeneratorTileEntity() {
         this(TileInit.TIMING_GENERATOR.get());
@@ -40,8 +41,8 @@ public class TimingGeneratorTileEntity extends GeneratorTileEntity{
 
     @Override
     public void tick() {
-        if(world.isRemote()) return;
         super.tick();
+        if(!shouldTickIntern()) return;
         if(tickToUnlock + TICKS_TO_CLICK + MAX_TICK_DELAY_FOR_PING == tick) {
             generateUnlockData();
             multiplier = 1;
@@ -56,12 +57,9 @@ public class TimingGeneratorTileEntity extends GeneratorTileEntity{
 
     @Override
     public PacketAbstractSyncResponse generateSyncPacket() {
-        if(players.size() > 1) {
-            return new PacketTimingSyncResponse(getEnergy(), true);
-        }
-        generateUnlockData();
+
         multiplier = 1;
-        return new PacketTimingSyncResponse(getEnergy(),false);
+        return new PacketTimingSyncResponse(getEnergy());
     }
 
     public int addClickEnergy(int ping){

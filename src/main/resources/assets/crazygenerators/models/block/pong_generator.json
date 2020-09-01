@@ -1,6 +1,0 @@
-{
-    "parent": "crazygenerators:block/frame",
-    "textures": {
-        "gentexture": "crazygenerators:blocks/pong_generator"
-    }
-}

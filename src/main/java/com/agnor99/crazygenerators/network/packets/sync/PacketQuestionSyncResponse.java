@@ -22,8 +22,8 @@ import java.util.function.Supplier;
 public class PacketQuestionSyncResponse extends PacketAbstractSyncResponse {
     String question;
     String[] answers = new String[4];
-    public PacketQuestionSyncResponse(@NotNull Question question, int energy, boolean shouldClose) {
-        super(energy, shouldClose);
+    public PacketQuestionSyncResponse(@NotNull Question question, int energy) {
+        super(energy);
         this.question = question.getQuestion();
         answers = question.getAnswerPossibilities();
     }
@@ -53,6 +53,5 @@ public class PacketQuestionSyncResponse extends PacketAbstractSyncResponse {
         if(screen instanceof QuestionGeneratorScreen) {
             ((QuestionGeneratorScreen) screen).updateQuestion(question, answers);
         }
-        context.get().setPacketHandled(true);
     }
 }

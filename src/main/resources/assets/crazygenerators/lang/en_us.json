@@ -5,7 +5,6 @@
 
     "block.crazygenerators.question_generator" : "Question Generator",
     "block.crazygenerators.timing_generator" : "Timing Generator",
-    "block.crazygenerators.pong_generator" : "Pong Generator",
     "block.crazygenerators.generator_frame": "Generator Frame",
     "block.crazygenerators.item_generator": "Item Generator",
     "block.crazygenerators.death_generator": "Death Generator",
@@ -13,21 +12,18 @@
 
     "container.question_generator": "Question Generator",
     "container.timing_generator": "Timing Generator",
-    "container.pong_generator": "Pong Generator",
     "container.item_generator": "Item Generator",
     "container.death_generator": "Death Generator",
     "container.position_generator": "Position Generator",
 
     "information.question_generator" : "In this generator you have to answer questions to generate RF. If you leave this interface all your question progress is lost and you have to start at 500RF again!",
     "information.timing_generator" : "In this generator you have to click the button as soon as the Box turns green. The faster you click, the more RF you get!",
-    "information.pong_generator" : "In this generator you have to play Pong. For a point, win and a hit you get a different amount of RF",
     "information.item_generator" : "In this generator you have to obtain a random Item to generate RF",
     "information.death_generator" : "In this generator you have to kill a random Mob to generate RF",
     "information.position_generator" : "In this generator you have to run to a specific location to generate RF",
 
     "lore.question_generator": "\u00A73Who wants to be a millionaire?",
     "lore.timing_generator": "\u00A73Train your reflexes!",
-    "lore.pong_generator": "\u00A73Just have fun!",
     "lore.item_generator": "\u00A73I hope u have a little bit of luck",
     "lore.death_generator": "\u00A73You are definitely a demon",
     "lore.position_generator": "\u00A73Don't ruin your world!",

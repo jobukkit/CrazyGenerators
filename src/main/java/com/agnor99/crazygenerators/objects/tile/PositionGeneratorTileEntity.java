@@ -5,15 +5,10 @@ import com.agnor99.crazygenerators.network.packets.sync.PacketAbstractSyncRespon
 import com.agnor99.crazygenerators.network.packets.sync.PacketPositionSyncResponse;
 import com.agnor99.crazygenerators.objects.container.PositionGeneratorContainer;
 import com.agnor99.crazygenerators.objects.other.generator.position.Flag;
-import net.minecraft.block.BarrierBlock;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.item.FallingBlockEntity;
 import net.minecraft.entity.monster.SlimeEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.potion.EffectInstance;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
@@ -52,17 +47,15 @@ public class PositionGeneratorTileEntity extends GeneratorTileEntity{
 
     @Override
     public void tick() {
-        if(!world.isRemote()) {
-            super.tick();
-            if (flag.player != null) {
-                BlockPos pos = flag.player.getPosition();
-                if (pos.withinDistance(new BlockPos(flag.getX(), flag.getY(), flag.getZ()), 5.0f)) {
-                    addEnergy(10000);
-                    updateFlag();
-                }
-            }else{
+        if(world.isRemote()) return;
+        if (flag.player != null) {
+            BlockPos pos = flag.player.getPosition();
+            if (pos.withinDistance(new BlockPos(flag.getX(), flag.getY(), flag.getZ()), 5.0f)) {
+                addEnergy(10000);
                 updateFlag();
             }
+        }else{
+            updateFlag();
         }
     }
 
@@ -77,10 +70,7 @@ public class PositionGeneratorTileEntity extends GeneratorTileEntity{
         if(flag.player == null) {
             flag.player = players.get(0);
         }
-        if(players.size() > 1) {
-            return new PacketPositionSyncResponse(flag.player.getName().getFormattedText(), getEnergy(), true);
-        }
-        return new PacketPositionSyncResponse(flag.player.getName().getFormattedText(), getEnergy(),false);
+        return new PacketPositionSyncResponse(flag.player.getName().getFormattedText(), getEnergy());
     }
 
 

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "rmr",
+    "mcm",
+    "rmr"
+  ],
+  "key": {
+    "r": {
+      "item": "minecraft:redstone"
+    },
+    "m": {
+      "item": "minecraft:compass"
+    },
+    "c": {
+      "item": "crazygenerators:generator_frame"
+    }
+  },
+  "result": {
+    "item": "crazygenerators:question_generator"
+  }
+}

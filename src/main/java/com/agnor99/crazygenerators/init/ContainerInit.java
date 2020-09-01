@@ -18,9 +18,6 @@ public class ContainerInit {
     public static final RegistryObject<ContainerType<TimingGeneratorContainer>> TIMING_GENERATOR = CONTAINER_TYPES.
             register("timing_generator", () -> IForgeContainerType.create(TimingGeneratorContainer::new));
 
-    public static final RegistryObject<ContainerType<PongGeneratorContainer>> PONG_GENERATOR = CONTAINER_TYPES.
-            register("pong_generator", () -> IForgeContainerType.create(PongGeneratorContainer::new));
-
     public static final RegistryObject<ContainerType<PositionGeneratorContainer>> POSITION_GENERATOR = CONTAINER_TYPES.
             register("position_generator", () -> IForgeContainerType.create(PositionGeneratorContainer::new));
 }

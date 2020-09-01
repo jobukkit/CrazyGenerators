@@ -1,7 +1,6 @@
 package com.agnor99.crazygenerators.util;
 
 import com.agnor99.crazygenerators.CrazyGenerators;
-import com.agnor99.crazygenerators.client.gui.PongGeneratorScreen;
 import com.agnor99.crazygenerators.client.gui.PositionGeneratorScreen;
 import com.agnor99.crazygenerators.client.gui.QuestionGeneratorScreen;
 import com.agnor99.crazygenerators.client.gui.TimingGeneratorScreen;
@@ -20,7 +19,6 @@ public class ClientEventBusSubscriber {
 
         ScreenManager.registerFactory(ContainerInit.QUESTION_GENERATOR.get(), QuestionGeneratorScreen::new);
         ScreenManager.registerFactory(ContainerInit.TIMING_GENERATOR.get(), TimingGeneratorScreen::new);
-        ScreenManager.registerFactory(ContainerInit.PONG_GENERATOR.get(), PongGeneratorScreen::new);
         ScreenManager.registerFactory(ContainerInit.POSITION_GENERATOR.get(), PositionGeneratorScreen::new);
     }
 }

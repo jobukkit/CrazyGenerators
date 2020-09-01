@@ -20,11 +20,6 @@ public class TileInit {
             () -> TileEntityType.Builder.create(TimingGeneratorTileEntity::new, BlockInit.timing_generator)
                     .build(null)
     );
-    public static final RegistryObject<TileEntityType<PongGeneratorTileEntity>> PONG_GENERATOR = TILE_ENTITY_TYPES.register(
-            "pong_generator",
-            () -> TileEntityType.Builder.create(PongGeneratorTileEntity::new, BlockInit.pong_generator)
-                    .build(null)
-    );
     public static final RegistryObject<TileEntityType<PositionGeneratorTileEntity>> POSITION_GENERATOR = TILE_ENTITY_TYPES.register(
             "position_generator",
             () -> TileEntityType.Builder.create(PositionGeneratorTileEntity::new, BlockInit.position_generator)

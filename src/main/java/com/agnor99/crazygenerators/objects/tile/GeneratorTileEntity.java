@@ -1,5 +1,7 @@
 package com.agnor99.crazygenerators.objects.tile;
 
+import com.agnor99.crazygenerators.network.NetworkUtil;
+import com.agnor99.crazygenerators.network.packets.Packet;
 import com.agnor99.crazygenerators.network.packets.sync.PacketAbstractSyncResponse;
 import com.agnor99.crazygenerators.objects.other.GeneratorEnergyStorage;
 import com.agnor99.crazygenerators.objects.container.QuestionGeneratorContainer;
@@ -21,6 +23,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
@@ -231,5 +234,12 @@ public abstract class GeneratorTileEntity extends LockableLootTileEntity impleme
             itemHandler.invalidate();
         }
     }
-
+    protected boolean shouldTickIntern() {
+        return !(world.isRemote() && players.size() == 0);
+    }
+    public void sendToAllLooking(Packet packet) {
+        for(ServerPlayerEntity player: players) {
+            NetworkUtil.INSTANCE.sendTo(packet, player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
+        }
+    }
 }

@@ -51,8 +51,7 @@ public class PacketAnswer implements Packet {
                     pos,
                     qgte.getQuestion()
             );
-
-            NetworkUtil.INSTANCE.sendTo(response, player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
+            qgte.sendToAllLooking(response);
         }
         context.get().setPacketHandled(true);
     }

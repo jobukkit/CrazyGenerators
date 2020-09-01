@@ -33,6 +33,7 @@ public class QuestionGeneratorTileEntity extends GeneratorTileEntity{
     public QuestionGeneratorTileEntity(final TileEntityType<?> tileEntityType) {
         super(tileEntityType);
 
+        resetQuestion();
     }
     public QuestionGeneratorTileEntity() {
         this(TileInit.QUESTION_GENERATOR.get());
@@ -46,8 +47,8 @@ public class QuestionGeneratorTileEntity extends GeneratorTileEntity{
 
     @Override
     public void tick() {
-        if(world.isRemote()) return;
         super.tick();
+        if(!shouldTickIntern()) return;
         if(questionGeneratedTime + TIME_PER_QUESTION == tick) {
             resetQuestion();
             PacketTimeOut packet = new PacketTimeOut(getPos(), question);
@@ -66,11 +67,8 @@ public class QuestionGeneratorTileEntity extends GeneratorTileEntity{
 
     @Override
     public PacketAbstractSyncResponse generateSyncPacket() {
-        if(players.size() > 1) {
-            return new PacketQuestionSyncResponse(question, getEnergy(), true);
-        }
-        resetQuestion();
-        return new PacketQuestionSyncResponse(question, getEnergy(), false);
+
+        return new PacketQuestionSyncResponse(question, getEnergy());
     }
 
     public boolean handleAnswer(String answer) {

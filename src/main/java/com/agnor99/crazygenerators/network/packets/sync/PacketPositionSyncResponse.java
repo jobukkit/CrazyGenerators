@@ -11,8 +11,8 @@ import java.util.function.Supplier;
 
 public class PacketPositionSyncResponse extends PacketAbstractSyncResponse {
     String playerName;
-    public PacketPositionSyncResponse(String playerName, int energy, boolean shouldClose) {
-        super(energy, shouldClose);
+    public PacketPositionSyncResponse(String playerName, int energy) {
+        super(energy);
         this.playerName = playerName;
     }
 
@@ -34,6 +34,5 @@ public class PacketPositionSyncResponse extends PacketAbstractSyncResponse {
         if(screen instanceof PositionGeneratorScreen) {
             ((PositionGeneratorTileEntity)((PositionGeneratorScreen) screen).getContainer().getTileEntity()).flag.playerName = playerName;
         }
-        context.get().setPacketHandled(true);
     }
 }

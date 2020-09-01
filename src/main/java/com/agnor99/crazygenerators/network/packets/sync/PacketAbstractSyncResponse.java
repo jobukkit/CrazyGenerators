@@ -12,32 +12,23 @@ import java.util.function.Supplier;
 
 public abstract class PacketAbstractSyncResponse implements ServerPacket {
     int energy;
-    boolean shouldClose;
-    public PacketAbstractSyncResponse(int energy, boolean shouldClose) {
+    public PacketAbstractSyncResponse(int energy) {
         this.energy = energy;
-        this.shouldClose = shouldClose;
     }
     public PacketAbstractSyncResponse(PacketBuffer buf) {
         energy = buf.readInt();
-        shouldClose = buf.readBoolean();
     }
     @Override
     public void toBytes(PacketBuffer buf) {
         buf.writeInt(energy);
-        buf.writeBoolean(shouldClose);
     }
 
     @Override
     public void doWork(Supplier<NetworkEvent.Context> context) {
 
-        if(shouldClose) {
-            Minecraft.getInstance().player.closeScreen();
-            return;
-        }
         GeneratorTileEntity te = getTileEntity();
 
         te.setEnergy(energy);
-
         context.get().setPacketHandled(true);
     }
     protected static GeneratorTileEntity getTileEntity() {
