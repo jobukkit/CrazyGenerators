@@ -3,8 +3,7 @@ package com.agnor99.crazygenerators.client.gui;
 import com.agnor99.crazygenerators.CrazyGenerators;
 import com.agnor99.crazygenerators.client.gui.util.GeneratorScreen;
 import com.agnor99.crazygenerators.network.NetworkUtil;
-import com.agnor99.crazygenerators.network.packets.position_generator.NewCoordsPacket;
-import com.agnor99.crazygenerators.network.packets.position_generator.NewPlayerPacket;
+import com.agnor99.crazygenerators.network.packets.position_generator.*;
 import com.agnor99.crazygenerators.objects.container.PositionGeneratorContainer;
 import com.agnor99.crazygenerators.objects.tile.PositionGeneratorTileEntity;
 import net.minecraft.client.gui.widget.button.Button;
@@ -24,7 +23,6 @@ import java.awt.*;
 public class PositionGeneratorScreen extends GeneratorScreen<PositionGeneratorContainer> {
 
     PositionGeneratorTileEntity pgte;
-    Button setPlayerButton;
     Button newCoordsButton;
 
     public PositionGeneratorScreen(PositionGeneratorContainer screenContainer, PlayerInventory playerInventory, ITextComponent title) {
@@ -36,9 +34,7 @@ public class PositionGeneratorScreen extends GeneratorScreen<PositionGeneratorCo
     @Override
     protected void init() {
         super.init();
-        setPlayerButton = new SetPlayerButton();
         newCoordsButton = new NewCoordsButton();
-        addButton(setPlayerButton);
         addButton(newCoordsButton);
     }
 
@@ -67,16 +63,12 @@ public class PositionGeneratorScreen extends GeneratorScreen<PositionGeneratorCo
         }
 
         font.drawString(new TranslationTextComponent("text.position_generator.distance").getFormattedText() +
-                        (int)Math.sqrt(
-                        Math.pow((pgte.flag.getX()-pgte.getPos().getX()),2) +
-                        Math.pow((pgte.flag.getY()-pgte.getPos().getY()),2) +
-                        Math.pow((pgte.flag.getZ()-pgte.getPos().getZ()),2))
-                ,54,31, WHITE);
+                ((PositionGeneratorTileEntity)container.getTileEntity()).flag.getSmallestDistance()
+                ,55,31, WHITE);
 
         Point relativeMousePosition = new Point(mouseX, mouseY);
         relativeMousePosition.translate(-RELATIVE_SCREEN_POSITION.x, -RELATIVE_SCREEN_POSITION.y);
 
-        drawButtonText(new TranslationTextComponent("button.position_generator.player").getFormattedText(), setPlayerButton);
         drawButtonText(new TranslationTextComponent("button.position_generator.position").getFormattedText(), newCoordsButton);
 
         drawHoverMessages(relativeMousePosition);
@@ -116,7 +108,7 @@ public class PositionGeneratorScreen extends GeneratorScreen<PositionGeneratorCo
         }
     }
     private void drawDistanceHover(Point relativeMousePosition) {
-        Point boxPoint = new Point(53,15);
+        Point boxPoint = new Point(53,30);
         Dimension boxSize = new Dimension(80,11);
 
         if(isMouseOverHoverArea(relativeMousePosition, boxPoint, boxSize)) {
@@ -124,7 +116,7 @@ public class PositionGeneratorScreen extends GeneratorScreen<PositionGeneratorCo
         }
     }
     private void drawPlayerHover(Point relativeMousePosition) {
-        Point boxPoint = new Point(53,30);
+        Point boxPoint = new Point(53,15);
         Dimension boxSize = new Dimension(80,11);
 
         if(isMouseOverHoverArea(relativeMousePosition, boxPoint, boxSize)) {
@@ -132,12 +124,12 @@ public class PositionGeneratorScreen extends GeneratorScreen<PositionGeneratorCo
         }
     }
     private class NewCoordsButton extends ImageButton {
-        Point pos = new Point(7,60);
+        Point pos = new Point(7,132);
         public NewCoordsButton() {
             super(RELATIVE_SCREEN_POSITION.x+7, RELATIVE_SCREEN_POSITION.y+60,
-                    61, 11,
+                    132, 11,
                     0, 0, 11,
-                    new ResourceLocation(CrazyGenerators.MOD_ID, "textures/gui/position/both.png"),
+                    new ResourceLocation(CrazyGenerators.MOD_ID, "textures/gui/position/coords.png"),
                     new NewCoordsHandler());
 
         }
@@ -148,26 +140,6 @@ public class PositionGeneratorScreen extends GeneratorScreen<PositionGeneratorCo
         @Override
         public void onPress(Button button) {
             NetworkUtil.INSTANCE.sendToServer(new NewCoordsPacket(minecraft.player.dimension, container.getTileEntity().getPos()));
-        }
-    }
-
-    private class SetPlayerButton extends ImageButton {
-
-        public SetPlayerButton() {
-            super(RELATIVE_SCREEN_POSITION.x+72, RELATIVE_SCREEN_POSITION.y+60,
-                    61, 11,
-                    0, 0, 11,
-                    new ResourceLocation(CrazyGenerators.MOD_ID, "textures/gui/position/both.png"),
-                    new SetPlayerHandler());
-
-        }
-    }
-
-    private class SetPlayerHandler implements Button.IPressable {
-
-        @Override
-        public void onPress(Button button) {
-            NetworkUtil.INSTANCE.sendToServer(new NewPlayerPacket(minecraft.player.dimension, container.getTileEntity().getPos()));
         }
     }
 }

@@ -47,10 +47,9 @@ public class PacketHintRequest implements Packet {
                 qgte.setTipsAvailable(qgte.getTipsAvailable() - 1);
                 String[] wrongAnswers = qgte.getQuestion().getWrongAnswers();
                 PacketHint hintResponse = new PacketHint(pos, wrongAnswers[0], wrongAnswers[1]);
-                NetworkUtil.INSTANCE.sendTo(hintResponse, player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
+                qgte.sendToAllLooking(hintResponse);
             }
         }
-        context.get().setPacketHandled(true);
     }
 
     @Override

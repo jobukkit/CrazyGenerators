@@ -33,7 +33,7 @@
     "hover.timing_generator.energy_added": "Energy you got for this delay",
     "hover.position_generator.location": "{Axis}-Coordinate",
     "hover.position_generator.distance": "Distance of {Player} to flag",
-    "hover.position_generator.player": "Player who is running to the flag",
+    "hover.position_generator.player": "Player who is closest to the flag",
 
     "button.timing_generator.click": "Click me!",
     "button.position_generator.player": "Set player",

@@ -51,14 +51,11 @@ public class PacketButtonPress implements Packet {
             int delay = tgte.calcDelay(context.get().getSender().ping);
             tgte.generateUnlockData();
 
-            ServerPlayerEntity player = context.get().getSender();
-
             PacketButtonPressResponse response = new PacketButtonPressResponse(
               delay,
               energyAdded
             );
-
-            NetworkUtil.INSTANCE.sendTo(response, player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
+            tgte.sendToAllLooking(response);
         }
         context.get().setPacketHandled(true);
     }

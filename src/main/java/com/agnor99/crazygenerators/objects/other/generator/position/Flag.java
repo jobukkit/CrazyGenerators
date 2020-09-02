@@ -4,24 +4,22 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Flag {
 
-    public ServerPlayerEntity player;
+    public List<ServerPlayerEntity> players;
+    public ServerPlayerEntity closestPlayer;
     public String playerName;
+    int smallestDistance;
     int x,y,z;
-    public Flag(ServerPlayerEntity player, int x, int y, int z) {
-        this.player = player;
-        this.x = x;
-        this.y = y;
-        this.z = z;
+    public Flag() {
+        players = new ArrayList<>();
     }
 
-    public PlayerEntity getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(ServerPlayerEntity player) {
-        this.player = player;
+    public List<ServerPlayerEntity> getPlayers() {
+        return players;
     }
 
     public int getX() {
@@ -46,5 +44,12 @@ public class Flag {
 
     public void setZ(int z) {
         this.z = z;
+    }
+
+    public void setSmallestDistance(int d) {
+        smallestDistance = d;
+    }
+    public int getSmallestDistance() {
+        return smallestDistance;
     }
 }

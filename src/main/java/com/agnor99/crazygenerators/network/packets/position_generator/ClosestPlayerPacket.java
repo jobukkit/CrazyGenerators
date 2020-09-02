@@ -10,14 +10,14 @@ import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class NewPlayerPacketResponse implements ServerPacket {
+public class ClosestPlayerPacket implements ServerPacket {
     String playerName;
 
-    NewPlayerPacketResponse(String playerName) {
+    public ClosestPlayerPacket(String playerName) {
         this.playerName = playerName;
     }
 
-    public NewPlayerPacketResponse(PacketBuffer buf) {
+    public ClosestPlayerPacket(PacketBuffer buf) {
         playerName = buf.readString(32767);
     }
 

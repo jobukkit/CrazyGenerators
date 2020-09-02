@@ -68,5 +68,17 @@ public class PositionGeneratorContainer extends GeneratorContainer {
                     }
                 }
         );
+        trackInt(
+                new IntReferenceHolder() {
+                    @Override
+                    public int get() {
+                        return pgte.flag.getSmallestDistance();
+                    }
+                    @Override
+                    public void set(int i) {
+                        pgte.flag.setSmallestDistance(i);
+                    }
+                }
+        );
     }
 }

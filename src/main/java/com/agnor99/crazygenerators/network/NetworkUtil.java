@@ -1,13 +1,10 @@
 package com.agnor99.crazygenerators.network;
 
 import com.agnor99.crazygenerators.CrazyGenerators;
-import com.agnor99.crazygenerators.network.packets.position_generator.NewCoordsPacket;
-import com.agnor99.crazygenerators.network.packets.position_generator.NewPlayerPacket;
-import com.agnor99.crazygenerators.network.packets.position_generator.NewPlayerPacketResponse;
+import com.agnor99.crazygenerators.network.packets.position_generator.*;
 import com.agnor99.crazygenerators.network.packets.question_generator.*;
+import com.agnor99.crazygenerators.network.packets.timing_generator.*;
 import com.agnor99.crazygenerators.network.packets.sync.*;
-import com.agnor99.crazygenerators.network.packets.timing_generator.PacketButtonPress;
-import com.agnor99.crazygenerators.network.packets.timing_generator.PacketButtonPressResponse;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
@@ -114,17 +111,10 @@ public class NetworkUtil {
         );
         INSTANCE.registerMessage(
                 nextID(),
-                NewPlayerPacket.class,
-                NewPlayerPacket::toBytes,
-                NewPlayerPacket::new,
-                NewPlayerPacket::handle
-        );
-        INSTANCE.registerMessage(
-                nextID(),
-                NewPlayerPacketResponse.class,
-                NewPlayerPacketResponse::toBytes,
-                NewPlayerPacketResponse::new,
-                NewPlayerPacketResponse::handle
+                ClosestPlayerPacket.class,
+                ClosestPlayerPacket::toBytes,
+                ClosestPlayerPacket::new,
+                ClosestPlayerPacket::handle
         );
     }
 }

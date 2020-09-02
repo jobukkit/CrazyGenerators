@@ -1,13 +1,17 @@
 package com.agnor99.crazygenerators.objects.tile;
 
 import com.agnor99.crazygenerators.init.TileInit;
+import com.agnor99.crazygenerators.network.packets.Packet;
+import com.agnor99.crazygenerators.network.packets.position_generator.*;
 import com.agnor99.crazygenerators.network.packets.sync.PacketAbstractSyncResponse;
 import com.agnor99.crazygenerators.network.packets.sync.PacketPositionSyncResponse;
 import com.agnor99.crazygenerators.objects.container.PositionGeneratorContainer;
 import com.agnor99.crazygenerators.objects.other.generator.position.Flag;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.monster.SlimeEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
@@ -30,8 +34,7 @@ public class PositionGeneratorTileEntity extends GeneratorTileEntity{
 
     public PositionGeneratorTileEntity(final TileEntityType<?> tileEntityType) {
         super(tileEntityType);
-        flag = new Flag(null,0,0,0);
-        updateFlag();
+        flag = new Flag();
 
 
     }
@@ -48,14 +51,37 @@ public class PositionGeneratorTileEntity extends GeneratorTileEntity{
     @Override
     public void tick() {
         if(world.isRemote()) return;
-        if (flag.player != null) {
-            BlockPos pos = flag.player.getPosition();
-            if (pos.withinDistance(new BlockPos(flag.getX(), flag.getY(), flag.getZ()), 5.0f)) {
+        updateClosestPlayer();
+    }
+
+    private void updateClosestPlayer() {
+        if(flag.players.size() == 0) {
+            updateFlag();
+        }
+        ServerPlayerEntity oldClosestPlayer = flag.closestPlayer;
+        flag.closestPlayer = null;
+        flag.setSmallestDistance(Integer.MAX_VALUE);
+        for(ServerPlayerEntity player:flag.players) {
+            double distance = (int)player.getPosition().distanceSq(new BlockPos(flag.getX(), flag.getY(), flag.getZ()));
+            distance = Math.sqrt(distance);
+            if(distance < flag.getSmallestDistance()) {
+                flag.setSmallestDistance((int)distance);
+                flag.closestPlayer = player;
+            }
+            if(distance < 5) {
                 addEnergy(10000);
                 updateFlag();
+                updateClosestPlayer();
             }
-        }else{
-            updateFlag();
+        }
+        if(flag.closestPlayer != oldClosestPlayer) {
+            Packet packet;
+            if(flag.closestPlayer == null) {
+                packet = new ClosestPlayerPacket("");
+            }else {
+                packet = new ClosestPlayerPacket(flag.closestPlayer.getName().getFormattedText());
+            }
+            sendToAllLooking(packet);
         }
     }
 
@@ -67,10 +93,13 @@ public class PositionGeneratorTileEntity extends GeneratorTileEntity{
 
     @Override
     public PacketAbstractSyncResponse generateSyncPacket() {
-        if(flag.player == null) {
-            flag.player = players.get(0);
+        ServerPlayerEntity player;
+        if(flag.closestPlayer == null) {
+            player = players.get(0);
+        }else {
+            player = flag.closestPlayer;
         }
-        return new PacketPositionSyncResponse(flag.player.getName().getFormattedText(), getEnergy());
+        return new PacketPositionSyncResponse(player.getName().getFormattedText(), getEnergy());
     }
 
 
@@ -80,5 +109,16 @@ public class PositionGeneratorTileEntity extends GeneratorTileEntity{
         flag.setZ(new Random().nextInt(150)-75 + getPos().getZ());
         flag.setY(Math.max(flag.getY(), 1));
         flag.setY(Math.min(flag.getY(), 255));
+        flag.players.removeAll(flag.players);
+        flag.players.addAll(players);
+    }
+
+    @Override
+    public void openInventory(PlayerEntity player) {
+        openInventory(player);
+        if(world.isRemote) return;
+        if(!flag.players.contains(player)) {
+            flag.players.add((ServerPlayerEntity)player);
+        }
     }
 }
