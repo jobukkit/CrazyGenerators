@@ -4,7 +4,6 @@ import com.agnor99.crazygenerators.network.NetworkUtil;
 import com.agnor99.crazygenerators.network.packets.Packet;
 import com.agnor99.crazygenerators.network.packets.sync.PacketAbstractSyncResponse;
 import com.agnor99.crazygenerators.objects.other.GeneratorEnergyStorage;
-import com.agnor99.crazygenerators.objects.container.QuestionGeneratorContainer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -31,7 +30,6 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 

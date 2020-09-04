@@ -38,6 +38,7 @@
     "button.timing_generator.click": "Click me!",
     "button.position_generator.player": "Set player",
     "button.position_generator.position": "New flag",
+    "button.item_generator.new": "New Item",
 
     "text.position_generator.player_not_set":"Player not set!",
     "text.position_generator.distance":"Distance: ",

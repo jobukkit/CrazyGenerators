@@ -39,6 +39,11 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
         RELATIVE_SCREEN_POSITION = new Point((this.width - this.xSize)/2, (this.height - this.ySize)/2);
     }
 
+    @Override
+    public SpecContainer getContainer() {
+        return super.getContainer();
+    }
+
     protected void setBackgroundTexture(ResourceLocation loc) {
         BACKGROUND_TEXTURE = loc;
     }

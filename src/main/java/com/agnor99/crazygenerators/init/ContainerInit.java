@@ -20,5 +20,8 @@ public class ContainerInit {
 
     public static final RegistryObject<ContainerType<PositionGeneratorContainer>> POSITION_GENERATOR = CONTAINER_TYPES.
             register("position_generator", () -> IForgeContainerType.create(PositionGeneratorContainer::new));
+
+    public static final RegistryObject<ContainerType<ItemGeneratorContainer>> ITEM_GENERATOR = CONTAINER_TYPES.
+            register("item_generator", () -> IForgeContainerType.create(ItemGeneratorContainer::new));
 }
 

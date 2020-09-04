@@ -1,6 +1,8 @@
 package com.agnor99.crazygenerators.network;
 
 import com.agnor99.crazygenerators.CrazyGenerators;
+import com.agnor99.crazygenerators.network.packets.item_generator.ItemPacket;
+import com.agnor99.crazygenerators.network.packets.item_generator.RequestItemPacket;
 import com.agnor99.crazygenerators.network.packets.position_generator.*;
 import com.agnor99.crazygenerators.network.packets.question_generator.*;
 import com.agnor99.crazygenerators.network.packets.timing_generator.*;
@@ -47,7 +49,13 @@ public class NetworkUtil {
                 PacketPositionSyncResponse::new,
                 PacketPositionSyncResponse::handle
         );
-
+        INSTANCE.registerMessage(
+                nextID(),
+                PacketItemSyncResponse.class,
+                PacketItemSyncResponse::toBytes,
+                PacketItemSyncResponse::new,
+                PacketItemSyncResponse::handle
+        );
 
         INSTANCE.registerMessage(
                 nextID(),
@@ -115,6 +123,22 @@ public class NetworkUtil {
                 ClosestPlayerPacket::toBytes,
                 ClosestPlayerPacket::new,
                 ClosestPlayerPacket::handle
+        );
+
+
+        INSTANCE.registerMessage(
+                nextID(),
+                ItemPacket.class,
+                ItemPacket::toBytes,
+                ItemPacket::new,
+                ItemPacket::handle
+        );
+        INSTANCE.registerMessage(
+                nextID(),
+                RequestItemPacket.class,
+                RequestItemPacket::toBytes,
+                RequestItemPacket::new,
+                RequestItemPacket::handle
         );
     }
 }

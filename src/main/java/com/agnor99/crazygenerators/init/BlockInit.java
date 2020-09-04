@@ -18,6 +18,7 @@ public class BlockInit {
     public static final QuestionGeneratorBlock question_generator = new QuestionGeneratorBlock();
     public static final TimingGeneratorBlock timing_generator = new TimingGeneratorBlock();
     public static final PositionGeneratorBlock position_generator = new PositionGeneratorBlock();
+    public static final ItemGeneratorBlock item_generator = new ItemGeneratorBlock();
 
     @SubscribeEvent
     public static void registerBlocks(final RegistryEvent.Register<Block> event) {
@@ -25,6 +26,7 @@ public class BlockInit {
         event.getRegistry().register(question_generator);
         event.getRegistry().register(timing_generator);
         event.getRegistry().register(position_generator);
+        event.getRegistry().register(item_generator);
     }
 
     @SubscribeEvent
@@ -33,5 +35,6 @@ public class BlockInit {
         event.getRegistry().register(question_generator.createItemFromItemBlock(new TranslationTextComponent("lore.question_generator")));
         event.getRegistry().register(timing_generator.createItemFromItemBlock(new TranslationTextComponent("lore.timing_generator")));
         event.getRegistry().register(position_generator.createItemFromItemBlock(new TranslationTextComponent("lore.position_generator")));
+        event.getRegistry().register(item_generator.createItemFromItemBlock(new TranslationTextComponent("lore.item_generator")));
     }
 }

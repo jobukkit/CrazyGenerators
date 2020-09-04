@@ -17,6 +17,7 @@ public interface Packet {
                     doWork(context);
             });
         }
+        context.get().setPacketHandled(true);
     }
 
 
