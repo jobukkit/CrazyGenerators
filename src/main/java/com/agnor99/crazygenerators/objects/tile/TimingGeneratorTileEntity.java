@@ -111,19 +111,5 @@ public class TimingGeneratorTileEntity extends GeneratorTileEntity{
     public void setMultiplier(int multiplier) {
         this.multiplier = multiplier;
     }
-
-    @Override
-    public CompoundNBT write(CompoundNBT compound) {
-        super.write(compound);
-
-        compound.putInt("multiplier", multiplier);
-        compound.putInt("tickToUnlock", tickToUnlock);
-        return compound;
-    }
-    @Override
-    public void read(CompoundNBT compound) {
-        super.read(compound);
-        multiplier = compound.getInt("multiplier");
-        tickToUnlock = compound.getInt("tickToUnlock");
-    }
+    
 }

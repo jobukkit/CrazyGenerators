@@ -130,20 +130,4 @@ public class PositionGeneratorTileEntity extends GeneratorTileEntity{
         }
     }
 
-    @Override
-    public CompoundNBT write(CompoundNBT compound) {
-        super.write(compound);
-        compound.putInt("flagX", flag.getX());
-        compound.putInt("flagY", flag.getY());
-        compound.putInt("flagZ", flag.getZ());
-
-        return compound;
-    }
-    @Override
-    public void read(CompoundNBT compound) {
-        super.read(compound);
-        flag.setX(compound.getInt("flagX"));
-        flag.setY(compound.getInt("flagY"));
-        flag.setZ(compound.getInt("flagZ"));
-    }
 }
