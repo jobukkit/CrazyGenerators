@@ -13,13 +13,17 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
+import net.minecraft.item.Item;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import java.util.Iterator;
 import java.util.Random;
 
 
@@ -61,6 +65,8 @@ public class PositionGeneratorTileEntity extends GeneratorTileEntity{
         ServerPlayerEntity oldClosestPlayer = flag.closestPlayer;
         flag.closestPlayer = null;
         flag.setSmallestDistance(Integer.MAX_VALUE);
+
+        boolean shouldUpdateFlag = false;
         for(ServerPlayerEntity player:flag.players) {
             double distance = (int)player.getPosition().distanceSq(new BlockPos(flag.getX(), flag.getY(), flag.getZ()));
             distance = Math.sqrt(distance);
@@ -70,8 +76,7 @@ public class PositionGeneratorTileEntity extends GeneratorTileEntity{
             }
             if(distance < 5) {
                 addEnergy(10000);
-                updateFlag();
-                updateClosestPlayer();
+                shouldUpdateFlag = true;
             }
         }
         if(flag.closestPlayer != oldClosestPlayer) {
@@ -82,6 +87,9 @@ public class PositionGeneratorTileEntity extends GeneratorTileEntity{
                 packet = new ClosestPlayerPacket(flag.closestPlayer.getName().getFormattedText());
             }
             sendToAllLooking(packet);
+        }
+        if(shouldUpdateFlag) {
+            updateFlag();
         }
     }
 
@@ -120,5 +128,22 @@ public class PositionGeneratorTileEntity extends GeneratorTileEntity{
         if(!flag.players.contains(player)) {
             flag.players.add((ServerPlayerEntity)player);
         }
+    }
+
+    @Override
+    public CompoundNBT write(CompoundNBT compound) {
+        super.write(compound);
+        compound.putInt("flagX", flag.getX());
+        compound.putInt("flagY", flag.getY());
+        compound.putInt("flagZ", flag.getZ());
+
+        return compound;
+    }
+    @Override
+    public void read(CompoundNBT compound) {
+        super.read(compound);
+        flag.setX(compound.getInt("flagX"));
+        flag.setY(compound.getInt("flagY"));
+        flag.setZ(compound.getInt("flagZ"));
     }
 }

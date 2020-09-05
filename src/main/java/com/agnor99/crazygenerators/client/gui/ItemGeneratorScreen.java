@@ -58,7 +58,7 @@ public class ItemGeneratorScreen extends GeneratorScreen<ItemGeneratorContainer>
         Point relativeMousePosition = new Point(mouseX, mouseY);
         relativeMousePosition.translate(-RELATIVE_SCREEN_POSITION.x, -RELATIVE_SCREEN_POSITION.y);
         if(igte.toFind != null) {
-            font.drawString(igte.toFind.getRegistryName().toString().replace("minecraft:", ""), 9, 17, WHITE);
+            font.drawString(igte.toFind.getName().getFormattedText(),9,17,WHITE);
             itemRenderer.renderItemIntoGUI(new ItemStack(igte.toFind), 80,47);
         }
 
