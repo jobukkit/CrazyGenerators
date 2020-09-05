@@ -7,6 +7,9 @@ import com.agnor99.crazygenerators.network.packets.sync.PacketAbstractSyncRespon
 import com.agnor99.crazygenerators.network.packets.sync.PacketPositionSyncResponse;
 import com.agnor99.crazygenerators.objects.container.PositionGeneratorContainer;
 import com.agnor99.crazygenerators.objects.other.generator.position.Flag;
+import net.minecraft.client.Minecraft;
+import net.minecraft.command.ICommandSource;
+import net.minecraft.command.impl.BossBarCommand;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.monster.SlimeEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,6 +18,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
@@ -22,8 +26,11 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.ForgeConfig;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 
@@ -31,15 +38,9 @@ public class PositionGeneratorTileEntity extends GeneratorTileEntity{
 
     public Flag flag;
 
-    @OnlyIn(Dist.CLIENT)
-    private EntityType<SlimeEntity> type = EntityType.SLIME;
-    @OnlyIn(Dist.CLIENT)
-    private SlimeEntity marker;
-
     public PositionGeneratorTileEntity(final TileEntityType<?> tileEntityType) {
         super(tileEntityType);
         flag = new Flag();
-
 
     }
     public PositionGeneratorTileEntity() {
@@ -121,6 +122,7 @@ public class PositionGeneratorTileEntity extends GeneratorTileEntity{
         flag.players.addAll(players);
     }
 
+
     @Override
     public void openInventory(PlayerEntity player) {
         openInventory(player);
@@ -129,5 +131,4 @@ public class PositionGeneratorTileEntity extends GeneratorTileEntity{
             flag.players.add((ServerPlayerEntity)player);
         }
     }
-
 }

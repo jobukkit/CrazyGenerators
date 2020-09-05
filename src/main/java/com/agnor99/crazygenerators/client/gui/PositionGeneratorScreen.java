@@ -6,11 +6,15 @@ import com.agnor99.crazygenerators.network.NetworkUtil;
 import com.agnor99.crazygenerators.network.packets.position_generator.*;
 import com.agnor99.crazygenerators.objects.container.PositionGeneratorContainer;
 import com.agnor99.crazygenerators.objects.tile.PositionGeneratorTileEntity;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.widget.button.ChangePageButton;
 import net.minecraft.client.gui.widget.button.ImageButton;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -24,6 +28,7 @@ public class PositionGeneratorScreen extends GeneratorScreen<PositionGeneratorCo
 
     PositionGeneratorTileEntity pgte;
     Button newCoordsButton;
+    Button chatButton;
 
     public PositionGeneratorScreen(PositionGeneratorContainer screenContainer, PlayerInventory playerInventory, ITextComponent title) {
         super(screenContainer, playerInventory, title, "information.position_generator");
@@ -36,6 +41,8 @@ public class PositionGeneratorScreen extends GeneratorScreen<PositionGeneratorCo
         super.init();
         newCoordsButton = new NewCoordsButton();
         addButton(newCoordsButton);
+        chatButton = new ChatButton();
+        addButton(chatButton);
     }
 
     @Override
@@ -70,6 +77,7 @@ public class PositionGeneratorScreen extends GeneratorScreen<PositionGeneratorCo
         relativeMousePosition.translate(-RELATIVE_SCREEN_POSITION.x, -RELATIVE_SCREEN_POSITION.y);
 
         drawButtonText(new TranslationTextComponent("button.position_generator.position").getFormattedText(), newCoordsButton);
+        drawButtonText(new TranslationTextComponent("button.position_generator.chat").getFormattedText(), chatButton);
 
         drawHoverMessages(relativeMousePosition);
     }
@@ -124,7 +132,6 @@ public class PositionGeneratorScreen extends GeneratorScreen<PositionGeneratorCo
         }
     }
     private class NewCoordsButton extends ImageButton {
-        Point pos = new Point(7,132);
         public NewCoordsButton() {
             super(RELATIVE_SCREEN_POSITION.x+7, RELATIVE_SCREEN_POSITION.y+60,
                     132, 11,
@@ -140,6 +147,24 @@ public class PositionGeneratorScreen extends GeneratorScreen<PositionGeneratorCo
         @Override
         public void onPress(Button button) {
             NetworkUtil.INSTANCE.sendToServer(new NewCoordsPacket(minecraft.player.dimension, container.getTileEntity().getPos()));
+        }
+    }
+    private class ChatButton extends ImageButton {
+        public ChatButton() {
+            super(RELATIVE_SCREEN_POSITION.x+7, RELATIVE_SCREEN_POSITION.y+75,
+                    132, 11,
+                    0, 0, 11,
+                    new ResourceLocation(CrazyGenerators.MOD_ID, "textures/gui/position/coords.png"),
+                    new ChatHandler());
+
+        }
+    }
+
+    private class ChatHandler implements Button.IPressable {
+
+        @Override
+        public void onPress(Button button) {
+            Minecraft.getInstance().player.sendMessage(new StringTextComponent("X:" + pgte.flag.getX() + "  Y:" + pgte.flag.getY() + "  Z:" + pgte.flag.getZ()));
         }
     }
 }
