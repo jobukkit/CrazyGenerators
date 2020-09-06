@@ -49,7 +49,7 @@ public class ItemGeneratorTileEntity extends GeneratorTileEntity{
         super.tick();
         if(!shouldTickIntern()) return;
 
-        if(doesItemContainInPlayerInventory()) {
+        if(doesItemContainInPlayerInventory(toFind)) {
             addEnergy(25000);
             toFind = null;
             sendToAllLooking(new ItemPacket(toFind));
@@ -71,24 +71,19 @@ public class ItemGeneratorTileEntity extends GeneratorTileEntity{
         if(useableItems.size() == 0) {
             return;
         }
+        for(int i = useableItems.size()-1; i >= 0; i--){
+            if(doesItemContainInPlayerInventory(useableItems.get(i))) {
+                useableItems.remove(i);
+            }
+        }
         toFind = useableItems.get(new Random().nextInt(useableItems.size()));
         sendToAllLooking(new ItemPacket(toFind));
     }
 
-    private boolean doesItemContainInPlayerInventory() {
+    private boolean doesItemContainInPlayerInventory(Item item) {
         for(ServerPlayerEntity p: players) {
-            for(ItemStack itemStack: p.inventory.armorInventory) {
-                if(toFind!=null && toFind.equals(itemStack.getItem())) {
-                    return true;
-                }
-            }
             for(ItemStack itemStack: p.inventory.mainInventory) {
-                if(toFind!=null && toFind.equals(itemStack.getItem())) {
-                    return true;
-                }
-            }
-            for(ItemStack itemStack: p.inventory.offHandInventory) {
-                if(toFind!=null && toFind.equals(itemStack.getItem())) {
+                if(item!=null && item.equals(itemStack.getItem())) {
                     return true;
                 }
             }
