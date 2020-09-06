@@ -124,6 +124,13 @@ public class NetworkUtil {
                 ClosestPlayerPacket::new,
                 ClosestPlayerPacket::handle
         );
+        INSTANCE.registerMessage(
+                nextID(),
+                WayPointChatMessagePacket.class,
+                WayPointChatMessagePacket::toBytes,
+                WayPointChatMessagePacket::new,
+                WayPointChatMessagePacket::handle
+        );
 
 
         INSTANCE.registerMessage(

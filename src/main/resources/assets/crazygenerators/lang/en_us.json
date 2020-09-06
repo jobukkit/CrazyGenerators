@@ -39,7 +39,7 @@
     "button.position_generator.player": "Set player",
     "button.position_generator.position": "New flag",
     "button.item_generator.new": "New Item",
-    "button.item_generator.chat": "Write to Chat",
+    "button.position_generator.chat": "Write to Chat",
 
     "text.position_generator.player_not_set":"Player not set!",
     "text.position_generator.distance":"Distance: ",

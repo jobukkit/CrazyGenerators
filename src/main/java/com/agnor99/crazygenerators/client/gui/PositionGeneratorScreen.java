@@ -11,6 +11,7 @@ import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.button.ChangePageButton;
 import net.minecraft.client.gui.widget.button.ImageButton;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -18,6 +19,7 @@ import net.minecraft.util.text.TextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.ModList;
 import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;
@@ -164,7 +166,12 @@ public class PositionGeneratorScreen extends GeneratorScreen<PositionGeneratorCo
 
         @Override
         public void onPress(Button button) {
-            Minecraft.getInstance().player.sendMessage(new StringTextComponent("X:" + pgte.flag.getX() + "  Y:" + pgte.flag.getY() + "  Z:" + pgte.flag.getZ()));
+            if(ModList.get().isLoaded("journeymap")) {
+                String str = "[name:\"flag\", x:" + pgte.flag.getX() + ", y:" + pgte.flag.getY() + ", z:" + pgte.flag.getZ()+"]";
+                NetworkUtil.INSTANCE.sendToServer(new WayPointChatMessagePacket(str));
+            }else {
+                Minecraft.getInstance().player.sendMessage(new StringTextComponent("X:" + pgte.flag.getX() + "  Y:" + pgte.flag.getY() + "  Z:" + pgte.flag.getZ()));
+            }
         }
     }
 }
