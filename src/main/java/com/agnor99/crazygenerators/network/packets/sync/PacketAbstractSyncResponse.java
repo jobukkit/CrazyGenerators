@@ -31,10 +31,4 @@ public abstract class PacketAbstractSyncResponse implements ServerPacket {
         te.setEnergy(energy);
         context.get().setPacketHandled(true);
     }
-    protected static GeneratorTileEntity getTileEntity() {
-        GeneratorScreen screen = (GeneratorScreen)Minecraft.getInstance().currentScreen;
-
-        GeneratorContainer container = (GeneratorContainer)screen.getContainer();
-        return container.getTileEntity();
-    }
 }

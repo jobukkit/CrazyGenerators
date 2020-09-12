@@ -32,7 +32,7 @@ public class PacketPositionSyncResponse extends PacketAbstractSyncResponse {
         super.doWork(context);
         Screen screen = Minecraft.getInstance().currentScreen;
         if(screen instanceof PositionGeneratorScreen) {
-            ((PositionGeneratorTileEntity)((PositionGeneratorScreen) screen).getContainer().getTileEntity()).flag.playerName = playerName;
+            ((PositionGeneratorTileEntity)(getTileEntity())).flag.playerName = playerName;
         }
     }
 }

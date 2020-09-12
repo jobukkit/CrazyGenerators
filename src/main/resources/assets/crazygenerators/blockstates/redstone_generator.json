@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "": { "model": "crazygenerators:block/redstone_generator" }
+    }
+}

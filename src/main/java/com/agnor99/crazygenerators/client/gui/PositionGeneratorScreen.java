@@ -8,14 +8,11 @@ import com.agnor99.crazygenerators.objects.container.PositionGeneratorContainer;
 import com.agnor99.crazygenerators.objects.tile.PositionGeneratorTileEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.gui.widget.button.ChangePageButton;
 import net.minecraft.client.gui.widget.button.ImageButton;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -35,7 +32,6 @@ public class PositionGeneratorScreen extends GeneratorScreen<PositionGeneratorCo
     public PositionGeneratorScreen(PositionGeneratorContainer screenContainer, PlayerInventory playerInventory, ITextComponent title) {
         super(screenContainer, playerInventory, title, "information.position_generator");
         setBackgroundTexture(new ResourceLocation(CrazyGenerators.MOD_ID, "textures/gui/position_generator.png"));
-
     }
 
     @Override

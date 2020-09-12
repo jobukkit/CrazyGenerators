@@ -233,7 +233,7 @@ public abstract class GeneratorTileEntity extends LockableLootTileEntity impleme
         }
     }
     protected boolean shouldTickIntern() {
-        return !(world.isRemote() && players.size() == 0);
+        return !(world.isRemote() || players.size() == 0);
     }
     public void sendToAllLooking(Packet packet) {
         for(ServerPlayerEntity player: players) {

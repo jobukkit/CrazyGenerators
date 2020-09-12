@@ -23,5 +23,7 @@ public class ContainerInit {
 
     public static final RegistryObject<ContainerType<ItemGeneratorContainer>> ITEM_GENERATOR = CONTAINER_TYPES.
             register("item_generator", () -> IForgeContainerType.create(ItemGeneratorContainer::new));
+    public static final RegistryObject<ContainerType<RedstoneGeneratorContainer>> REDSTONE_GENERATOR = CONTAINER_TYPES.
+            register("redstone_generator", () -> IForgeContainerType.create(RedstoneGeneratorContainer::new));
 }
 

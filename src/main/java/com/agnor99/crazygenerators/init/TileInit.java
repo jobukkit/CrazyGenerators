@@ -30,4 +30,9 @@ public class TileInit {
             () -> TileEntityType.Builder.create(ItemGeneratorTileEntity::new, BlockInit.item_generator)
                     .build(null)
     );
+    public static final RegistryObject<TileEntityType<RedstoneGeneratorTileEntity>> REDSTONE_GENERATOR = TILE_ENTITY_TYPES.register(
+            "redstone_generator",
+            () -> TileEntityType.Builder.create(RedstoneGeneratorTileEntity::new, BlockInit.redstone_generator)
+                    .build(null)
+    );
 }

@@ -1,4 +1,4 @@
-package com.agnor99.crazygenerators.util;
+package com.agnor99.crazygenerators.client.gui.util;
 
 import com.agnor99.crazygenerators.CrazyGenerators;
 import com.agnor99.crazygenerators.client.gui.*;
@@ -19,5 +19,6 @@ public class ClientEventBusSubscriber {
         ScreenManager.registerFactory(ContainerInit.TIMING_GENERATOR.get(), TimingGeneratorScreen::new);
         ScreenManager.registerFactory(ContainerInit.POSITION_GENERATOR.get(), PositionGeneratorScreen::new);
         ScreenManager.registerFactory(ContainerInit.ITEM_GENERATOR.get(), ItemGeneratorScreen::new);
+        ScreenManager.registerFactory(ContainerInit.REDSTONE_GENERATOR.get(), RedstoneGeneratorScreen::new);
     }
 }

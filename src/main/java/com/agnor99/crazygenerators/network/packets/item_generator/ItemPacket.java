@@ -27,7 +27,7 @@ public class ItemPacket implements ServerPacket {
 
     @Override
     public void doWork(Supplier<NetworkEvent.Context> context) {
-        GeneratorTileEntity gte = getTileEntity(context);
+        GeneratorTileEntity gte = getTileEntity();
         if(gte instanceof ItemGeneratorTileEntity) {
             ItemGeneratorTileEntity igte = (ItemGeneratorTileEntity) gte;
             igte.toFind = item;

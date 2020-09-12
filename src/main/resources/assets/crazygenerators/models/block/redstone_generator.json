@@ -1,0 +1,6 @@
+{
+	"parent": "crazygenerators:block/frame",
+	"textures": {
+		"gentexture": "crazygenerators:blocks/redstone_generator"
+	}
+}

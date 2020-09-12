@@ -15,7 +15,7 @@ public interface ServerPacket extends Packet {
         return true;
     }
 
-    default GeneratorTileEntity getTileEntity(Supplier<NetworkEvent.Context> context) {
+    default GeneratorTileEntity getTileEntity() {
         Screen screen = Minecraft.getInstance().currentScreen;
         if(screen instanceof GeneratorScreen) {
             GeneratorScreen generatorScreen = (GeneratorScreen) screen;

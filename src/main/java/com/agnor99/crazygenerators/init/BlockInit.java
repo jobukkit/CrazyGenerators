@@ -19,6 +19,7 @@ public class BlockInit {
     public static final TimingGeneratorBlock timing_generator = new TimingGeneratorBlock();
     public static final PositionGeneratorBlock position_generator = new PositionGeneratorBlock();
     public static final ItemGeneratorBlock item_generator = new ItemGeneratorBlock();
+    public static final RedstoneGeneratorBlock redstone_generator = new RedstoneGeneratorBlock();
 
     @SubscribeEvent
     public static void registerBlocks(final RegistryEvent.Register<Block> event) {
@@ -27,6 +28,7 @@ public class BlockInit {
         event.getRegistry().register(timing_generator);
         event.getRegistry().register(position_generator);
         event.getRegistry().register(item_generator);
+        event.getRegistry().register(redstone_generator);
     }
 
     @SubscribeEvent
@@ -36,5 +38,6 @@ public class BlockInit {
         event.getRegistry().register(timing_generator.createItemFromItemBlock(new TranslationTextComponent("lore.timing_generator")));
         event.getRegistry().register(position_generator.createItemFromItemBlock(new TranslationTextComponent("lore.position_generator")));
         event.getRegistry().register(item_generator.createItemFromItemBlock(new TranslationTextComponent("lore.item_generator")));
+        event.getRegistry().register(redstone_generator.createItemFromItemBlock(new TranslationTextComponent("lore.redstone_generator")));
     }
 }
