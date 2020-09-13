@@ -42,9 +42,4 @@ public class RedstoneGeneratorBlock extends GeneratorBlock {
             return ActionResultType.SUCCESS;
         }
     }
-    @Override
-    public boolean canConnectRedstone(BlockState state, IBlockReader world, BlockPos blockPos, @Nullable Direction directionFromNeighborToThis)
-    {
-        return true;
-    }
 }

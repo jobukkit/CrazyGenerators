@@ -20,7 +20,7 @@
     "information.timing_generator" : "In this generator you have to click the button as soon as the Box turns green. The earlier you click, the more RF you get!",
     "information.item_generator" : "In this generator you have to obtain a random Item to generate RF",
     "information.position_generator" : "In this generator you have to run to a specific location to generate RF",
-    "information.redstone_generator" : "In this generator you need to replicate a specific redstone sequence to generate RF",
+    "information.redstone_generator" : "In this generator you need to replicate a specific redstone sequence to generate RF.",
 
     "lore.question_generator": "\u00A73Who wants to be a millionaire?",
     "lore.timing_generator": "\u00A73Train your reflexes!",
@@ -34,7 +34,11 @@
     "hover.position_generator.location": "{Axis}-Coordinate",
     "hover.position_generator.distance": "Distance of {Player} to flag",
     "hover.position_generator.player": "Player who is closest to the flag",
-    "hover.redstone_generator.sequence": "Replicate this sequence",
+    "hover.redstone_generator.first": "First",
+    "hover.redstone_generator.second": "Second",
+    "hover.redstone_generator.sequence": "{State} Expected Power: {Expected}, Current Power: {Current}",
+    "hover.redstone_generator.no_sequence": "No Sequence available, generate a new one",
+    "hover.redstone_generator.warning": "The best way to power it, is by laying a redstone line on top of it. But be aware of the strength, because it might be higher than you would expect!",
 
     "button.timing_generator.click": "Click me!",
     "button.position_generator.player": "Set player",

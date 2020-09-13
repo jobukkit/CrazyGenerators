@@ -17,26 +17,24 @@ import org.antlr.v4.runtime.misc.NotNull;
 import java.util.function.Supplier;
 
 public class PacketRedstoneSyncResponse extends PacketAbstractSyncResponse {
-    boolean[] targetRedstoneData;
-    public PacketRedstoneSyncResponse(int energy, boolean[] targetRedstoneData) {
+    int targetRedstoneData0,targetRedstoneData1;
+    public PacketRedstoneSyncResponse(int energy, int targetRedstoneData0, int targetRedstoneData1) {
         super(energy);
-        this.targetRedstoneData = targetRedstoneData == null ? new boolean[20] : targetRedstoneData;
+        this.targetRedstoneData0 = targetRedstoneData0;
+        this.targetRedstoneData1 = targetRedstoneData1;
     }
 
     public PacketRedstoneSyncResponse(PacketBuffer buf) {
         super(buf);
-        targetRedstoneData = new boolean[20];
-        for(int i = 0; i < 20; i++) {
-            targetRedstoneData[i] = buf.readBoolean();
-        }
+        targetRedstoneData0 = buf.readInt();
+        targetRedstoneData1 = buf.readInt();
     }
 
     @Override
     public void toBytes(PacketBuffer buf) {
         super.toBytes(buf);
-        for(int i = 0; i < 20; i++) {
-            buf.writeBoolean(targetRedstoneData[i]);
-        }
+        buf.writeInt(targetRedstoneData0);
+        buf.writeInt(targetRedstoneData1);
     }
 
     @Override
@@ -45,7 +43,8 @@ public class PacketRedstoneSyncResponse extends PacketAbstractSyncResponse {
         GeneratorTileEntity gte = getTileEntity();
         if(gte instanceof RedstoneGeneratorTileEntity) {
             RedstoneGeneratorTileEntity rgte = (RedstoneGeneratorTileEntity) gte;
-            rgte.targetRedstoneData = targetRedstoneData;
+            rgte.targetRedstoneData0 = this.targetRedstoneData0;
+            rgte.targetRedstoneData1 = this.targetRedstoneData1;
         }
     }
 }

@@ -28,6 +28,40 @@ public class RedstoneGeneratorContainer extends GeneratorContainer {
     @Override
     protected void tracking() {
         super.tracking();
-        RedstoneGeneratorTileEntity gte = (RedstoneGeneratorTileEntity) tileEntity;
+        RedstoneGeneratorTileEntity rgte = (RedstoneGeneratorTileEntity) tileEntity;
+
+        trackInt(new IntReferenceHolder() {
+            @Override
+            public int get() {
+                return rgte.targetRedstoneData0;
+            }
+
+            @Override
+            public void set(int i) {
+                rgte.targetRedstoneData0 = i;
+            }
+        });
+        trackInt(new IntReferenceHolder() {
+            @Override
+            public int get() {
+                return rgte.targetRedstoneData1;
+            }
+
+            @Override
+            public void set(int i) {
+                rgte.targetRedstoneData1 = i;
+            }
+        });
+        trackInt(new IntReferenceHolder() {
+            @Override
+            public int get() {
+                return rgte.lastRedstoneData;
+            }
+
+            @Override
+            public void set(int i) {
+                rgte.lastRedstoneData = i;
+            }
+        });
     }
 }

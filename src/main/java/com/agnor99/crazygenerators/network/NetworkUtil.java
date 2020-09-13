@@ -5,7 +5,6 @@ import com.agnor99.crazygenerators.network.packets.item_generator.ItemPacket;
 import com.agnor99.crazygenerators.network.packets.item_generator.RequestItemPacket;
 import com.agnor99.crazygenerators.network.packets.position_generator.*;
 import com.agnor99.crazygenerators.network.packets.question_generator.*;
-import com.agnor99.crazygenerators.network.packets.redstone_generator.SequencePacket;
 import com.agnor99.crazygenerators.network.packets.redstone_generator.UpdateSequencePacket;
 import com.agnor99.crazygenerators.network.packets.timing_generator.*;
 import com.agnor99.crazygenerators.network.packets.sync.*;
@@ -158,13 +157,6 @@ public class NetworkUtil {
         );
 
 
-        INSTANCE.registerMessage(
-                nextID(),
-                SequencePacket.class,
-                SequencePacket::toBytes,
-                SequencePacket::new,
-                SequencePacket::handle
-        );
         INSTANCE.registerMessage(
                 nextID(),
                 UpdateSequencePacket.class,
