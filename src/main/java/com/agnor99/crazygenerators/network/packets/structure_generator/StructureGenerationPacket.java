@@ -1,24 +1,20 @@
-package com.agnor99.crazygenerators.network.packets.item_generator;
+package com.agnor99.crazygenerators.network.packets.structure_generator;
 
 import com.agnor99.crazygenerators.network.packets.ClientPacket;
-import com.agnor99.crazygenerators.objects.tile.GeneratorTileEntity;
-import com.agnor99.crazygenerators.objects.tile.ItemGeneratorTileEntity;
+import com.agnor99.crazygenerators.objects.tile.StructureGeneratorTileEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class RequestItemPacket implements ClientPacket {
-
+public class StructureGenerationPacket implements ClientPacket {
     BlockPos pos;
-
-    public RequestItemPacket(BlockPos pos) {
+    public StructureGenerationPacket(BlockPos pos) {
         this.pos = pos;
     }
 
-    public RequestItemPacket(PacketBuffer buf) {
+    public StructureGenerationPacket(PacketBuffer buf) {
         pos = buf.readBlockPos();
     }
     @Override
@@ -33,10 +29,7 @@ public class RequestItemPacket implements ClientPacket {
 
     @Override
     public void doWork(Supplier<NetworkEvent.Context> context) {
-        GeneratorTileEntity gte = getTileEntity(pos, context);
-        if(gte instanceof ItemGeneratorTileEntity) {
-            ItemGeneratorTileEntity igte = (ItemGeneratorTileEntity) gte;
-            igte.generateItem();
-        }
+        StructureGeneratorTileEntity gte = (StructureGeneratorTileEntity) getTileEntity(pos, context);
+        gte.updateMap();
     }
 }

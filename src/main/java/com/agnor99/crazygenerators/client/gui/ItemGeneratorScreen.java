@@ -84,7 +84,7 @@ public class ItemGeneratorScreen extends GeneratorScreen<ItemGeneratorContainer>
 
         @Override
         public void onPress(Button button) {
-            NetworkUtil.INSTANCE.sendToServer(new RequestItemPacket(igte.getPos(), minecraft.player.dimension));
+            NetworkUtil.INSTANCE.sendToServer(new RequestItemPacket(igte.getPos()));
         }
     }
 }

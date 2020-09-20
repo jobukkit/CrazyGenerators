@@ -54,6 +54,8 @@
     "button.position_generator.chat": "Write to Chat",
     "button.item_generator.new": "New Item",
     "button.redstone_generator.new": "New Sequence",
+    "button.structure_generator.new": "Generate",
+    "button.structure_generator.get": "Give",
 
 
     "text.position_generator.player_not_set": "Player not set!",

@@ -29,5 +29,10 @@ public class StructureGeneratorContainer extends GeneratorContainer {
     protected void tracking() {
         super.tracking();
         StructureGeneratorTileEntity gte = (StructureGeneratorTileEntity) tileEntity;
+        for(int x = 0; x < 5; x++) {
+            for(int z = 0; z < 5; z++) {
+                trackInt(IntReferenceHolder.create(gte.structureTarget[x], z));
+            }
+        }
     }
 }

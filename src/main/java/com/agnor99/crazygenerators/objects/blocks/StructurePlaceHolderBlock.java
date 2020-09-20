@@ -18,17 +18,17 @@ import net.minecraftforge.common.ToolType;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public abstract class GeneratorPlaceHolderBlock extends Block {
+public abstract class StructurePlaceHolderBlock extends Block {
 
 
-    public GeneratorPlaceHolderBlock(String registryName) {
+    public StructurePlaceHolderBlock(String registryName) {
         super(getProperties());
         setRegistryName(registryName);
     }
 
     public static Properties getProperties() {
-        return Block.Properties.create(Material.ROCK)
-                .hardnessAndResistance(2.2f, 15.0f)
+        return Properties.create(Material.ROCK)
+                .hardnessAndResistance(0.5f, 15.0f)
                 .harvestTool(ToolType.PICKAXE)
                 .harvestLevel(0)
                 .sound(SoundType.METAL)
@@ -57,7 +57,7 @@ public abstract class GeneratorPlaceHolderBlock extends Block {
             this(generatorBlock, new StringTextComponent(""));
         }
         public GeneratorItem(Block generatorBlock, TextComponent information) {
-            super(generatorBlock, new Item.Properties().
+            super(generatorBlock, new Properties().
                     group(CrazyGenerators.GeneratorItemGroup.instance));
             setRegistryName(generatorBlock.getRegistryName());
             this.information = information;

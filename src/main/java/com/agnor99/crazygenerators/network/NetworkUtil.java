@@ -6,6 +6,8 @@ import com.agnor99.crazygenerators.network.packets.item_generator.RequestItemPac
 import com.agnor99.crazygenerators.network.packets.position_generator.*;
 import com.agnor99.crazygenerators.network.packets.question_generator.*;
 import com.agnor99.crazygenerators.network.packets.redstone_generator.UpdateSequencePacket;
+import com.agnor99.crazygenerators.network.packets.structure_generator.StructureGenerationPacket;
+import com.agnor99.crazygenerators.network.packets.structure_generator.StructureGetPacket;
 import com.agnor99.crazygenerators.network.packets.timing_generator.*;
 import com.agnor99.crazygenerators.network.packets.sync.*;
 import net.minecraft.util.ResourceLocation;
@@ -170,6 +172,21 @@ public class NetworkUtil {
                 UpdateSequencePacket::toBytes,
                 UpdateSequencePacket::new,
                 UpdateSequencePacket::handle
+        );
+
+        INSTANCE.registerMessage(
+                nextID(),
+                StructureGenerationPacket.class,
+                StructureGenerationPacket::toBytes,
+                StructureGenerationPacket::new,
+                StructureGenerationPacket::handle
+        );
+        INSTANCE.registerMessage(
+                nextID(),
+                StructureGetPacket.class,
+                StructureGetPacket::toBytes,
+                StructureGetPacket::new,
+                StructureGetPacket::handle
         );
     }
 }
