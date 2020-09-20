@@ -28,7 +28,7 @@ public abstract class StructurePlaceHolderBlock extends Block {
 
     public static Properties getProperties() {
         return Properties.create(Material.ROCK)
-                .hardnessAndResistance(0.5f, 15.0f)
+                .hardnessAndResistance(0.1f, 15.0f)
                 .harvestTool(ToolType.PICKAXE)
                 .harvestLevel(0)
                 .sound(SoundType.METAL)
