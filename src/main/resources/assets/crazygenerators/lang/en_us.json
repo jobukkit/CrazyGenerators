@@ -9,24 +9,32 @@
     "block.crazygenerators.item_generator": "Item Generator",
     "block.crazygenerators.position_generator": "Position Generator",
     "block.crazygenerators.redstone_generator": "Redstone Generator",
+    "block.crazygenerators.structure_generator": "Structure Generator",
+
+    "block.crazygenerators.structure_connector": "Structure Connector",
+    "block.crazygenerators.structure_core": "Structure Core",
+    "block.crazygenerators.structure_orb": "Structure Orb",
 
     "container.question_generator": "Question Generator",
     "container.timing_generator": "Timing Generator",
     "container.item_generator": "Item Generator",
     "container.position_generator": "Position Generator",
     "container.redstone_generator": "Redstone Generator",
+    "container.structure_generator": "Structure Generator",
 
     "information.question_generator" : "In this generator you have to answer questions to generate RF. Remember to use hints",
     "information.timing_generator" : "In this generator you have to click the button as soon as the Box turns green. The earlier you click, the more RF you get!",
     "information.item_generator" : "In this generator you have to obtain a random Item to generate RF",
     "information.position_generator" : "In this generator you have to run to a specific location to generate RF",
-    "information.redstone_generator" : "In this generator you need to replicate a specific redstone sequence to generate RF.",
+    "information.redstone_generator" : "In this generator you have to replicate a specific redstone strength to generate RF.",
+    "information.structure_generator" : "In this generator you have to build a specific structure above the generator",
 
     "lore.question_generator": "\u00A73Who wants to be a millionaire?",
     "lore.timing_generator": "\u00A73Train your reflexes!",
     "lore.item_generator": "\u00A73Be patient, you will find something you have",
     "lore.position_generator": "\u00A73Don't ruin your world!",
     "lore.redstone_generator": "\u00A73Do your redstone magic!",
+    "lore.structure_generator": "\u00A73I see these AutoPlacers",
 
     "hover.timing_generator.multiplier": "Multiplier: Number between 1 and 8. Increases if you click fast enough!",
     "hover.timing_generator.delay": "Delay: Time you needed for your click",

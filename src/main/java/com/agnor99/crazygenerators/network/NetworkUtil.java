@@ -64,6 +64,13 @@ public class NetworkUtil {
                 PacketRedstoneSyncResponse::new,
                 PacketRedstoneSyncResponse::handle
         );
+        INSTANCE.registerMessage(
+                nextID(),
+                PacketStructureSyncResponse.class,
+                PacketStructureSyncResponse::toBytes,
+                PacketStructureSyncResponse::new,
+                PacketStructureSyncResponse::handle
+        );
 
         INSTANCE.registerMessage(
                 nextID(),

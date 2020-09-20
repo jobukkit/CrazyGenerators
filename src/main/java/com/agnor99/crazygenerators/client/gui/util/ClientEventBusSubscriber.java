@@ -20,5 +20,6 @@ public class ClientEventBusSubscriber {
         ScreenManager.registerFactory(ContainerInit.POSITION_GENERATOR.get(), PositionGeneratorScreen::new);
         ScreenManager.registerFactory(ContainerInit.ITEM_GENERATOR.get(), ItemGeneratorScreen::new);
         ScreenManager.registerFactory(ContainerInit.REDSTONE_GENERATOR.get(), RedstoneGeneratorScreen::new);
+        ScreenManager.registerFactory(ContainerInit.STRUCTURE_GENERATOR.get(), StructureGeneratorScreen::new);
     }
 }

@@ -19,6 +19,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public abstract class GeneratorPlaceHolderBlock extends Block {
+
     public static Block.Properties properties = Block.Properties.create(Material.ROCK)
             .hardnessAndResistance(2.2f, 15.0f)
             .harvestTool(ToolType.PICKAXE)
@@ -26,6 +27,7 @@ public abstract class GeneratorPlaceHolderBlock extends Block {
             .sound(SoundType.METAL)
             .notSolid()
             .variableOpacity();
+
     public GeneratorPlaceHolderBlock(String registryName) {
         super(properties);
         setRegistryName(registryName);

@@ -63,7 +63,6 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
         final int DEFAULT_COLOR = 4210752;
 
         font.drawString(this.title.getFormattedText(),8.0f, 6.0f, DEFAULT_COLOR);
-        font.drawString("Inventory",8.0f, 91f, DEFAULT_COLOR);
     }
 
     @Override

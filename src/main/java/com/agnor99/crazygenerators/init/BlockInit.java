@@ -20,6 +20,11 @@ public class BlockInit {
     public static final PositionGeneratorBlock position_generator = new PositionGeneratorBlock();
     public static final ItemGeneratorBlock item_generator = new ItemGeneratorBlock();
     public static final RedstoneGeneratorBlock redstone_generator = new RedstoneGeneratorBlock();
+    public static final StructureGeneratorBlock structure_generator = new StructureGeneratorBlock();
+
+    public static final StructureConnectorBlock structure_connector = new StructureConnectorBlock();
+    public static final StructureCoreBlock structure_core = new StructureCoreBlock();
+    public static final StructureOrbBlock structure_orb = new StructureOrbBlock();
 
     @SubscribeEvent
     public static void registerBlocks(final RegistryEvent.Register<Block> event) {
@@ -29,6 +34,11 @@ public class BlockInit {
         event.getRegistry().register(position_generator);
         event.getRegistry().register(item_generator);
         event.getRegistry().register(redstone_generator);
+        event.getRegistry().register(structure_generator);
+
+        event.getRegistry().register(structure_connector);
+        event.getRegistry().register(structure_core);
+        event.getRegistry().register(structure_orb);
     }
 
     @SubscribeEvent
@@ -39,5 +49,11 @@ public class BlockInit {
         event.getRegistry().register(position_generator.createItemFromItemBlock(new TranslationTextComponent("lore.position_generator")));
         event.getRegistry().register(item_generator.createItemFromItemBlock(new TranslationTextComponent("lore.item_generator")));
         event.getRegistry().register(redstone_generator.createItemFromItemBlock(new TranslationTextComponent("lore.redstone_generator")));
+        event.getRegistry().register(structure_generator.createItemFromItemBlock(new TranslationTextComponent("lore.structure_generator")));
+
+
+        event.getRegistry().register(structure_connector.createItemFromItemBlock());
+        event.getRegistry().register(structure_core.createItemFromItemBlock());
+        event.getRegistry().register(structure_orb.createItemFromItemBlock());
     }
 }
