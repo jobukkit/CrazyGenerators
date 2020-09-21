@@ -6,6 +6,7 @@ import com.agnor99.crazygenerators.network.packets.item_generator.RequestItemPac
 import com.agnor99.crazygenerators.network.packets.position_generator.*;
 import com.agnor99.crazygenerators.network.packets.question_generator.*;
 import com.agnor99.crazygenerators.network.packets.redstone_generator.UpdateSequencePacket;
+import com.agnor99.crazygenerators.network.packets.structure_generator.StructureDataPacket;
 import com.agnor99.crazygenerators.network.packets.structure_generator.StructureGenerationPacket;
 import com.agnor99.crazygenerators.network.packets.structure_generator.StructureGetPacket;
 import com.agnor99.crazygenerators.network.packets.timing_generator.*;
@@ -187,6 +188,13 @@ public class NetworkUtil {
                 StructureGetPacket::toBytes,
                 StructureGetPacket::new,
                 StructureGetPacket::handle
+        );
+        INSTANCE.registerMessage(
+                nextID(),
+                StructureDataPacket.class,
+                StructureDataPacket::toBytes,
+                StructureDataPacket::new,
+                StructureDataPacket::handle
         );
     }
 }

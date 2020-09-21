@@ -43,7 +43,7 @@ public class RedstoneGeneratorTileEntity extends GeneratorTileEntity{
         }
 
         if (lastRedstoneData == targetRedstoneData0 && targetRedstoneData1 == currentRedstoneData) {
-            addEnergy(25000);
+            addEnergy(100000);
             resetTarget();
         }
 

@@ -1,5 +1,7 @@
 package com.agnor99.crazygenerators.objects.tile;
 
+import com.agnor99.crazygenerators.network.NetworkUtil;
+import com.agnor99.crazygenerators.network.packets.structure_generator.StructureDataPacket;
 import com.agnor99.crazygenerators.objects.blocks.StructureConnectorBlock;
 import com.agnor99.crazygenerators.objects.blocks.StructureCoreBlock;
 import com.agnor99.crazygenerators.objects.blocks.StructureOrbBlock;
@@ -51,6 +53,7 @@ public class StructureGeneratorTileEntity extends GeneratorTileEntity{
                 structureTarget[x][z] = random.nextInt(3)+1;
             }
         }
+        sendToAllLooking(new StructureDataPacket(structureTarget));
     }
 
     @Override
@@ -109,6 +112,6 @@ public class StructureGeneratorTileEntity extends GeneratorTileEntity{
 
     @Override
     public PacketAbstractSyncResponse generateSyncPacket() {
-        return new PacketStructureSyncResponse(getEnergy());
+        return new PacketStructureSyncResponse(getEnergy(), structureTarget);
     }
 }

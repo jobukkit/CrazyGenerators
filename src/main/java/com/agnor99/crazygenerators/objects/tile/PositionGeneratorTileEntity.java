@@ -77,7 +77,7 @@ public class PositionGeneratorTileEntity extends GeneratorTileEntity{
                 flag.closestPlayer = player;
             }
             if(distance < 5) {
-                addEnergy(10000);
+                addEnergy(150000);
                 shouldUpdateFlag = true;
             }
         }
