@@ -146,10 +146,87 @@
     "question.question13.answer2" : "0",
     "question.question13.answer3" : "4",
 
-    "question.question14.question" : "What is the default randomTickSpeed on Bedrock-Edition",
+    "question.question14.question" : "What is the default randomTickSpeed on Bedrock-Edition?",
     "question.question14.answer0" : "1",
     "question.question14.answer1" : "2",
     "question.question14.answer2" : "3",
-    "question.question14.answer3" : "4"
+    "question.question14.answer3" : "4",
 
+    "question.question15.question" : "Which of these items can be dropped by foxes?",
+    "question.question15.answer0" : "Emerald",
+    "question.question15.answer1" : "Diamond",
+    "question.question15.answer2" : "Iron ingot",
+    "question.question15.answer3" : "Glowstone",
+
+    "question.question16.question" : "Which of these mobs get attacked by the \"killer bunny\"?",
+    "question.question16.answer0" : "Wolf",
+    "question.question16.answer1" : "Fox",
+    "question.question16.answer2" : "Sheep",
+    "question.question16.answer3" : "Rabbit",
+
+    "question.question17.question" : "How many llamas belong to a wandering trader?",
+    "question.question17.answer0" : "2",
+    "question.question17.answer1" : "1",
+    "question.question17.answer2" : "3",
+    "question.question17.answer3" : "4",
+
+    "question.question18.question" : "In which kind of biome does emerald ore generate?",
+    "question.question18.answer0" : "Mountain",
+    "question.question18.answer1" : "Forest",
+    "question.question18.answer2" : "Ocean",
+    "question.question18.answer3" : "Taiga",
+
+    "question.question19.question" : "How large is the largest Diamond Ore vein?",
+    "question.question19.answer0" : "10",
+    "question.question19.answer1" : "8",
+    "question.question19.answer2" : "9",
+    "question.question19.answer3" : "7",
+
+    "question.question20.question" : "Which of these Blocks is a valid intitial Spawn Point?",
+    "question.question20.answer0" : "Podzol",
+    "question.question20.answer1" : "Dirt",
+    "question.question20.answer2" : "Leaves",
+    "question.question20.answer3" : "Sand",
+
+    "question.question21.question" : "Which of these Blocks cannot be used as beacon base?",
+    "question.question21.answer0" : "Gold",
+    "question.question21.answer1" : "Lapis",
+    "question.question21.answer2" : "Coal",
+    "question.question21.answer3" : "Quartz",
+
+    "question.question22.question" : "What is the maximum light level for Bat spawning?",
+    "question.question22.answer0" : "3",
+    "question.question22.answer1" : "2",
+    "question.question22.answer2" : "4",
+    "question.question22.answer3" : "6",
+
+    "question.question23.question" : "Which of these blocks is invisible on maps?",
+    "question.question23.answer0" : "Red. Lamp",
+    "question.question23.answer1" : "Trapdoor",
+    "question.question23.answer2" : "Dropper",
+    "question.question23.answer3" : "Iron Door",
+
+    "question.question24.question" : "How long is the first delay for a spawner",
+    "question.question24.answer0" : "20 ticks",
+    "question.question24.answer1" : "10 ticks",
+    "question.question24.answer2" : "100 ticks",
+    "question.question24.answer3" : "40 ticks",
+
+    "question.question25.question" : "How long is the teleportation delay for an end gateway",
+    "question.question25.answer0" : "40 ticks",
+    "question.question25.answer1" : "20 ticks",
+    "question.question25.answer2" : "0 ticks",
+    "question.question25.answer3" : "100 ticks",
+
+    "question.question26.question" : "Which of these statues does not exist in a mansion",
+    "question.question26.answer0" : "Wolf",
+    "question.question26.answer1" : "Cat",
+    "question.question26.answer2" : "Illager",
+    "question.question26.answer3" : "Chicken",
+
+    "question.question27.question" : "How high can a player jump without an effect?",
+    "question.question27.answer0" : "1.25 m",
+    "question.question27.answer1" : "1.375 m ",
+    "question.question27.answer2" : "1.125 m",
+    "question.question27.answer3" : "1 m"
 }

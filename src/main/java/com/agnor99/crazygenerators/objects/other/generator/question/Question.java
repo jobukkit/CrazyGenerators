@@ -20,13 +20,31 @@ public enum  Question {
     q10(10,10),
     q11(11,6),
     q12(12, 10),
-    q13(13,3),
-    q14(14,9);
+    q13(13,5),
+    q14(14,9),
+    q15(15,3),
+    q16(16,8),
+    q17(17,0),
+    q18(18,2),
+    q19(19,7),
+    q20(20,8),
+    q21(21,1),
+    q22(22,4),
+    q23(23,6),
+    q24(24,3),
+    q25(25,7),
+    q26(26,4),
+    q27(27,1);
     private final String question;
     private final String answer;
     private final String fake1;
     private final String fake2;
     private final String fake3;
+
+    public int getQuestionTier() {
+        return questionTier;
+    }
+
     private final int questionTier;
 
     Question(int id, int questionTier) {
