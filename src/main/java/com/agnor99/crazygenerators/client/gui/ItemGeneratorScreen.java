@@ -7,6 +7,7 @@ import com.agnor99.crazygenerators.network.packets.item_generator.RequestItemPac
 import com.agnor99.crazygenerators.objects.container.ItemGeneratorContainer;
 import com.agnor99.crazygenerators.objects.other.generator.timing.ButtonData;
 import com.agnor99.crazygenerators.objects.tile.ItemGeneratorTileEntity;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.button.ImageButton;
@@ -42,14 +43,8 @@ public class ItemGeneratorScreen extends GeneratorScreen<ItemGeneratorContainer>
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
-    }
-
-
-    @Override
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+    protected void func_230451_b_(MatrixStack stack, int mouseX, int mouseY) {
+        super.func_230451_b_(stack, mouseX, mouseY);
 
         final int WHITE = 16777215;
         final int DEFAULT_COLOR = 4210752;
@@ -58,19 +53,15 @@ public class ItemGeneratorScreen extends GeneratorScreen<ItemGeneratorContainer>
         Point relativeMousePosition = new Point(mouseX, mouseY);
         relativeMousePosition.translate(-RELATIVE_SCREEN_POSITION.x, -RELATIVE_SCREEN_POSITION.y);
         if(igte.toFind != null) {
-            font.drawString(igte.toFind.getName().getFormattedText(),9,17,WHITE);
+            font.drawString(stack, igte.toFind.getName().getString(),9,17,WHITE);
             itemRenderer.renderItemIntoGUI(new ItemStack(igte.toFind), 80,47);
         }
 
-        drawButtonText(new TranslationTextComponent("button.item_generator.new").getFormattedText(), button);
+        drawButtonText(stack, new TranslationTextComponent("button.item_generator.new").getString(), button);
 
-        drawHoverMessages(relativeMousePosition);
+        drawHoverMessages(stack, relativeMousePosition);
     }
 
-    @Override
-    protected void drawHoverMessages(Point mousePosition) {
-        super.drawHoverMessages(mousePosition);
-    }
     private class RequestItemButton extends ImageButton {
         public RequestItemButton() {
             super(RELATIVE_SCREEN_POSITION.x+59, RELATIVE_SCREEN_POSITION.y+74,

@@ -7,6 +7,7 @@ import com.agnor99.crazygenerators.network.packets.structure_generator.Structure
 import com.agnor99.crazygenerators.network.packets.structure_generator.StructureGetPacket;
 import com.agnor99.crazygenerators.objects.container.StructureGeneratorContainer;
 import com.agnor99.crazygenerators.objects.tile.StructureGeneratorTileEntity;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.button.Button.IPressable;
 import net.minecraft.client.gui.widget.button.ImageButton;
@@ -47,13 +48,13 @@ public class StructureGeneratorScreen extends GeneratorScreen<StructureGenerator
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
+    protected void func_230450_a_(MatrixStack stack, float partialTicks, int mouseX, int mouseY) {
+        super.func_230450_a_(stack, partialTicks, mouseX, mouseY);
 
         for(int x = 0; x < 5; x++) {
             for(int z = 0; z < 5; z++) {
                 if(gte.structureTarget[x][z] != StructureGeneratorTileEntity.STRUCTURE_NONE) {
-                    drawPartRelativeOnScreen(new Point(66 + x*9,31 + z*9), new Point(185 + 10*(gte.structureTarget[x][z]-1),3), new Dimension(9,9));
+                    drawPartRelativeOnScreen(stack, new Point(66 + x*9,31 + z*9), new Point(185 + 10*(gte.structureTarget[x][z]-1),3), new Dimension(9,9));
                 }
             }
         }
@@ -61,8 +62,8 @@ public class StructureGeneratorScreen extends GeneratorScreen<StructureGenerator
 
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+    protected void func_230451_b_(MatrixStack stack, int mouseX, int mouseY) {
+        super.func_230451_b_(stack, mouseX, mouseY);
 
         final int WHITE = 16777215;
         final int DEFAULT_COLOR = 4210752;
@@ -71,21 +72,16 @@ public class StructureGeneratorScreen extends GeneratorScreen<StructureGenerator
         Point relativeMousePosition = new Point(mouseX, mouseY);
         relativeMousePosition.translate(-RELATIVE_SCREEN_POSITION.x, -RELATIVE_SCREEN_POSITION.y);
 
-        font.drawString("N", 86,17, WHITE);
-        font.drawString("E", 118,50, WHITE);
-        font.drawString("S", 86,83, WHITE);
-        font.drawString("W", 54,50, WHITE);
+        font.drawString(stack,"N", 86,17, WHITE);
+        font.drawString(stack,"E", 118,50, WHITE);
+        font.drawString(stack,"S", 86,83, WHITE);
+        font.drawString(stack,"W", 54,50, WHITE);
 
-        drawButtonText(new TranslationTextComponent("button.structure_generator.new").getFormattedText(), structureButton);
+        drawButtonText(stack,new TranslationTextComponent("button.structure_generator.new").getString(), structureButton);
         for(StructureBlockButton button: structureBlockButtons) {
-            drawButtonText(new TranslationTextComponent("button.structure_generator.get").getFormattedText(), button);
+            drawButtonText(stack,new TranslationTextComponent("button.structure_generator.get").getString(), button);
         }
-        drawHoverMessages(relativeMousePosition);
-    }
-
-    @Override
-    protected void drawHoverMessages(Point mousePosition) {
-        super.drawHoverMessages(mousePosition);
+        drawHoverMessages(stack, relativeMousePosition);
     }
 
     private class StructureButton extends ImageButton {

@@ -6,6 +6,7 @@ import com.agnor99.crazygenerators.init.TileInit;
 import com.agnor99.crazygenerators.network.packets.sync.PacketAbstractSyncResponse;
 import com.agnor99.crazygenerators.network.packets.sync.PacketItemSyncResponse;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -133,8 +134,8 @@ public class ItemGeneratorTileEntity extends GeneratorTileEntity{
         return compound;
     }
     @Override
-    public void read(CompoundNBT compound) {
-        super.read(compound);
+    public void read(BlockState state, CompoundNBT compound) {
+        super.read(state, compound);
         String registryName = compound.getString("itemRegistryName");
         Iterator<Item> itemIterator = Registry.ITEM.iterator();
         while(itemIterator.hasNext()) {

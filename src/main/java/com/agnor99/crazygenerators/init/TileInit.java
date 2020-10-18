@@ -8,7 +8,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class TileInit {
-    public static final DeferredRegister<TileEntityType<?>> TILE_ENTITY_TYPES = new DeferredRegister<>(ForgeRegistries.TILE_ENTITIES, CrazyGenerators.MOD_ID);
+    public static final DeferredRegister<TileEntityType<?>> TILE_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, CrazyGenerators.MOD_ID);
 
     public static final RegistryObject<TileEntityType<QuestionGeneratorTileEntity>> QUESTION_GENERATOR = TILE_ENTITY_TYPES.register(
             "question_generator",

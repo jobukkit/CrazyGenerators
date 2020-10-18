@@ -1,20 +1,40 @@
 package com.agnor99.crazygenerators.network.packets;
 
 import com.agnor99.crazygenerators.objects.tile.GeneratorTileEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public interface ClientPacket extends Packet {
-    default GeneratorTileEntity getTileEntity(BlockPos pos, Supplier<NetworkEvent.Context> context) {
-        ServerWorld world = context.get().getSender().world.getServer().getWorld(context.get().getSender().dimension);
-        TileEntity te = world.getTileEntity(pos);
+public abstract class ClientPacket implements Packet {
+    protected BlockPos pos;
+
+    protected ClientPacket(BlockPos pos) {
+        this.pos = pos;
+    }
+
+    protected ClientPacket(PacketBuffer buf) {
+        pos = buf.readBlockPos();
+    }
+
+    @Override
+    public void toBytes(PacketBuffer buf) {
+        buf.writeBlockPos(pos);
+    }
+
+    protected GeneratorTileEntity getTileEntity(Supplier<NetworkEvent.Context> context) {
+
+        TileEntity te = context.get().getSender().world.getTileEntity(pos);
         if(te instanceof GeneratorTileEntity) {
             return (GeneratorTileEntity) te;
         }
         return null;
+    }
+
+    public boolean checkBlockPosWithPlayer(ServerPlayerEntity player) {
+        return checkBlockPosWithPlayer(pos, player);
     }
 }

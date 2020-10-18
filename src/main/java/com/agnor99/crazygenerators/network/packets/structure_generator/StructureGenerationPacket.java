@@ -8,18 +8,13 @@ import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class StructureGenerationPacket implements ClientPacket {
-    BlockPos pos;
+public class StructureGenerationPacket extends ClientPacket {
     public StructureGenerationPacket(BlockPos pos) {
-        this.pos = pos;
+        super(pos);
     }
 
     public StructureGenerationPacket(PacketBuffer buf) {
-        pos = buf.readBlockPos();
-    }
-    @Override
-    public void toBytes(PacketBuffer buf) {
-        buf.writeBlockPos(pos);
+        super(buf);
     }
 
     @Override
@@ -29,7 +24,7 @@ public class StructureGenerationPacket implements ClientPacket {
 
     @Override
     public void doWork(Supplier<NetworkEvent.Context> context) {
-        StructureGeneratorTileEntity gte = (StructureGeneratorTileEntity) getTileEntity(pos, context);
+        StructureGeneratorTileEntity gte = (StructureGeneratorTileEntity) getTileEntity(context);
         gte.updateMap();
     }
 }

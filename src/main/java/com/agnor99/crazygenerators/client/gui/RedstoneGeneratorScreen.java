@@ -6,6 +6,7 @@ import com.agnor99.crazygenerators.network.NetworkUtil;
 import com.agnor99.crazygenerators.network.packets.redstone_generator.UpdateSequencePacket;
 import com.agnor99.crazygenerators.objects.container.RedstoneGeneratorContainer;
 import com.agnor99.crazygenerators.objects.tile.RedstoneGeneratorTileEntity;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.button.ImageButton;
 import net.minecraft.entity.player.PlayerInventory;
@@ -35,52 +36,51 @@ public class RedstoneGeneratorScreen extends GeneratorScreen<RedstoneGeneratorCo
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
+    protected void func_230450_a_(MatrixStack stack, float partialTicks, int mouseX, int mouseY) {
+        super.func_230450_a_(stack, partialTicks, mouseX, mouseY);
         int targetRedstoneData0 = ((RedstoneGeneratorTileEntity)getContainer().getTileEntity()).targetRedstoneData0;
         int targetRedstoneData1 = ((RedstoneGeneratorTileEntity)getContainer().getTileEntity()).targetRedstoneData1;
 
-        drawRedstoneStrength(targetRedstoneData0,31);
-        drawRedstoneStrength(targetRedstoneData1,61);
+        drawRedstoneStrength(stack, targetRedstoneData0,31);
+        drawRedstoneStrength(stack, targetRedstoneData1,61);
     }
 
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+    protected void func_230451_b_(MatrixStack stack, int mouseX, int mouseY) {
+        super.func_230451_b_(stack, mouseX, mouseY);
 
         final int WHITE = 16777215;
         final int DEFAULT_COLOR = 4210752;
 
-        drawButtonText(new TranslationTextComponent("button.redstone_generator.new").getFormattedText(), button);
+        drawButtonText(stack, new TranslationTextComponent("button.redstone_generator.new").getString(), button);
 
         Point relativeMousePosition = new Point(mouseX, mouseY);
         relativeMousePosition.translate(-RELATIVE_SCREEN_POSITION.x, -RELATIVE_SCREEN_POSITION.y);
 
-        drawHoverMessages(relativeMousePosition);
+        drawHoverMessages(stack, relativeMousePosition);
     }
 
-    private void drawRedstoneStrength(int redstoneStrength, int yoffset) {
+    private void drawRedstoneStrength(MatrixStack stack, int redstoneStrength, int yoffset) {
 
         for(int i = 0; i < redstoneStrength; i++) {
             int xoffset;
             xoffset = (i * 8 + (i / 3) * 1 + 8);
-            drawPartRelativeOnScreen(new Point(xoffset, yoffset), new Point(198,37), new Dimension(8,24));
+            drawPartRelativeOnScreen(stack, new Point(xoffset, yoffset), new Point(198,37), new Dimension(8,24));
         }
     }
 
     @Override
-    protected void drawHoverMessages(Point mousePosition) {
-        super.drawHoverMessages(mousePosition);
-        drawSequencesHover(mousePosition);
-        drawWarningHover(mousePosition);
+    protected void drawHoverMessages(MatrixStack stack, Point mousePosition) {
+        super.drawHoverMessages(stack, mousePosition);
+        drawSequencesHover(stack, mousePosition);
     }
 
-    private void drawSequencesHover(Point mousePosition) {
-        drawSequenceHover(mousePosition,0);
-        drawSequenceHover(mousePosition,1);
+    private void drawSequencesHover(MatrixStack stack, Point mousePosition) {
+        drawSequenceHover(stack, mousePosition,0);
+        drawSequenceHover(stack, mousePosition,1);
     }
-    private void drawSequenceHover(Point mousePosition, int seqNumber) {
+    private void drawSequenceHover(MatrixStack stack, Point mousePosition, int seqNumber) {
         Point drawPosition = new Point(7,seqNumber == 0 ? 30 : 60);
         Dimension textureSize = new Dimension(126,26);
         RedstoneGeneratorTileEntity rgte = ((RedstoneGeneratorTileEntity)container.getTileEntity());
@@ -88,29 +88,20 @@ public class RedstoneGeneratorScreen extends GeneratorScreen<RedstoneGeneratorCo
             TranslationTextComponent comp;
             if(rgte.targetRedstoneData0 == 0){
                 comp = new TranslationTextComponent("hover.redstone_generator.no_sequence");
-                drawHoverMessage(mousePosition, comp.getFormattedText());
+                drawHoverMessage(stack, mousePosition, comp.getString());
             }else {
                 comp = new TranslationTextComponent("hover.redstone_generator.sequence");
-                drawHoverMessage(mousePosition,
-                        comp.getFormattedText().replace(
+                drawHoverMessage(stack,     mousePosition,
+                        comp.getString().replace(
                                 "{State}",
-                                seqNumber == 0 ? new TranslationTextComponent("hover.redstone_generator.first").getFormattedText()
-                                               : new TranslationTextComponent("hover.redstone_generator.second").getFormattedText()).
+                                seqNumber == 0 ? new TranslationTextComponent("hover.redstone_generator.first").getString()
+                                               : new TranslationTextComponent("hover.redstone_generator.second").getString()).
                                 replace("{Expected}",
                                         seqNumber == 0 ? String.valueOf(rgte.targetRedstoneData0)
                                                        : String.valueOf(rgte.targetRedstoneData1)
                                         )
                                 .replace("{Current}", String.valueOf(rgte.lastRedstoneData)));
             }
-        }
-    }
-    private void drawWarningHover(Point mousePosition) {
-        Point drawPosition = new Point(137,30);
-        Dimension textureSize = new Dimension(12,12);
-
-        if(isMouseOverHoverArea(mousePosition, drawPosition, textureSize)) {
-            TranslationTextComponent information = new TranslationTextComponent("hover.redstone_generator.warning");
-            drawHoverMessage(mousePosition, information.getFormattedText());
         }
     }
 

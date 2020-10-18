@@ -5,21 +5,19 @@ import com.agnor99.crazygenerators.objects.tile.GeneratorTileEntity;
 import com.agnor99.crazygenerators.objects.tile.ItemGeneratorTileEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class RequestItemPacket implements ClientPacket {
+public class RequestItemPacket extends ClientPacket {
 
-    BlockPos pos;
 
     public RequestItemPacket(BlockPos pos) {
-        this.pos = pos;
+        super(pos);
     }
 
     public RequestItemPacket(PacketBuffer buf) {
-        pos = buf.readBlockPos();
+        super(buf);
     }
     @Override
     public void toBytes(PacketBuffer buf) {
@@ -28,12 +26,12 @@ public class RequestItemPacket implements ClientPacket {
 
     @Override
     public boolean isValid(Supplier<NetworkEvent.Context> context) {
-        return checkBlockPosWithPlayer(pos, context.get().getSender());
+        return checkBlockPosWithPlayer(context.get().getSender());
     }
 
     @Override
     public void doWork(Supplier<NetworkEvent.Context> context) {
-        GeneratorTileEntity gte = getTileEntity(pos, context);
+        GeneratorTileEntity gte = getTileEntity(context);
         if(gte instanceof ItemGeneratorTileEntity) {
             ItemGeneratorTileEntity igte = (ItemGeneratorTileEntity) gte;
             igte.generateItem();

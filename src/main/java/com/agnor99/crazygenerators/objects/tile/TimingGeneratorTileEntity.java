@@ -45,7 +45,7 @@ public class TimingGeneratorTileEntity extends GeneratorTileEntity{
     public void tick() {
         super.tick();
         if(!shouldTickIntern()) return;
-        if(tickToUnlock + TICKS_TO_CLICK + MAX_TICK_DELAY_FOR_PING == tick) {
+        if(tickToUnlock + TICKS_TO_CLICK + MAX_TICK_DELAY_FOR_PING < tick) {
             generateUnlockData();
             multiplier = 1;
         }

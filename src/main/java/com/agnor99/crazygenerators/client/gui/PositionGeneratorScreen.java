@@ -6,6 +6,7 @@ import com.agnor99.crazygenerators.network.NetworkUtil;
 import com.agnor99.crazygenerators.network.packets.position_generator.*;
 import com.agnor99.crazygenerators.objects.container.PositionGeneratorContainer;
 import com.agnor99.crazygenerators.objects.tile.PositionGeneratorTileEntity;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.button.ImageButton;
@@ -20,6 +21,7 @@ import net.minecraftforge.fml.ModList;
 import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;
+import java.util.UUID;
 
 
 @OnlyIn(Dist.CLIENT)
@@ -32,6 +34,7 @@ public class PositionGeneratorScreen extends GeneratorScreen<PositionGeneratorCo
     public PositionGeneratorScreen(PositionGeneratorContainer screenContainer, PlayerInventory playerInventory, ITextComponent title) {
         super(screenContainer, playerInventory, title, "information.position_generator");
         setBackgroundTexture(new ResourceLocation(CrazyGenerators.MOD_ID, "textures/gui/position_generator.png"));
+        pgte = (PositionGeneratorTileEntity)screenContainer.getTileEntity();
     }
 
     @Override
@@ -43,90 +46,84 @@ public class PositionGeneratorScreen extends GeneratorScreen<PositionGeneratorCo
         addButton(chatButton);
     }
 
-    @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
-        pgte = (PositionGeneratorTileEntity) container.getTileEntity();
-
-    }
 
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+    protected void func_230451_b_(MatrixStack stack, int mouseX, int mouseY) {
+        super.func_230451_b_(stack, mouseX, mouseY);
 
         final int WHITE = 16777215;
         final int DEFAULT_COLOR = 4210752;
 
-        font.drawString("x: " + pgte.flag.getX(),9,17, WHITE);
-        font.drawString("y: " + pgte.flag.getY(),9,32, WHITE);
-        font.drawString("z: " + pgte.flag.getZ(),9,47, WHITE);
+        font.drawString(stack, "x: " + pgte.flag.getX(),9,17, WHITE);
+        font.drawString(stack,"y: " + pgte.flag.getY(),9,32, WHITE);
+        font.drawString(stack,"z: " + pgte.flag.getZ(),9,47, WHITE);
         if(!StringUtils.isEmpty(pgte.flag.playerName)) {
-            font.drawString(pgte.flag.playerName,55, 17, WHITE);
+            font.drawString(stack, pgte.flag.playerName,55, 17, WHITE);
         }else {
-            font.drawString(new TranslationTextComponent("text.position_generator.player_not_set").getFormattedText(),55, 17, WHITE);
+            font.drawString(stack, new TranslationTextComponent("text.position_generator.player_not_set").getString(),55, 17, WHITE);
         }
 
-        font.drawString(new TranslationTextComponent("text.position_generator.distance").getFormattedText() +
+        font.drawString(stack,new TranslationTextComponent("text.position_generator.distance").getString() +
                 ((PositionGeneratorTileEntity)container.getTileEntity()).flag.getSmallestDistance()
                 ,55,31, WHITE);
 
         Point relativeMousePosition = new Point(mouseX, mouseY);
         relativeMousePosition.translate(-RELATIVE_SCREEN_POSITION.x, -RELATIVE_SCREEN_POSITION.y);
 
-        drawButtonText(new TranslationTextComponent("button.position_generator.position").getFormattedText(), newCoordsButton);
-        drawButtonText(new TranslationTextComponent("button.position_generator.chat").getFormattedText(), chatButton);
+        drawButtonText(stack, new TranslationTextComponent("button.position_generator.position").getString(), newCoordsButton);
+        drawButtonText(stack, new TranslationTextComponent("button.position_generator.chat").getString(), chatButton);
 
-        drawHoverMessages(relativeMousePosition);
+        drawHoverMessages(stack, relativeMousePosition);
     }
 
     @Override
-    protected void drawHoverMessages(Point mousePosition) {
-        super.drawHoverMessages(mousePosition);
-        drawXHover(mousePosition);
-        drawYHover(mousePosition);
-        drawZHover(mousePosition);
-        drawDistanceHover(mousePosition);
-        drawPlayerHover(mousePosition);
+    protected void drawHoverMessages(MatrixStack stack, Point mousePosition) {
+        super.drawHoverMessages(stack, mousePosition);
+        drawXHover(stack, mousePosition);
+        drawYHover(stack, mousePosition);
+        drawZHover(stack, mousePosition);
+        drawDistanceHover(stack, mousePosition);
+        drawPlayerHover(stack, mousePosition);
     }
-    private void drawXHover(Point relativeMousePosition) {
+    private void drawXHover(MatrixStack stack, Point relativeMousePosition) {
         Point boxPoint = new Point(7,15);
         Dimension boxSize = new Dimension(42,11);
 
         if(isMouseOverHoverArea(relativeMousePosition, boxPoint, boxSize)) {
-            drawHoverMessage(relativeMousePosition, new TranslationTextComponent("hover.position_generator.location").getFormattedText().replace("{Axis}", "X"));
+            drawHoverMessage(stack, relativeMousePosition, new TranslationTextComponent("hover.position_generator.location").getString().replace("{Axis}", "X"));
         }
     }
-    private void drawYHover(Point relativeMousePosition) {
+    private void drawYHover(MatrixStack stack, Point relativeMousePosition) {
         Point boxPoint = new Point(7,30);
         Dimension boxSize = new Dimension(42,11);
 
         if(isMouseOverHoverArea(relativeMousePosition, boxPoint, boxSize)) {
-            drawHoverMessage(relativeMousePosition, new TranslationTextComponent("hover.position_generator.location").getFormattedText().replace("{Axis}", "Y"));
+            drawHoverMessage(stack, relativeMousePosition, new TranslationTextComponent("hover.position_generator.location").getString().replace("{Axis}", "Y"));
         }
     }
-    private void drawZHover(Point relativeMousePosition) {
+    private void drawZHover(MatrixStack stack, Point relativeMousePosition) {
         Point boxPoint = new Point(7,45);
         Dimension boxSize = new Dimension(42,11);
 
         if(isMouseOverHoverArea(relativeMousePosition, boxPoint, boxSize)) {
-            drawHoverMessage(relativeMousePosition, new TranslationTextComponent("hover.position_generator.location").getFormattedText().replace("{Axis}", "Z"));
+            drawHoverMessage(stack, relativeMousePosition, new TranslationTextComponent("hover.position_generator.location").getString().replace("{Axis}", "Z"));
         }
     }
-    private void drawDistanceHover(Point relativeMousePosition) {
+    private void drawDistanceHover(MatrixStack stack, Point relativeMousePosition) {
         Point boxPoint = new Point(53,30);
         Dimension boxSize = new Dimension(80,11);
 
         if(isMouseOverHoverArea(relativeMousePosition, boxPoint, boxSize)) {
-            drawHoverMessage(relativeMousePosition, new TranslationTextComponent("hover.position_generator.distance").getFormattedText().replace("{Player}", pgte.flag.playerName==null ? "{Player}" : pgte.flag.playerName));
+            drawHoverMessage(stack, relativeMousePosition, new TranslationTextComponent("hover.position_generator.distance").getString().replace("{Player}", pgte.flag.playerName==null ? "{Player}" : pgte.flag.playerName));
         }
     }
-    private void drawPlayerHover(Point relativeMousePosition) {
+    private void drawPlayerHover(MatrixStack stack, Point relativeMousePosition) {
         Point boxPoint = new Point(53,15);
         Dimension boxSize = new Dimension(80,11);
 
         if(isMouseOverHoverArea(relativeMousePosition, boxPoint, boxSize)) {
-            drawHoverMessage(relativeMousePosition, new TranslationTextComponent("hover.position_generator.player").getFormattedText());
+            drawHoverMessage(stack, relativeMousePosition, new TranslationTextComponent("hover.position_generator.player").getString());
         }
     }
     private class NewCoordsButton extends ImageButton {
@@ -144,7 +141,7 @@ public class PositionGeneratorScreen extends GeneratorScreen<PositionGeneratorCo
 
         @Override
         public void onPress(Button button) {
-            NetworkUtil.INSTANCE.sendToServer(new NewCoordsPacket(minecraft.player.dimension, container.getTileEntity().getPos()));
+            NetworkUtil.INSTANCE.sendToServer(new NewCoordsPacket(container.getTileEntity().getPos()));
         }
     }
     private class ChatButton extends ImageButton {
@@ -166,7 +163,7 @@ public class PositionGeneratorScreen extends GeneratorScreen<PositionGeneratorCo
                 String str = "[name:\"flag\", x:" + pgte.flag.getX() + ", y:" + pgte.flag.getY() + ", z:" + pgte.flag.getZ()+"]";
                 NetworkUtil.INSTANCE.sendToServer(new WayPointChatMessagePacket(str));
             }else {
-                Minecraft.getInstance().player.sendMessage(new StringTextComponent("X:" + pgte.flag.getX() + "  Y:" + pgte.flag.getY() + "  Z:" + pgte.flag.getZ()));
+                Minecraft.getInstance().player.sendMessage(new StringTextComponent("X:" + pgte.flag.getX() + "  Y:" + pgte.flag.getY() + "  Z:" + pgte.flag.getZ()), new UUID(0L, 0L));
             }
         }
     }

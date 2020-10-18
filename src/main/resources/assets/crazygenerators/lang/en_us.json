@@ -32,7 +32,7 @@
     "lore.question_generator": "\u00A73Who wants to be a millionaire?",
     "lore.timing_generator": "\u00A73Train your reflexes!",
     "lore.item_generator": "\u00A73Be patient, you will find something you have",
-    "lore.position_generator": "\u00A73Don't ruin your world!",
+    "lore.position_generator": "\u00A73Never dig straight down",
     "lore.redstone_generator": "\u00A73Do your redstone magic!",
     "lore.structure_generator": "\u00A73I see these AutoPlacers",
 
@@ -46,7 +46,6 @@
     "hover.redstone_generator.second": "Second",
     "hover.redstone_generator.sequence": "{State} Expected Power: {Expected}, Current Power: {Current}",
     "hover.redstone_generator.no_sequence": "No Sequence available, generate a new one",
-    "hover.redstone_generator.warning": "The best way to power it, is by laying a redstone line on top of it. But be aware of the strength, because it might be higher than you would expect!",
 
     "button.timing_generator.click": "Click me!",
     "button.position_generator.player": "Set player",

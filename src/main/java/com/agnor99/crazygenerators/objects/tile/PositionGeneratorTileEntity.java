@@ -70,7 +70,7 @@ public class PositionGeneratorTileEntity extends GeneratorTileEntity{
 
         boolean shouldUpdateFlag = false;
         for(ServerPlayerEntity player:flag.players) {
-            double distance = (int)player.getPosition().distanceSq(new BlockPos(flag.getX(), flag.getY(), flag.getZ()));
+            double distance = (int)player.func_233580_cy_().distanceSq(new BlockPos(flag.getX(), flag.getY(), flag.getZ()));
             distance = Math.sqrt(distance);
             if(distance < flag.getSmallestDistance()) {
                 flag.setSmallestDistance((int)distance);
@@ -86,7 +86,7 @@ public class PositionGeneratorTileEntity extends GeneratorTileEntity{
             if(flag.closestPlayer == null) {
                 packet = new ClosestPlayerPacket("");
             }else {
-                packet = new ClosestPlayerPacket(flag.closestPlayer.getName().getFormattedText());
+                packet = new ClosestPlayerPacket(flag.closestPlayer.getName().getString());
             }
             sendToAllLooking(packet);
         }
@@ -109,7 +109,7 @@ public class PositionGeneratorTileEntity extends GeneratorTileEntity{
         }else {
             player = flag.closestPlayer;
         }
-        return new PacketPositionSyncResponse(player.getName().getFormattedText(), getEnergy());
+        return new PacketPositionSyncResponse(player.getName().getString(), getEnergy());
     }
 
     public void updateFlag() {

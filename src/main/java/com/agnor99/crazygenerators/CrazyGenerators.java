@@ -31,7 +31,6 @@ public class CrazyGenerators {
         instance = this;
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::setup);
-        modEventBus.addListener(this::clientSetup);
 
         TileInit.TILE_ENTITY_TYPES.register(modEventBus);
         ContainerInit.CONTAINER_TYPES.register(modEventBus);
@@ -42,13 +41,6 @@ public class CrazyGenerators {
         NetworkUtil.registerMessages();
     }
 
-    private void clientSetup(final FMLClientSetupEvent event) {
-    }
-
-    @SubscribeEvent
-    public void onServerStarting(FMLServerStartingEvent event) {
-
-    }
     public static class GeneratorItemGroup extends ItemGroup {
         public static final GeneratorItemGroup instance = new GeneratorItemGroup(ItemGroup.GROUPS.length, "generatorTab");
         private GeneratorItemGroup(int index, String label) {

@@ -4,6 +4,7 @@ import com.agnor99.crazygenerators.network.NetworkUtil;
 import com.agnor99.crazygenerators.network.packets.Packet;
 import com.agnor99.crazygenerators.network.packets.sync.PacketAbstractSyncResponse;
 import com.agnor99.crazygenerators.objects.other.GeneratorEnergyStorage;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -112,7 +113,6 @@ public abstract class GeneratorTileEntity extends LockableLootTileEntity impleme
     private void powerItem() {
         try {
             ItemStack itemToLoad = itemStackToLoad.get(0);
-            if(itemToLoad == null) return;
             if(itemToLoad.getCount() != 1) return;
             AtomicInteger currentEnergy = new AtomicInteger(energy.getEnergyStored());
 
@@ -144,8 +144,8 @@ public abstract class GeneratorTileEntity extends LockableLootTileEntity impleme
 
 
     @Override
-    public void read(CompoundNBT compound) {
-        super.read(compound);
+    public void read(BlockState blockState, CompoundNBT compound) {
+        super.read(blockState, compound);
         tick = compound.getInt("tick");
         itemStackToLoad = NonNullList.withSize(getSizeInventory(), ItemStack.EMPTY);
         if(!this.checkLootAndRead(compound)) {

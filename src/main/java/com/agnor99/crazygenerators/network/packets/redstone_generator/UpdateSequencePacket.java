@@ -10,20 +10,13 @@ import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class UpdateSequencePacket implements ClientPacket {
-    BlockPos pos;
-
+public class UpdateSequencePacket extends ClientPacket {
     public UpdateSequencePacket(BlockPos pos){
-        this.pos = pos;
+        super(pos);
     }
 
     public UpdateSequencePacket(PacketBuffer buf){
-        pos = buf.readBlockPos();
-    }
-
-    @Override
-    public void toBytes(PacketBuffer buf) {
-        buf.writeBlockPos(pos);
+        super(buf);
     }
 
     @Override

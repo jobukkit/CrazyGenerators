@@ -8,6 +8,7 @@ import com.agnor99.crazygenerators.network.NetworkUtil;
 import com.agnor99.crazygenerators.network.packets.timing_generator.PacketButtonPress;
 import com.agnor99.crazygenerators.objects.other.generator.timing.ButtonData;
 import com.agnor99.crazygenerators.objects.tile.TimingGeneratorTileEntity;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.button.ImageButton;
 import net.minecraft.entity.player.PlayerInventory;
@@ -43,14 +44,14 @@ public class TimingGeneratorScreen extends GeneratorScreen<TimingGeneratorContai
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
+    protected void func_230450_a_(MatrixStack stack, float partialTicks, int mouseX, int mouseY) {
+        super.func_230450_a_(stack, partialTicks, mouseX, mouseY);
         TimingGeneratorTileEntity tgte = (TimingGeneratorTileEntity) container.getTileEntity();
 
 
         if(lastDelay >= 0 && lastDelay <= TimingGeneratorTileEntity.TICKS_TO_CLICK) {
             int height = calcHeight(TIMER_HEIGHT, lastDelay, TimingGeneratorTileEntity.TICKS_TO_CLICK);
-            drawPartRelativeOnScreen(new Point(138,91 -height), new Point(206,39), new Dimension(9,3));
+            drawPartRelativeOnScreen(stack, new Point(138,91 -height), new Point(206,39), new Dimension(9,3));
         }
         int tickToUnlock = tgte.getTickToUnlock();
 
@@ -63,59 +64,60 @@ public class TimingGeneratorScreen extends GeneratorScreen<TimingGeneratorContai
 
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+    protected void func_230451_b_(MatrixStack stack, int mouseX, int mouseY) {
+        super.func_230451_b_(stack, mouseX, mouseY);
 
         final int WHITE = 16777215;
         final int DEFAULT_COLOR = 4210752;
 
-        font.drawString(((TimingGeneratorTileEntity)container.getTileEntity()).getMultiplier() + "x", 9,17,WHITE);
+        font.drawString(stack, ((TimingGeneratorTileEntity)container.getTileEntity()).getMultiplier() + "x", 9,17,WHITE);
         if(lastDelay != Integer.MIN_VALUE) {
-            font.drawString(lastDelay/20.0d + "s", 28, 17, WHITE);
+            font.drawString(stack, lastDelay/20.0d + "s", 28, 17, WHITE);
         }
         if(lastEnergyAdded != Integer.MIN_VALUE) {
-            font.drawString("+" + lastEnergyAdded + " RF", 74, 17, WHITE);
+            font.drawString(stack, "+" + lastEnergyAdded + " RF", 74, 17, WHITE);
+
         }
 
 
-        drawButtonText(new TranslationTextComponent("button.timing_generator.click").getFormattedText(), clickButton);
+        drawButtonText(stack,new TranslationTextComponent("button.timing_generator.click").getString(), clickButton);
 
 
         Point relativeMousePosition = new Point(mouseX, mouseY);
         relativeMousePosition.translate(-RELATIVE_SCREEN_POSITION.x, -RELATIVE_SCREEN_POSITION.y);
-        drawHoverMessages(relativeMousePosition);
+        drawHoverMessages(stack, relativeMousePosition);
     }
 
     @Override
-    protected void drawHoverMessages(Point mousePosition) {
-        super.drawHoverMessages(mousePosition);
-        drawMultiplierHover(mousePosition);
-        drawDelayHover(mousePosition);
-        drawEnergyAddedHover(mousePosition);
+    protected void drawHoverMessages(MatrixStack stack, Point mousePosition) {
+        super.drawHoverMessages(stack, mousePosition);
+        drawMultiplierHover(stack, mousePosition);
+        drawDelayHover(stack, mousePosition);
+        drawEnergyAddedHover(stack, mousePosition);
 
     }
-    private void drawMultiplierHover(Point relativeMousePosition) {
+    private void drawMultiplierHover(MatrixStack stack, Point relativeMousePosition) {
         Point boxPoint = new Point(7,15);
         Dimension boxSize = new Dimension(15,11);
 
         if(isMouseOverHoverArea(relativeMousePosition, boxPoint, boxSize)) {
-            drawHoverMessage(relativeMousePosition, new TranslationTextComponent("hover.timing_generator.multiplier").getFormattedText());
+            drawHoverMessage(stack, relativeMousePosition, new TranslationTextComponent("hover.timing_generator.multiplier").getString());
         }
     }
-    private void drawDelayHover(Point relativeMousePosition) {
+    private void drawDelayHover(MatrixStack stack, Point relativeMousePosition) {
         Point boxPoint = new Point(26,15);
         Dimension boxSize = new Dimension(42,11);
 
         if(isMouseOverHoverArea(relativeMousePosition, boxPoint, boxSize)) {
-            drawHoverMessage(relativeMousePosition, new TranslationTextComponent("hover.timing_generator.delay").getFormattedText());
+            drawHoverMessage(stack, relativeMousePosition, new TranslationTextComponent("hover.timing_generator.delay").getString());
         }
     }
-    private void drawEnergyAddedHover(Point relativeMousePosition) {
+    private void drawEnergyAddedHover(MatrixStack stack, Point relativeMousePosition) {
         Point boxPoint = new Point(72,15);
         Dimension boxSize = new Dimension(62,11);
 
         if(isMouseOverHoverArea(relativeMousePosition, boxPoint, boxSize)) {
-            drawHoverMessage(relativeMousePosition, new TranslationTextComponent("hover.timing_generator.energy_added").getFormattedText());
+            drawHoverMessage(stack, relativeMousePosition, new TranslationTextComponent("hover.timing_generator.energy_added").getString());
         }
     }
     private class ClickButton extends ImageButton {
@@ -140,9 +142,7 @@ public class TimingGeneratorScreen extends GeneratorScreen<TimingGeneratorContai
         @Override
         public void onPress(Button button) {
 
-            NetworkUtil.INSTANCE.sendToServer(new PacketButtonPress(minecraft.player.dimension, container.getTileEntity().getPos(), container.getTicks()));
-
-
+            NetworkUtil.INSTANCE.sendToServer(new PacketButtonPress(container.getTileEntity().getPos(), container.getTicks()));
         }
     }
 }

@@ -7,6 +7,7 @@ import com.agnor99.crazygenerators.network.NetworkUtil;
 import com.agnor99.crazygenerators.network.packets.question_generator.PacketAnswer;
 import com.agnor99.crazygenerators.network.packets.question_generator.PacketHintRequest;
 import com.agnor99.crazygenerators.objects.tile.QuestionGeneratorTileEntity;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.button.ImageButton;
 import net.minecraft.entity.player.PlayerInventory;
@@ -43,6 +44,9 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
         for(int i = 0; i < 4; i++) {
             displayAnswers[i] = "";
         }
+
+        this.xSize = 176;
+        this.ySize = 188;
     }
 
     @Override
@@ -60,6 +64,9 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
         addButton(answers[2]);
         addButton(answers[3]);
 
+        //PlayerInventoryTitlePos
+        field_238744_r_ = 7;
+        field_238745_s_ = 96;
     }
 
     void reloadButtons() {
@@ -78,10 +85,10 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
+    protected void func_230450_a_(MatrixStack stack, float partialTicks, int mouseX, int mouseY) {
+        super.func_230450_a_(stack, partialTicks, mouseX, mouseY);
 
-        updateAnimationVars();
+        updateAnimationVars(stack);
 
 
     }
@@ -93,43 +100,43 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
         }
     }
     @Override
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+    protected void func_230451_b_(MatrixStack stack, int mouseX, int mouseY) {
+        super.func_230451_b_(stack, mouseX, mouseY);
 
         QuestionGeneratorTileEntity questionGeneratorTileEntity = (QuestionGeneratorTileEntity) container.getTileEntity();
 
         final int WHITE = 16777215;
         final int DEFAULT_COLOR = 4210752;
 
-        drawButtonText("50:50", hint);
+        drawButtonText(stack,"50:50", hint);
 
-        font.drawString("x" + questionGeneratorTileEntity.getTipsAvailable(), 38,17, DEFAULT_COLOR);
+        font.drawString(stack,"x" + questionGeneratorTileEntity.getTipsAvailable(), 38,17, DEFAULT_COLOR);
 
 
-        font.drawString(String.valueOf(questionGeneratorTileEntity.getCurrentQuestionPrice()), 83, 17 , WHITE);
+        font.drawString(stack, String.valueOf(questionGeneratorTileEntity.getCurrentQuestionPrice()), 83, 17 , WHITE);
 
-        String translatedQuestion = new TranslationTextComponent(displayQuestion).getFormattedText();
+        String translatedQuestion = new TranslationTextComponent(displayQuestion).getString();
         List<String> translatedQuestionLines = breakStringIntoLineList(translatedQuestion,123);
         for(int i = 0; i < translatedQuestionLines.size() && i < 3; i++) {
-            font.drawString(translatedQuestionLines.get(i), 9, 32 + 10*i, WHITE);
+            font.drawString(stack, translatedQuestionLines.get(i), 9, 32 + 10*i, WHITE);
         }
 
 
         reloadButtons();
 
         for(int i = 0; i < 4; i++) {
-            drawButtonText(new TranslationTextComponent(answers[i].answer).getFormattedText(), answers[i]);
+            drawButtonText(stack, new TranslationTextComponent(answers[i].answer).getString(), answers[i]);
         }
 
 
         Point relativeMousePosition = new Point(mouseX, mouseY);
         relativeMousePosition.translate(-RELATIVE_SCREEN_POSITION.x, -RELATIVE_SCREEN_POSITION.y);
 
-        drawHoverMessages(relativeMousePosition);
+        drawHoverMessages(stack, relativeMousePosition);
     }
 
 
-    private void updateAnimationVars() {
+    private void updateAnimationVars(MatrixStack stack) {
         QuestionGeneratorTileEntity qgte = (QuestionGeneratorTileEntity) container.getTileEntity();
         int heightDifference = 0;
         Point colorBarPoint = new Point(0,0);
@@ -148,7 +155,7 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
             }
         }
 
-        drawPartRelativeOnScreen(new Point(140,93-heightDifference), colorBarPoint, new Dimension(5,heightDifference));
+        drawPartRelativeOnScreen(stack, new Point(140,93-heightDifference), colorBarPoint, new Dimension(5,heightDifference));
 
     }
     private class HintButton extends ImageButton {
@@ -162,7 +169,7 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
         @Override
         public void onPress(Button button) {
             if(!hintUsed) {
-                NetworkUtil.INSTANCE.sendToServer(new PacketHintRequest(minecraft.player.dimension, container.getTileEntity().getPos()));
+                NetworkUtil.INSTANCE.sendToServer(new PacketHintRequest(container.getTileEntity().getPos()));
             }
             hint.active = false;
             hintUsed = true;
@@ -192,7 +199,7 @@ public class QuestionGeneratorScreen extends GeneratorScreen<QuestionGeneratorCo
             answers[2].active = false;
             answers[3].active = false;
             answerSentTick = container.getTicks();
-            NetworkUtil.INSTANCE.sendToServer(new PacketAnswer(minecraft.player.dimension, container.getTileEntity().getPos(),answerButton.answer));
+            NetworkUtil.INSTANCE.sendToServer(new PacketAnswer(container.getTileEntity().getPos(),answerButton.answer));
         }
     }
 }

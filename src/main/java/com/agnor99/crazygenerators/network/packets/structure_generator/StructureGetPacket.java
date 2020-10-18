@@ -16,22 +16,21 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import java.util.Iterator;
 import java.util.function.Supplier;
 
-public class StructureGetPacket implements ClientPacket {
-    BlockPos pos;
+public class StructureGetPacket extends ClientPacket {
     int blockId;
 
     public StructureGetPacket(BlockPos pos, int blockId) {
-        this.pos = pos;
+        super(pos);
         this.blockId = blockId;
     }
 
     public StructureGetPacket(PacketBuffer buf) {
-        pos = buf.readBlockPos();
+        super(buf);
         blockId = buf.readInt();
     }
     @Override
     public void toBytes(PacketBuffer buf) {
-        buf.writeBlockPos(pos);
+        super.toBytes(buf);
         buf.writeInt(blockId);
     }
 

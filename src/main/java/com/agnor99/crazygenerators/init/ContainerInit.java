@@ -10,7 +10,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class ContainerInit {
 
-    public static final DeferredRegister<ContainerType<?>> CONTAINER_TYPES = new DeferredRegister<>(ForgeRegistries.CONTAINERS, CrazyGenerators.MOD_ID);
+    public static final DeferredRegister<ContainerType<?>> CONTAINER_TYPES = DeferredRegister.create(ForgeRegistries.CONTAINERS, CrazyGenerators.MOD_ID);
 
     public static final RegistryObject<ContainerType<QuestionGeneratorContainer>> QUESTION_GENERATOR = CONTAINER_TYPES.
             register("question_generator", () -> IForgeContainerType.create(QuestionGeneratorContainer::new));
