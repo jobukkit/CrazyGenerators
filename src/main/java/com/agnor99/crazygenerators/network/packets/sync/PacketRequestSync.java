@@ -2,9 +2,7 @@ package com.agnor99.crazygenerators.network.packets.sync;
 
 import com.agnor99.crazygenerators.network.NetworkUtil;
 import com.agnor99.crazygenerators.network.packets.Packet;
-import com.agnor99.crazygenerators.network.packets.question_generator.PacketAnswerResponse;
 import com.agnor99.crazygenerators.objects.tile.GeneratorTileEntity;
-import com.agnor99.crazygenerators.objects.tile.QuestionGeneratorTileEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;

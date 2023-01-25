@@ -2,18 +2,12 @@ package com.agnor99.crazygenerators.network.packets.structure_generator;
 
 import com.agnor99.crazygenerators.init.BlockInit;
 import com.agnor99.crazygenerators.network.packets.ClientPacket;
-import com.agnor99.crazygenerators.objects.blocks.StructureConnectorBlock;
-import com.agnor99.crazygenerators.objects.blocks.StructureGeneratorBlock;
 import com.agnor99.crazygenerators.objects.tile.StructureGeneratorTileEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.network.NetworkEvent;
 
-import java.util.Iterator;
 import java.util.function.Supplier;
 
 public class StructureGetPacket implements ClientPacket {

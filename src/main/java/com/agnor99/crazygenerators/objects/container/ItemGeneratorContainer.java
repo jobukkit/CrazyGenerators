@@ -7,7 +7,6 @@ import com.agnor99.crazygenerators.objects.tile.ItemGeneratorTileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.IntReferenceHolder;
 
 
 public class ItemGeneratorContainer extends GeneratorContainer {

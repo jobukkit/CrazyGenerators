@@ -5,9 +5,7 @@ import com.agnor99.crazygenerators.client.gui.util.GeneratorScreen;
 import com.agnor99.crazygenerators.network.NetworkUtil;
 import com.agnor99.crazygenerators.network.packets.item_generator.RequestItemPacket;
 import com.agnor99.crazygenerators.objects.container.ItemGeneratorContainer;
-import com.agnor99.crazygenerators.objects.other.generator.timing.ButtonData;
 import com.agnor99.crazygenerators.objects.tile.ItemGeneratorTileEntity;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.button.ImageButton;
 import net.minecraft.entity.player.PlayerInventory;
@@ -17,8 +15,6 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.NetworkDirection;
-import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;
 

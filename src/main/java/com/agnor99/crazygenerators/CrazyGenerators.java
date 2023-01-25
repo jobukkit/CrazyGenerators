@@ -57,7 +57,7 @@ public class CrazyGenerators {
 
         @Override
         public ItemStack createIcon() {
-            return new ItemStack(BlockInit.question_generator);
+            return new ItemStack(BlockInit.structure_generator);
         }
 
     }

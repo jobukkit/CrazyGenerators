@@ -1,6 +1,5 @@
 package com.agnor99.crazygenerators.network.packets.question_generator;
 
-import com.agnor99.crazygenerators.network.NetworkUtil;
 import com.agnor99.crazygenerators.network.packets.Packet;
 import com.agnor99.crazygenerators.objects.tile.QuestionGeneratorTileEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -9,7 +8,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;

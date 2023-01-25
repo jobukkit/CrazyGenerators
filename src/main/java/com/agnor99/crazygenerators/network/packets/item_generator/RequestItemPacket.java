@@ -5,7 +5,6 @@ import com.agnor99.crazygenerators.objects.tile.GeneratorTileEntity;
 import com.agnor99.crazygenerators.objects.tile.ItemGeneratorTileEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;

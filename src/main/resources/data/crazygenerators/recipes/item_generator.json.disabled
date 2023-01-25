@@ -1,21 +1,23 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "rmr",
-    "mcm",
-    "rmr"
+    "RCR",
+    "UFU",
+    "RUR"
   ],
   "key": {
-    "r": {
+    "R": {
       "item": "minecraft:redstone"
     },
-    "m": {
+    "C": {
       "item": "minecraft:item_frame"
     },
-    "c": {
-      "item": "crazygenerators:generator_frame"
-    }
-  },
+    "F": {
+      "item": "minecraft:furnace"
+    },
+    "U": {
+      "tag": "forge:ingots/uranium"
+    },
   "result": {
     "item": "crazygenerators:item_generator"
   }

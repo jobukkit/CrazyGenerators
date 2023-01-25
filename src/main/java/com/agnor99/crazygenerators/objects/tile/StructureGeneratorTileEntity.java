@@ -1,13 +1,13 @@
 package com.agnor99.crazygenerators.objects.tile;
 
-import com.agnor99.crazygenerators.network.NetworkUtil;
+import com.agnor99.crazygenerators.init.TileInit;
 import com.agnor99.crazygenerators.network.packets.structure_generator.StructureDataPacket;
+import com.agnor99.crazygenerators.network.packets.sync.PacketAbstractSyncResponse;
+import com.agnor99.crazygenerators.network.packets.sync.PacketStructureSyncResponse;
 import com.agnor99.crazygenerators.objects.blocks.StructureConnectorBlock;
 import com.agnor99.crazygenerators.objects.blocks.StructureCoreBlock;
 import com.agnor99.crazygenerators.objects.blocks.StructureOrbBlock;
 import com.agnor99.crazygenerators.objects.container.StructureGeneratorContainer;
-import com.agnor99.crazygenerators.init.TileInit;
-import com.agnor99.crazygenerators.network.packets.sync.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;

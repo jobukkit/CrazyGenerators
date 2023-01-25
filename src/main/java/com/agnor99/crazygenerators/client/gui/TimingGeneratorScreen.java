@@ -1,11 +1,10 @@
 package com.agnor99.crazygenerators.client.gui;
 
 import com.agnor99.crazygenerators.CrazyGenerators;
-
 import com.agnor99.crazygenerators.client.gui.util.GeneratorScreen;
-import com.agnor99.crazygenerators.objects.container.TimingGeneratorContainer;
 import com.agnor99.crazygenerators.network.NetworkUtil;
 import com.agnor99.crazygenerators.network.packets.timing_generator.PacketButtonPress;
+import com.agnor99.crazygenerators.objects.container.TimingGeneratorContainer;
 import com.agnor99.crazygenerators.objects.other.generator.timing.ButtonData;
 import com.agnor99.crazygenerators.objects.tile.TimingGeneratorTileEntity;
 import net.minecraft.client.gui.widget.button.Button;
@@ -74,7 +73,7 @@ public class TimingGeneratorScreen extends GeneratorScreen<TimingGeneratorContai
             font.drawString(lastDelay/20.0d + "s", 28, 17, WHITE);
         }
         if(lastEnergyAdded != Integer.MIN_VALUE) {
-            font.drawString("+" + lastEnergyAdded + " RF", 74, 17, WHITE);
+            font.drawString("+" + lastEnergyAdded + " FE", 74, 17, WHITE);
         }
 
 

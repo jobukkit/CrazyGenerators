@@ -1,10 +1,7 @@
 package com.agnor99.crazygenerators.network.packets.sync;
 
-import com.agnor99.crazygenerators.client.gui.util.GeneratorScreen;
-import com.agnor99.crazygenerators.objects.container.GeneratorContainer;
 import com.agnor99.crazygenerators.network.packets.ServerPacket;
 import com.agnor99.crazygenerators.objects.tile.GeneratorTileEntity;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 

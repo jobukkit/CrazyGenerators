@@ -1,8 +1,6 @@
 package com.agnor99.crazygenerators.objects.other.generator.position;
 
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
 import java.util.List;

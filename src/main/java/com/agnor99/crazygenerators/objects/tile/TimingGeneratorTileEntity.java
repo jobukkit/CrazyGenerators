@@ -1,14 +1,12 @@
 package com.agnor99.crazygenerators.objects.tile;
 
-import com.agnor99.crazygenerators.objects.container.TimingGeneratorContainer;
 import com.agnor99.crazygenerators.init.TileInit;
 import com.agnor99.crazygenerators.network.packets.sync.PacketAbstractSyncResponse;
 import com.agnor99.crazygenerators.network.packets.sync.PacketTimingSyncResponse;
-import com.agnor99.crazygenerators.objects.other.generator.question.Question;
+import com.agnor99.crazygenerators.objects.container.TimingGeneratorContainer;
 import com.agnor99.crazygenerators.objects.other.generator.timing.ButtonData;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -82,7 +80,7 @@ public class TimingGeneratorTileEntity extends GeneratorTileEntity{
             multiplier = 1;
 
         }
-        return energy;
+        return energy / 10;
     }
     public int calcDelay(int ping){
         int pingInTicks = ping/50;

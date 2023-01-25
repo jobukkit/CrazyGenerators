@@ -2,36 +2,20 @@ package com.agnor99.crazygenerators.objects.tile;
 
 import com.agnor99.crazygenerators.init.TileInit;
 import com.agnor99.crazygenerators.network.packets.Packet;
-import com.agnor99.crazygenerators.network.packets.position_generator.*;
+import com.agnor99.crazygenerators.network.packets.position_generator.ClosestPlayerPacket;
 import com.agnor99.crazygenerators.network.packets.sync.PacketAbstractSyncResponse;
 import com.agnor99.crazygenerators.network.packets.sync.PacketPositionSyncResponse;
 import com.agnor99.crazygenerators.objects.container.PositionGeneratorContainer;
 import com.agnor99.crazygenerators.objects.other.generator.position.Flag;
-import net.minecraft.client.Minecraft;
-import net.minecraft.command.ICommandSource;
-import net.minecraft.command.impl.BossBarCommand;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.monster.SlimeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.item.Item;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.ForgeConfig;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 
 

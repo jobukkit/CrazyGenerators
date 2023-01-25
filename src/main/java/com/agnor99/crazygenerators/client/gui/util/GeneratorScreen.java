@@ -1,8 +1,8 @@
 package com.agnor99.crazygenerators.client.gui.util;
 
-import com.agnor99.crazygenerators.objects.container.GeneratorContainer;
 import com.agnor99.crazygenerators.network.NetworkUtil;
 import com.agnor99.crazygenerators.network.packets.sync.PacketRequestSync;
+import com.agnor99.crazygenerators.objects.container.GeneratorContainer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.button.Button;
@@ -127,7 +127,7 @@ public abstract class GeneratorScreen<SpecContainer extends GeneratorContainer> 
         Dimension textureSize = new Dimension(18,58);
 
         if(isMouseOverHoverArea(relativeMousePosition, drawPosition, textureSize)) {
-            drawHoverMessage(relativeMousePosition, container.getEnergy() + "RF");
+            drawHoverMessage(relativeMousePosition, container.getEnergy() + " FE");
         }
     }
 

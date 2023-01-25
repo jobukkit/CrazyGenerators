@@ -1,22 +1,19 @@
 package com.agnor99.crazygenerators.objects.tile;
 
-import com.agnor99.crazygenerators.network.packets.item_generator.ItemPacket;
-import com.agnor99.crazygenerators.objects.container.ItemGeneratorContainer;
 import com.agnor99.crazygenerators.init.TileInit;
+import com.agnor99.crazygenerators.network.packets.item_generator.ItemPacket;
 import com.agnor99.crazygenerators.network.packets.sync.PacketAbstractSyncResponse;
 import com.agnor99.crazygenerators.network.packets.sync.PacketItemSyncResponse;
+import com.agnor99.crazygenerators.objects.container.ItemGeneratorContainer;
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
